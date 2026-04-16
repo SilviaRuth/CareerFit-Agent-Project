@@ -1,0 +1,15 @@
+Backend Platform Engineer
+OpsCloud
+
+Responsibilities
+- Build Python APIs for internal platform services.
+- Operate AWS-hosted backend workloads and support on-call debugging.
+
+Required
+- Python experience
+- FastAPI experience
+- AWS experience
+
+Preferred
+- Docker
+- PostgreSQL

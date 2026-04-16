@@ -6,6 +6,12 @@ import pytest
 from pydantic import ValidationError
 
 from app.schemas.common import EvidenceSpan, RequirementItem
+from app.schemas.generation import (
+    GenerationGate,
+    InterviewPrepResponse,
+    RewriteAction,
+    RewriteResponse,
+)
 from app.schemas.jd import JDSchema
 from app.schemas.match import (
     BlockerFlags,
@@ -115,6 +121,114 @@ def test_match_result_accepts_valid_nested_models() -> None:
 
     assert result.required_matches[0].normalized_label == "fastapi"
     assert result.blocker_flags.missing_required_skills is False
+
+
+def test_rewrite_response_requires_nested_generation_shapes() -> None:
+    with pytest.raises(ValidationError):
+        RewriteResponse.model_validate(
+            {
+                "summary": "Rewrite guidance",
+                "prioritized_actions": [{"priority": "high"}],
+                "rewritten_bullets": [],
+                "evidence_used": [],
+                "unsupported_requests": [],
+                "cautions": [],
+                "generation_warnings": [],
+                "gating": {
+                    "generation_mode": "full",
+                    "resume_parser_confidence": {},
+                    "jd_parser_confidence": {},
+                },
+            }
+        )
+
+
+def test_interview_prep_response_accepts_valid_grounded_models() -> None:
+    span = _sample_span("resume", "experience", "Built FastAPI services.")
+    gate = GenerationGate(
+        generation_mode="limited",
+        resume_parser_confidence={
+            "score": 0.82,
+            "level": "medium",
+            "extraction_complete": True,
+            "factors": [],
+        },
+        jd_parser_confidence={
+            "score": 0.93,
+            "level": "high",
+            "extraction_complete": True,
+            "factors": [],
+        },
+        limited_by_low_parser_confidence=False,
+        limited_by_missing_evidence=True,
+        limited_by_blockers=False,
+        reasons=["missing_evidence"],
+    )
+
+    rewrite_action = RewriteAction(
+        priority=1,
+        category="weak_evidence",
+        target_requirement_id="required-1-fastapi",
+        target_requirement_label="fastapi",
+        explanation="Resume mentions FastAPI weakly.",
+        recommendation="Clarify the existing FastAPI material.",
+        evidence_used=[span],
+        caution="Do not overstate framework ownership.",
+    )
+    rewrite_response = RewriteResponse(
+        summary="Clarify weak FastAPI evidence.",
+        prioritized_actions=[rewrite_action],
+        rewritten_summary=None,
+        rewritten_bullets=[],
+        evidence_used=[span],
+        unsupported_requests=[],
+        cautions=[],
+        generation_warnings=[],
+        gating=gate,
+    )
+
+    interview_response = InterviewPrepResponse.model_validate(
+        {
+            "summary": "Expect FastAPI depth questions.",
+            "likely_focus_areas": [
+                {
+                    "priority": 1,
+                    "focus_area": "fastapi",
+                    "reason": "The JD requires it.",
+                    "related_requirement_id": "required-1-fastapi",
+                    "evidence_used": [span.model_dump()],
+                    "caution": None,
+                }
+            ],
+            "interview_questions": [
+                {
+                    "priority": 1,
+                    "question": "Can you walk through your FastAPI work?",
+                    "rationale": "Grounded in the JD and resume evidence.",
+                    "related_requirement_id": "required-1-fastapi",
+                    "support_level": "strong",
+                    "evidence_used": [span.model_dump()],
+                    "honest_framing": None,
+                }
+            ],
+            "recommended_talking_points": [
+                {
+                    "topic": "fastapi",
+                    "talking_point": "Use the verified FastAPI example.",
+                    "support_level": "strong",
+                    "evidence_used": [span.model_dump()],
+                    "caution": "Do not add unsupported impact metrics.",
+                }
+            ],
+            "weak_area_preparation": [],
+            "evidence_used": [span.model_dump()],
+            "generation_warnings": [],
+            "gating": gate.model_dump(),
+        }
+    )
+
+    assert rewrite_response.prioritized_actions[0].target_requirement_label == "fastapi"
+    assert interview_response.interview_questions[0].support_level == "strong"
 
 
 def _sample_span(source_document: str, section: str, text: str) -> EvidenceSpan:

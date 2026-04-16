@@ -1,13 +1,20 @@
 # CareerFit Agent
 
-Deterministic backend MVP for explainable resume-to-JD matching.
+Schema-first backend for explainable resume-to-JD parsing, matching, and grounded guidance.
 
-## Milestone 1 Scope
+## Current Scope
 
 - Backend only
-- Plain-text resume and JD inputs
-- Deterministic extraction and rule-based matching
-- Evidence-linked JSON output
+- Deterministic parsing, extraction, and rule-based matching
+- Bounded file ingestion for `.txt`, `.pdf`, and `.docx`
+- Evidence-linked JSON outputs
+- Grounded rewrite and interview-prep guidance built on parse plus match results
+
+## Milestone Status
+
+- Milestone 1: deterministic `/match` flow
+- Milestone 2: parsing and ingestion via `/parse/resume` and `/parse/jd`
+- Milestone 3: grounded `/rewrite` and `/interview-prep`
 
 ## Local Setup
 
@@ -29,6 +36,22 @@ The API exposes:
 
 - `GET /health`
 - `POST /match`
+- `POST /parse/resume`
+- `POST /parse/jd`
+- `POST /rewrite`
+- `POST /interview-prep`
+
+## Parsing Docs
+
+- Parsing and ingestion guide: [docs/PARSE_API.md](docs/PARSE_API.md)
+
+The parsing guide covers:
+
+- supported file types and bounded-ingestion behavior
+- JSON text and multipart file examples
+- parse response structure
+- warning and parser-confidence semantics
+- non-goals such as OCR and scanned-image parsing
 
 ## Run Tests
 
@@ -42,4 +65,4 @@ python -m pytest -q
 - Sample resumes and JDs: `data/samples/`
 - Expected outcomes: `data/eval/`
 
-These fixtures define the constrained Milestone 1 parsing and matching behavior.
+These fixtures cover deterministic matching, messy parsing inputs, low-confidence parsing, and grounded generation flows.
