@@ -1,0 +1,33 @@
+{
+  "pair_id": "poor_fit",
+  "expected_fit_label": "poor",
+  "required_skill_matches": [],
+  "preferred_skill_matches": [],
+  "top_gaps": [
+    {
+      "requirement_label": "python",
+      "requirement_priority": "required",
+      "gap_type": "missing_evidence"
+    },
+    {
+      "requirement_label": "fastapi",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "postgresql",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "aws",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": true,
+    "seniority_mismatch": true,
+    "unsupported_claims": false
+  }
+}

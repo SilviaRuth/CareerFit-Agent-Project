@@ -1,0 +1,22 @@
+{
+  "pair_id": "strong_fit",
+  "expected_fit_label": "strong",
+  "required_skill_matches": [
+    "python",
+    "fastapi",
+    "rest api design",
+    "pytest"
+  ],
+  "preferred_skill_matches": [
+    "postgresql",
+    "docker",
+    "aws",
+    "healthcare"
+  ],
+  "top_gaps": [],
+  "blocker_flags": {
+    "missing_required_skills": false,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

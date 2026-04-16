@@ -1,0 +1,31 @@
+{
+  "pair_id": "partial_fit",
+  "expected_fit_label": "partial",
+  "required_skill_matches": [
+    "python",
+    "3+ years experience"
+  ],
+  "preferred_skill_matches": [],
+  "top_gaps": [
+    {
+      "requirement_label": "fastapi",
+      "requirement_priority": "required",
+      "gap_type": "missing_evidence"
+    },
+    {
+      "requirement_label": "rest api development",
+      "requirement_priority": "required",
+      "gap_type": "missing_evidence"
+    },
+    {
+      "requirement_label": "aws deployment",
+      "requirement_priority": "required",
+      "gap_type": "missing_evidence"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": false,
+    "seniority_mismatch": false,
+    "unsupported_claims": true
+  }
+}

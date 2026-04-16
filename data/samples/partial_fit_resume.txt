@@ -1,0 +1,23 @@
+Jordan Patel
+
+Summary
+Software engineer with 3 years of experience. Built internal tools in Python and claims FastAPI and AWS deployment expertise.
+
+Skills
+Python, FastAPI, SQL, Tableau, AWS
+
+Experience
+Software Engineer, OpsMetrics, 2023-2026
+- Built Python data pipelines and internal reporting tools.
+- Added Flask endpoints for operations dashboards.
+- Wrote SQL for analytics workflows.
+- Partnered with backend teams to define API requirements.
+
+Analyst, Northwind Retail, 2021-2023
+- Maintained Excel and BI reporting for operations teams.
+
+Projects
+- Personal project using Python to automate CSV cleanup and reporting.
+
+Education
+B.S. in Information Systems, Arizona State University

@@ -1,0 +1,20 @@
+Senior Backend Engineer
+HealthStack
+
+We are hiring a Senior Backend Engineer to build Python services for healthcare workflow products.
+
+Required
+- 4+ years of backend engineering experience
+- Strong Python experience
+- FastAPI or similar modern Python API framework experience
+- REST API design experience
+- Experience writing automated tests with pytest
+
+Preferred
+- PostgreSQL
+- Docker
+- AWS
+- Healthcare domain experience
+
+Education
+- Bachelor's degree in Computer Science or related field preferred

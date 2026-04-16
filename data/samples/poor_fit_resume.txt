@@ -1,0 +1,20 @@
+Taylor Brooks
+
+Summary
+Frontend developer with 1.5 years of experience building customer-facing web applications.
+
+Skills
+JavaScript, TypeScript, React, HTML, CSS, basic Python
+
+Experience
+Frontend Developer, BrightCart, 2024-2026
+- Built React interfaces for e-commerce checkout flows.
+- Worked with designers on UI improvements and accessibility fixes.
+- Consumed backend APIs but did not build service endpoints.
+
+Projects
+- Portfolio site built with React and TypeScript.
+- Small coursework script in Python for CSV formatting.
+
+Education
+Bootcamp certificate in Frontend Web Development
