@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.api.routes.health import router as health_router
 from app.api.routes.match import router as match_router
+from app.api.routes.parse import router as parse_router
 
 
 def create_app() -> FastAPI:
@@ -11,6 +12,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title="CareerFit Agent", version="0.1.0")
     app.include_router(health_router)
     app.include_router(match_router)
+    app.include_router(parse_router)
     return app
 
 

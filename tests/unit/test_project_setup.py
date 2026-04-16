@@ -20,6 +20,8 @@ def test_sample_and_eval_directories_exist_with_seed_fixtures() -> None:
         SAMPLES_DIR / "partial_fit_jd.txt",
         SAMPLES_DIR / "poor_fit_resume.txt",
         SAMPLES_DIR / "poor_fit_jd.txt",
+        SAMPLES_DIR / "messy_resume.txt",
+        SAMPLES_DIR / "messy_jd.txt",
         EVAL_DIR / "strong_fit_expected.json",
         EVAL_DIR / "partial_fit_expected.json",
         EVAL_DIR / "poor_fit_expected.json",

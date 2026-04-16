@@ -1,0 +1,29 @@
+Jordan Rivera
+
+Professional Summary: Backend engineer with 5 years building Python services for healthcare operations and workflow tooling.
+
+Core Competencies
+• Python
+• FastAPI
+• REST API development
+• PostgreSQL
+• AWS
+
+
+Work History
+Lead Backend Engineer, ClinicFlow, 2021-2025
+— Built FastAPI services for scheduling and claims workflows.
+— Designed REST APIs used by clinical operations dashboards.
+— Supported AWS deployments for backend services.
+
+Backend Engineer, OpsSpring, 2019-2021
+* Maintained Python APIs and data services for internal teams.
+
+Open Source
+Maintainer for an internal tooling package.
+
+Selected Projects
++ Built a patient intake API using FastAPI and PostgreSQL.
+
+Education & Certifications
+Bachelor of Science in Computer Science, University of Michigan

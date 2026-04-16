@@ -73,3 +73,17 @@ def test_poor_fit_surfaces_blockers_and_missing_skill_distinction() -> None:
     assert (
         result.blocker_flags.unsupported_claims is expected["blocker_flags"]["unsupported_claims"]
     )
+
+
+def test_m1_fixture_regression_stays_stable_for_strong_fit_score_shape() -> None:
+    result = match_resume_to_jd(
+        load_sample("strong_fit_resume.txt"),
+        load_sample("strong_fit_jd.txt"),
+    )
+
+    assert result.overall_score == 89
+    assert result.dimension_scores.skills == 100
+    assert result.dimension_scores.experience == 100
+    assert result.dimension_scores.projects == 43
+    assert result.dimension_scores.domain_fit == 100
+    assert result.dimension_scores.education == 100

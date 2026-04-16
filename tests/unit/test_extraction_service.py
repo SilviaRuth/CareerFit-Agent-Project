@@ -56,3 +56,21 @@ def test_extract_jd_schema_prefers_fastapi_for_mixed_python_framework_requiremen
 
     assert fastapi_requirement.label == "fastapi"
     assert fastapi_requirement.normalized_label == "fastapi"
+
+
+def test_extract_resume_schema_supports_realistic_header_aliases() -> None:
+    resume_schema = extract_resume_schema(load_sample("messy_resume.txt"))
+
+    assert resume_schema.candidate_name == "Jordan Rivera"
+    assert resume_schema.summary.startswith("Backend engineer with 5 years")
+    assert any(skill.normalized_name == "fastapi" for skill in resume_schema.skills)
+    assert len(resume_schema.experience_items) == 2
+
+
+def test_extract_jd_schema_supports_alias_headers_for_requirements() -> None:
+    jd_schema = extract_jd_schema(load_sample("messy_jd.txt"))
+
+    assert jd_schema.job_title == "Platform Backend Engineer"
+    assert len(jd_schema.required_requirements) == 4
+    assert len(jd_schema.preferred_requirements) == 3
+    assert len(jd_schema.responsibilities) == 1

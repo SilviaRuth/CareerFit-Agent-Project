@@ -1,11 +1,17 @@
-"""Deterministic schema extraction for the fixture-oriented Milestone 1 format."""
+"""Deterministic extraction with bounded diagnostics for Milestones 1 and 2A."""
 
 from __future__ import annotations
 
 import re
-from typing import Iterable
+from dataclasses import dataclass, field
+from typing import Generic, Iterable, TypeVar
 
-from app.core.config import CAPABILITY_PATTERNS, SECTION_HEADERS
+from app.core.config import (
+    CAPABILITY_PATTERNS,
+    DOCUMENT_SECTION_ORDER,
+    SECTION_HEADER_ALIASES,
+    SECTION_HEADERS,
+)
 from app.schemas.common import (
     EducationItem,
     EvidenceSpan,
@@ -15,24 +21,70 @@ from app.schemas.common import (
     SkillSignal,
 )
 from app.schemas.jd import JDSchema
+from app.schemas.parse import ParserDiagnostic, UnsupportedSegment
 from app.schemas.resume import ResumeSchema
 from app.services.text_normalizer import normalize_text
 
+SchemaT = TypeVar("SchemaT", ResumeSchema, JDSchema)
+
+HEADER_LIKE_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9 &'\/+-]{1,48}:?$")
+
+
+@dataclass(slots=True)
+class ExtractionResult(Generic[SchemaT]):
+    """Structured extraction output used by the parse services."""
+
+    schema: SchemaT
+    warnings: list[ParserDiagnostic] = field(default_factory=list)
+    unsupported_segments: list[UnsupportedSegment] = field(default_factory=list)
+
+
+@dataclass(slots=True)
+class SectionSplitResult:
+    """Intermediate section split result with diagnostics."""
+
+    intro_lines: list[str]
+    sections: dict[str, str]
+    warnings: list[ParserDiagnostic] = field(default_factory=list)
+    unsupported_segments: list[UnsupportedSegment] = field(default_factory=list)
+
 
 def extract_resume_schema(text: str) -> ResumeSchema:
-    """Extract a constrained resume schema from the deterministic fixture format."""
-    normalized_text = normalize_text(text)
+    """Extract a constrained resume schema from deterministic or normalized text."""
+    return analyze_resume_text(text).schema
+
+
+def extract_jd_schema(text: str) -> JDSchema:
+    """Extract a constrained JD schema from deterministic or normalized text."""
+    return analyze_jd_text(text).schema
+
+
+def analyze_resume_text(text: str, *, pre_normalized: bool = False) -> ExtractionResult[ResumeSchema]:
+    """Extract a resume schema and bounded extraction diagnostics."""
+    normalized_text = text if pre_normalized else normalize_text(text, document_type="resume")
     all_lines = normalized_text.split("\n")
     non_empty_lines = [line for line in all_lines if line.strip()]
+    warnings: list[ParserDiagnostic] = []
+
     candidate_name = non_empty_lines[0] if non_empty_lines else ""
     body_text = normalized_text.split("\n", 1)[1] if "\n" in normalized_text else ""
+    section_result = _split_sections(body_text, DOCUMENT_SECTION_ORDER["resume"])
+    warnings.extend(section_result.warnings)
 
-    _, sections = _split_sections(
-        body_text, ("summary", "skills", "experience", "projects", "education")
-    )
+    summary = section_result.sections.get("summary", "").strip()
+    if not summary and section_result.intro_lines:
+        summary = " ".join(line.strip() for line in section_result.intro_lines[:2]).strip()
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="summary_inferred_from_intro",
+                message="Summary section was missing; summary text was inferred from leading content.",
+                section="summary",
+                severity="warning",
+                source="extraction",
+            )
+        )
 
     evidence_spans: list[EvidenceSpan] = []
-    summary = sections.get("summary", "").strip()
     if summary:
         evidence_spans.append(
             _build_span(
@@ -45,18 +97,52 @@ def extract_resume_schema(text: str) -> ResumeSchema:
             )
         )
 
-    skills = _extract_skills(sections.get("skills", ""), normalized_text, evidence_spans)
+    skills = _extract_skills(
+        section_result.sections.get("skills", ""),
+        normalized_text,
+        evidence_spans,
+    )
     experience_items = _extract_experience_items(
-        sections.get("experience", ""), normalized_text, evidence_spans
+        section_result.sections.get("experience", ""),
+        normalized_text,
+        evidence_spans,
     )
     project_items = _extract_project_items(
-        sections.get("projects", ""), normalized_text, evidence_spans
+        section_result.sections.get("projects", ""),
+        normalized_text,
+        evidence_spans,
     )
     education_items = _extract_education_items(
-        sections.get("education", ""), normalized_text, evidence_spans
+        section_result.sections.get("education", ""),
+        normalized_text,
+        evidence_spans,
     )
 
-    return ResumeSchema(
+    if not candidate_name:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="missing_candidate_name",
+                message="The parser could not identify a candidate name line.",
+                section=None,
+                severity="warning",
+                source="extraction",
+            )
+        )
+
+    warnings.extend(
+        _missing_section_warnings(
+            {
+                "summary": summary,
+                "skills": section_result.sections.get("skills", ""),
+                "experience": section_result.sections.get("experience", ""),
+                "projects": section_result.sections.get("projects", ""),
+                "education": section_result.sections.get("education", ""),
+            },
+            required_sections=("summary", "skills", "experience"),
+        )
+    )
+
+    schema = ResumeSchema(
         candidate_name=candidate_name,
         summary=summary,
         skills=skills,
@@ -67,24 +153,35 @@ def extract_resume_schema(text: str) -> ResumeSchema:
         normalized_text=normalized_text,
         total_years_experience=_extract_total_years(summary, experience_items),
     )
+    return ExtractionResult(
+        schema=schema,
+        warnings=_dedupe_diagnostics(warnings),
+        unsupported_segments=section_result.unsupported_segments,
+    )
 
 
-def extract_jd_schema(text: str) -> JDSchema:
-    """Extract a constrained JD schema from the deterministic fixture format."""
-    normalized_text = normalize_text(text)
+def analyze_jd_text(text: str, *, pre_normalized: bool = False) -> ExtractionResult[JDSchema]:
+    """Extract a JD schema and bounded extraction diagnostics."""
+    normalized_text = text if pre_normalized else normalize_text(text, document_type="job_description")
     all_lines = normalized_text.split("\n")
     non_empty_lines = [line for line in all_lines if line.strip()]
+    warnings: list[ParserDiagnostic] = []
+
     job_title = non_empty_lines[0] if non_empty_lines else ""
     company = non_empty_lines[1] if len(non_empty_lines) > 1 else ""
     body_text = _slice_after_n_non_empty_lines(normalized_text, 2)
 
-    intro_lines, sections = _split_sections(
-        body_text,
-        ("required", "preferred", "education"),
-    )
+    section_result = _split_sections(body_text, DOCUMENT_SECTION_ORDER["job_description"])
+    warnings.extend(section_result.warnings)
 
     evidence_spans: list[EvidenceSpan] = []
-    responsibilities = [line for line in intro_lines if line]
+    responsibility_lines = [line for line in section_result.intro_lines if line]
+    explicit_responsibilities = [
+        line
+        for line in section_result.sections.get("responsibilities", "").split("\n")
+        if line.strip()
+    ]
+    responsibilities = responsibility_lines + explicit_responsibilities
     for line in responsibilities:
         evidence_spans.append(
             _build_span(
@@ -98,26 +195,59 @@ def extract_jd_schema(text: str) -> JDSchema:
         )
 
     required_requirements = _extract_requirements(
-        sections.get("required", ""),
+        section_result.sections.get("required", ""),
         priority="required",
         normalized_text=normalized_text,
         evidence_spans=evidence_spans,
     )
     preferred_requirements = _extract_requirements(
-        sections.get("preferred", ""),
+        section_result.sections.get("preferred", ""),
         priority="preferred",
         normalized_text=normalized_text,
         evidence_spans=evidence_spans,
     )
     education_requirements = _extract_requirements(
-        sections.get("education", ""),
+        section_result.sections.get("education", ""),
         priority="preferred",
         normalized_text=normalized_text,
         evidence_spans=evidence_spans,
         default_type="education",
     )
 
-    return JDSchema(
+    if not job_title:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="missing_job_title",
+                message="The parser could not identify a job title line.",
+                section=None,
+                severity="warning",
+                source="extraction",
+            )
+        )
+    if not company:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="missing_company_name",
+                message="The parser could not identify a company line.",
+                section=None,
+                severity="warning",
+                source="extraction",
+            )
+        )
+
+    warnings.extend(
+        _missing_section_warnings(
+            {
+                "responsibilities": section_result.sections.get("responsibilities", ""),
+                "required": section_result.sections.get("required", ""),
+                "preferred": section_result.sections.get("preferred", ""),
+                "education": section_result.sections.get("education", ""),
+            },
+            required_sections=("required",),
+        )
+    )
+
+    schema = JDSchema(
         job_title=job_title,
         company=company,
         required_requirements=required_requirements,
@@ -129,20 +259,71 @@ def extract_jd_schema(text: str) -> JDSchema:
         evidence_spans=evidence_spans,
         normalized_text=normalized_text,
     )
+    return ExtractionResult(
+        schema=schema,
+        warnings=_dedupe_diagnostics(warnings),
+        unsupported_segments=section_result.unsupported_segments,
+    )
 
 
-def _split_sections(text: str, allowed_headers: Iterable[str]) -> tuple[list[str], dict[str, str]]:
-    """Split a normalized document body into deterministic sections."""
-    header_lookup = {SECTION_HEADERS[key].lower(): key for key in allowed_headers}
+def _split_sections(text: str, allowed_headers: Iterable[str]) -> SectionSplitResult:
+    """Split a normalized document body into sections with alias support."""
     intro_lines: list[str] = []
     sections: dict[str, list[str]] = {}
+    warnings: list[ParserDiagnostic] = []
+    unsupported_segments: list[UnsupportedSegment] = []
     current_key: str | None = None
+    unknown_header: str | None = None
+    unknown_lines: list[str] = []
+    alias_seen: set[tuple[str, str]] = set()
 
     for line in text.split("\n"):
-        header_key = header_lookup.get(line.lower())
-        if header_key:
-            current_key = header_key
+        canonical_key = _canonical_section_key(line, allowed_headers)
+        if canonical_key is not None:
+            _flush_unknown_section(unknown_header, unknown_lines, unsupported_segments)
+            unknown_header = None
+            unknown_lines = []
+            current_key = canonical_key
             sections.setdefault(current_key, [])
+
+            normalized_line = _normalize_header_value(line)
+            canonical_header = _normalize_header_value(SECTION_HEADERS[canonical_key])
+            if normalized_line != canonical_header:
+                alias_marker = (canonical_key, normalized_line)
+                if alias_marker not in alias_seen:
+                    alias_seen.add(alias_marker)
+                    warnings.append(
+                        ParserDiagnostic(
+                            warning_code="section_header_alias_used",
+                            message=(
+                                f"Recognized section header variant '{line.strip()}' "
+                                f"as '{SECTION_HEADERS[canonical_key]}'."
+                            ),
+                            section=canonical_key,
+                            severity="info",
+                            source="extraction",
+                        )
+                    )
+            continue
+
+        if _looks_like_header(line):
+            _flush_unknown_section(unknown_header, unknown_lines, unsupported_segments)
+            unknown_header = line.rstrip(":").strip()
+            unknown_lines = []
+            current_key = None
+            warnings.append(
+                ParserDiagnostic(
+                    warning_code="unsupported_section_header",
+                    message=f"Section header '{unknown_header}' is not supported by the bounded parser.",
+                    section=unknown_header.lower().replace(" ", "_") if unknown_header else None,
+                    severity="warning",
+                    source="extraction",
+                )
+            )
+            continue
+
+        if unknown_header is not None:
+            unknown_lines.append(line)
             continue
 
         if current_key is None:
@@ -152,12 +333,21 @@ def _split_sections(text: str, allowed_headers: Iterable[str]) -> tuple[list[str
 
         sections[current_key].append(line)
 
+    _flush_unknown_section(unknown_header, unknown_lines, unsupported_segments)
+
     collapsed_sections = {key: "\n".join(value).strip() for key, value in sections.items()}
-    return intro_lines, collapsed_sections
+    return SectionSplitResult(
+        intro_lines=intro_lines,
+        sections=collapsed_sections,
+        warnings=warnings,
+        unsupported_segments=unsupported_segments,
+    )
 
 
 def _extract_skills(
-    section_text: str, normalized_text: str, evidence_spans: list[EvidenceSpan]
+    section_text: str,
+    normalized_text: str,
+    evidence_spans: list[EvidenceSpan],
 ) -> list[SkillSignal]:
     """Extract deterministic skill signals from the skills section."""
     if not section_text:
@@ -169,9 +359,6 @@ def _extract_skills(
         if not cleaned:
             continue
         normalized_name = _normalize_capability(cleaned) or _slug(cleaned)
-        strength = "weak"
-        if "basic " in cleaned.lower():
-            strength = "weak"
         span = _build_span(
             normalized_text,
             source_document="resume",
@@ -185,7 +372,7 @@ def _extract_skills(
             SkillSignal(
                 name=cleaned,
                 normalized_name=normalized_name,
-                evidence_strength=strength,
+                evidence_strength="weak",
                 evidence_spans=[span],
             )
         )
@@ -204,6 +391,8 @@ def _extract_experience_items(
     items: list[ExperienceItem] = []
     for block in _split_blocks(section_text):
         lines = [line for line in block.split("\n") if line]
+        if not lines:
+            continue
         heading = lines[0]
         details = [line.lstrip("- ").strip() for line in lines[1:]]
         summary = " ".join(details) if details else heading
@@ -242,6 +431,8 @@ def _extract_project_items(
     items: list[ProjectItem] = []
     for block in _split_blocks(section_text):
         summary = block.replace("\n", " ").lstrip("- ").strip()
+        if not summary:
+            continue
         span = _build_span(
             normalized_text,
             source_document="resume",
@@ -267,6 +458,8 @@ def _extract_education_items(
     items: list[EducationItem] = []
     for block in _split_blocks(section_text):
         summary = block.replace("\n", " ").lstrip("- ").strip()
+        if not summary:
+            continue
         lower_summary = summary.lower()
         degree = "bachelor" if "b.s." in lower_summary or "bachelor" in lower_summary else None
         field = "computer science" if "computer science" in lower_summary else None
@@ -366,7 +559,7 @@ def _parse_role_heading(heading: str) -> tuple[str | None, int | None, int | Non
 
 
 def _extract_total_years(summary: str, experience_items: list[ExperienceItem]) -> float | None:
-    """Estimate total years of experience with fixture-friendly deterministic rules."""
+    """Estimate total years of experience with deterministic rules."""
     summary_match = re.search(r"(\d+(?:\.\d+)?)\s+years?", summary.lower())
     if summary_match:
         return float(summary_match.group(1))
@@ -383,7 +576,7 @@ def _extract_total_years(summary: str, experience_items: list[ExperienceItem]) -
 
 
 def _derive_requirement_label(text: str) -> str:
-    """Keep a human-readable label while normalizing common fixture phrases."""
+    """Keep a human-readable label while normalizing common phrases."""
     lower_text = text.lower()
     years = _extract_year_requirement(text)
     if years is not None:
@@ -458,7 +651,8 @@ def _extract_year_requirement(text: str) -> float | None:
 
 
 def _infer_seniority_hint(
-    job_title: str, required_requirements: list[RequirementItem]
+    job_title: str,
+    required_requirements: list[RequirementItem],
 ) -> str | None:
     """Infer a coarse seniority hint from title and experience requirements."""
     lower_title = job_title.lower()
@@ -528,3 +722,88 @@ def _slice_after_n_non_empty_lines(text: str, count: int) -> str:
             if seen == count:
                 return text[offset:]
     return ""
+
+
+def _canonical_section_key(line: str, allowed_headers: Iterable[str]) -> str | None:
+    """Map a header line to its canonical section key."""
+    normalized_line = _normalize_header_value(line)
+    for key in allowed_headers:
+        aliases = {SECTION_HEADERS[key], *SECTION_HEADER_ALIASES.get(key, ())}
+        if normalized_line in {_normalize_header_value(alias) for alias in aliases}:
+            return key
+    return None
+
+
+def _normalize_header_value(value: str) -> str:
+    """Normalize header labels for alias matching."""
+    lowered = value.strip().rstrip(":").lower()
+    lowered = lowered.replace("&", " and ").replace("/", " ")
+    lowered = re.sub(r"[^a-z0-9 ]+", " ", lowered)
+    return re.sub(r"\s+", " ", lowered).strip()
+
+
+def _looks_like_header(line: str) -> bool:
+    """Heuristic for unsupported header detection."""
+    stripped = line.strip()
+    return bool(stripped) and bool(HEADER_LIKE_PATTERN.fullmatch(stripped))
+
+
+def _flush_unknown_section(
+    unknown_header: str | None,
+    unknown_lines: list[str],
+    unsupported_segments: list[UnsupportedSegment],
+) -> None:
+    """Persist an unsupported section block when present."""
+    if not unknown_header:
+        return
+    text = "\n".join(line for line in unknown_lines if line.strip()).strip()
+    if not text:
+        return
+    unsupported_segments.append(
+        UnsupportedSegment(
+            text=text,
+            section=unknown_header,
+            reason="unsupported_section_header",
+            source="extraction",
+        )
+    )
+
+
+def _missing_section_warnings(
+    sections: dict[str, str],
+    required_sections: tuple[str, ...],
+) -> list[ParserDiagnostic]:
+    """Create warnings when expected sections are absent."""
+    warnings: list[ParserDiagnostic] = []
+    for section, value in sections.items():
+        if value.strip():
+            continue
+        severity = "warning" if section in required_sections else "info"
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="missing_section",
+                message=f"Expected section '{section}' was not found.",
+                section=section,
+                severity=severity,
+                source="extraction",
+            )
+        )
+    return warnings
+
+
+def _dedupe_diagnostics(warnings: list[ParserDiagnostic]) -> list[ParserDiagnostic]:
+    """Deduplicate diagnostics while preserving order."""
+    seen: set[tuple[str, str | None, str, str]] = set()
+    unique: list[ParserDiagnostic] = []
+    for warning in warnings:
+        key = (
+            warning.warning_code,
+            warning.section,
+            warning.severity,
+            warning.source,
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(warning)
+    return unique

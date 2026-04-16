@@ -10,8 +10,89 @@ SECTION_HEADERS: Final[dict[str, str]] = {
     "experience": "Experience",
     "projects": "Projects",
     "education": "Education",
+    "responsibilities": "Responsibilities",
     "required": "Required",
     "preferred": "Preferred",
+}
+
+SECTION_HEADER_ALIASES: Final[dict[str, tuple[str, ...]]] = {
+    "summary": (
+        "summary",
+        "professional summary",
+        "career summary",
+        "profile",
+        "about",
+        "overview",
+    ),
+    "skills": (
+        "skills",
+        "technical skills",
+        "core competencies",
+        "competencies",
+        "technologies",
+        "tooling",
+    ),
+    "experience": (
+        "experience",
+        "work experience",
+        "professional experience",
+        "employment history",
+        "work history",
+        "career experience",
+    ),
+    "projects": (
+        "projects",
+        "project highlights",
+        "selected projects",
+        "projects and impact",
+        "project work",
+    ),
+    "education": (
+        "education",
+        "academic background",
+        "education and certifications",
+        "education & certifications",
+        "education requirements",
+    ),
+    "responsibilities": (
+        "responsibilities",
+        "what you'll do",
+        "what you will do",
+        "role overview",
+        "about the role",
+        "impact",
+    ),
+    "required": (
+        "required",
+        "requirements",
+        "minimum qualifications",
+        "must have",
+        "must-have",
+        "core requirements",
+        "qualifications",
+    ),
+    "preferred": (
+        "preferred",
+        "preferred qualifications",
+        "nice to have",
+        "nice-to-have",
+        "bonus",
+        "bonus points",
+        "pluses",
+    ),
+}
+
+DOCUMENT_SECTION_ORDER: Final[dict[str, tuple[str, ...]]] = {
+    "resume": ("summary", "skills", "experience", "projects", "education"),
+    "job_description": ("responsibilities", "required", "preferred", "education"),
+}
+
+SUPPORTED_INGESTION_EXTENSIONS: Final[dict[str, str]] = {
+    ".txt": "text/plain",
+    ".pdf": "application/pdf",
+    ".docx": (
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ),
 }
 
 MATCH_WEIGHTS: Final[dict[str, int]] = {
