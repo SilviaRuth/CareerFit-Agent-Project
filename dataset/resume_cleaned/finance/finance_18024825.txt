@@ -1,0 +1,37 @@
+Candidate 18024825
+
+Summary
+Self driven and highly motivated with several years of experience in Quantitative Research including quantitative modeling, econometric analysis, statistical analysis, model development, large data analysis. My work, both in Finance and Engineering has been based on the development, application, and testing of quantitative models. Excellent analytical/critical thinking and problem solving skills. Strong written and oral communication.
+
+Skills
+Proficient in R, SAS, SQL, C++, Fortran, VBA, Advanced Modeling Skills, Project Management Experience, Critical Thinking Skills, Complex Problem Solving Skills, Superior Research Skills, Excellent Written and Oral Communication, Self-motivated Professional
+
+Experience
+PhD Candidate in Finance, Redacted Company, 2010-Present
+- Conduct research in Finance, specifically asset pricing and econometric modeling.
+- Current work includes: 1) Do tax revenues Reduce Agency Costs and Increase Hospital Efficiency?
+- Empirical Evidence from Washington State - conducted using Maximum Entropy Econometrics, 2) Return Distributions under GARCH Process with Sentiment Measures 3) Market Sentiment and its Effects on Stock Returns 4) A State-Space Model for Investor Sentiment and 5) Herding in Option Pricing Models - A State Space Approach.
+
+Visiting Instructor in Finance, Redacted Company, 2013-2014
+- Taught MBA and Undergraduate Classes in Investments, Financial Markets and Institutions, Bank Financial Management, Introduction to Financial Management
+
+Visiting Asst. Professor in Finance, Redacted Company, 2008-2010
+- Taught MBA and Undergraduate Classes in Financial Modeling, Strategic Business Problem Solving, Working Capital Management
+
+Research Assistant Professor, Redacted Company, 2001-2006
+- Principal Investigator on projects for the development of mathematical models for life prediction of Nuclear Waste containers for the Yucca Mountain Nuclear Waste Repository (sponsored by DOE).
+- Taught classes in engineering to graduate and undergraduate students.
+
+Research Scientist, Redacted Company, 1999-2000
+- Worked on the development of mathematical models for life prediction of turbine engines blades for US Air Force fighter jets.
+
+Education
+Ph.D. in Materials Science and Engineering, Georgia Institute of Technology (Georgia Tech), 6 1999
+
+B. Tech. in Metallurgical Engineering, IIT Bombay, 6 1992
+
+Ph.D. in Finance, University of Connecticut, 2015
+
+MBA in Finance, Gonzaga University, 12 2007
+
+M.S. in Ceramic Engineering, Georgia Institute of Technology (Georgia Tech), 12 1995

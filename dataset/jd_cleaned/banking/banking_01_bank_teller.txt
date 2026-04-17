@@ -1,0 +1,20 @@
+Bank Teller
+Sample Banking Company
+
+Responsibilities
+- Process customer transactions (deposits, withdrawals, transfers)
+- Maintain accurate transaction records
+- Provide customer service and financial product information
+- Ensure compliance with banking regulations
+- Balance cash drawers and resolve discrepancies
+
+Required
+- Basic financial and numerical skills
+- Strong customer service and communication skills
+- Attention to detail and integrity
+
+Preferred
+- Familiarity with banking systems
+
+Education
+- High school diploma or bachelor's degree in finance/business

@@ -454,6 +454,10 @@ Generate bounded JD-aligned resume improvement guidance through the single orche
 
 Generate grounded interview preparation guidance through the single orchestrator flow.
 
+### `POST /compare/resumes`
+
+Rank multiple resumes against a shared JD using the same deterministic parse and match path.
+
 ### `GET /health`
 
 Health check.
@@ -501,13 +505,12 @@ Return:
 
 ### Offline evaluation dataset
 
-Create a small benchmark set:
+Current checked-in baseline:
 
-* 10 resumes
-* 10 JDs
-* annotated expected fit levels
-* annotated required-skill matches
-* annotated top gap reasons
+* 10 match benchmark cases
+* 8 extraction benchmark cases
+* annotated fit labels, blocker flags, required/preferred matches, and top gaps
+* checked-in baseline JSON/Markdown artifacts under `data/eval/reports/baseline/`
 
 ### Metrics
 

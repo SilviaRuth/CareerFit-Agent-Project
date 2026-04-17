@@ -1,0 +1,273 @@
+{
+  "manifest_path": "data\\eval\\benchmark_manifest.json",
+  "metrics": {
+    "case_count": 10,
+    "fit_label_accuracy": 1.0,
+    "blocker_flag_accuracy": 1.0,
+    "required_match_recall": 1.0,
+    "preferred_match_recall": 1.0,
+    "top_gap_coverage": 1.0
+  },
+  "cases": [
+    {
+      "pair_id": "strong_fit",
+      "overall_score": 89,
+      "predicted_fit_label": "strong",
+      "expected_fit_label": "strong",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 100,
+        "experience": 100,
+        "projects": 43,
+        "domain_fit": 100,
+        "education": 100
+      },
+      "blocker_flags": {
+        "missing_required_skills": false,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "partial_fit",
+      "overall_score": 58,
+      "predicted_fit_label": "partial",
+      "expected_fit_label": "partial",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 49,
+        "experience": 100,
+        "projects": 44,
+        "domain_fit": 0,
+        "education": 40
+      },
+      "blocker_flags": {
+        "missing_required_skills": false,
+        "seniority_mismatch": false,
+        "unsupported_claims": true
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "poor_fit",
+      "overall_score": 7,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 8,
+        "experience": 0,
+        "projects": 25,
+        "domain_fit": 0,
+        "education": 0
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": true,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "strong_vs_messy_jd",
+      "overall_score": 92,
+      "predicted_fit_label": "strong",
+      "expected_fit_label": "strong",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 100,
+        "experience": 100,
+        "projects": 60,
+        "domain_fit": 100,
+        "education": 100
+      },
+      "blocker_flags": {
+        "missing_required_skills": false,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "messy_resume_vs_backend",
+      "overall_score": 84,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 74,
+        "experience": 100,
+        "projects": 60,
+        "domain_fit": 100,
+        "education": 100
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "eng11981094_vs_backend",
+      "overall_score": 46,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 21,
+        "experience": 100,
+        "projects": 0,
+        "domain_fit": 0,
+        "education": 100
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "eng10624813_vs_backend",
+      "overall_score": 61,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 29,
+        "experience": 100,
+        "projects": 12,
+        "domain_fit": 100,
+        "education": 100
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "it13405733_vs_backend",
+      "overall_score": 41,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 8,
+        "experience": 100,
+        "projects": 25,
+        "domain_fit": 0,
+        "education": 40
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "it10265057_vs_backend",
+      "overall_score": 7,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 8,
+        "experience": 0,
+        "projects": 25,
+        "domain_fit": 0,
+        "education": 0
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": true,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    },
+    {
+      "pair_id": "strong_vs_it_jd",
+      "overall_score": 30,
+      "predicted_fit_label": "poor",
+      "expected_fit_label": "poor",
+      "fit_label_correct": true,
+      "blocker_flags_match": true,
+      "required_match_recall": 1.0,
+      "preferred_match_recall": 1.0,
+      "top_gap_coverage": 1.0,
+      "score_snapshot": {
+        "skills": 33,
+        "experience": 0,
+        "projects": 0,
+        "domain_fit": 100,
+        "education": 100
+      },
+      "blocker_flags": {
+        "missing_required_skills": true,
+        "seniority_mismatch": false,
+        "unsupported_claims": false
+      },
+      "missing_expected_required_matches": [],
+      "missing_expected_preferred_matches": [],
+      "missing_expected_top_gaps": []
+    }
+  ]
+}

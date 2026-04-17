@@ -1,0 +1,74 @@
+Candidate 19284293
+
+Summary
+Seasoned aerospace professional with extensive experience in fixed and rotary wing flight testing, test management, systems integration and UAV operations. Background includes greater than 20 years of experience in flight test planning, execution and reporting and more than 6 years of high-altitude, long-endurance Unmanned Aerial Systems (UAS) operations experience and 10 years total UAS operations experience.
+
+Skills
+Flight test management, UAS operations, Flight test engineering, Systems integration and test, Aircraft modification management, Team leadership, Army, art, Agency, calibration, hardware, Concept, conceptual design, consultant, DC, Engineer, FORTRAN, functional, Government, interpretation, Director, mechanical, Excel, 2000, Microsoft Word, performance appraisals, personnel, Personnel Management, quality assurance, real-time, Research, Safety, scheduling, scientific, specification, system integration, telemetry, Test Director, training materials, VMS
+
+Experience
+Lead Operations Engineer - Global Hawk Project, Redacted Company, 2006-2015
+- Overall leader for Global Hawk flight operations team, including maintenance personnel, avionics technicians and operations engineers.
+- Primary point-of-contact and liaison to the Federal Aviation Administration and Transport Canada for securing the Certificate of Authorization or Waiver for operation in the US National Airspace and operational certificate for Canadian Airspace.
+- Served as primary functional interface between payload specialists and Global Hawk aircrew.
+- Assisted Global Hawk pilot in air vehicle systems operation.
+- Performed as Mission Director on more than 150 Global Hawk missions.
+
+Operations Engineer, Redacted Company, 1997-2006
+- Drafted the statement of work for the test effort.
+- Coordinated and managed the funding.
+- Performed all coordination and facilitation to allow the customer's functional test agent (Raytheon Aircraft) to complete the analysis and testing on schedule.
+- Developed or reviewed quality assurance specification requirements.
+- Primary mechanical designer of installation hardware for the electrical
+- power conditioning and instrumentation systems.
+- Performed the conceptual design of pylon pneumatic system.
+- Generated or reviewed and approved all Launch Platform system integration ground checks.
+- Drafted and coordinated Flight Test Plans, generated flight profiles, flight cards and pre-flight briefings.
+- Performed as Test Director for qualification ground testing and all test flights and as Flight Test Engineer onboard aircraft to perform system qualification checks.
+- Generated and managed System Requirements Verification Document
+
+Senior Engineer, Redacted Company, 1996-1997
+- Planned test programs to evaluate operability, suitability, and engine/airframe integration and compatibility of F-16 propulsion systems.
+- Served as Government test monitor for contractor test programs.
+- Interfaced with engine manufacture technical representatives and maintenance technicians on engine technical and maintenance issues.
+- Served as customer propulsion system consultant. Monitored propulsion system data real-time during flight tests.
+- Analyzed flight test data.
+
+Project Manager / Senior Flight Test Engineer, Redacted Company, 1986-1996
+- Project Manager/Test Director: Project manager on 18 test programs.
+- Prepared detailed cost estimates for all phases of program utilizing test requirements documents.
+- Coordinated funding requirements with program sponsor.
+- Coordinated test scheduling and special equipment requirements with test sponsor and airframe contractor.
+- Established test milestones and schedule.
+- Coordinated with aircraft maintenance and test instrumentation personnel to ensure required resources were available to meet program goals.
+- Led diverse team composed of test pilots, flight test and test instrumentation engineers, aircraft mechanics, test instrumentation and data reduction technicians and contractor personnel.
+- Directed daily test operations.
+- Directed preparation of test program final report.
+- Briefed test results and recommendations to program sponsor, headquarters and contractors.
+- Senior Flight Test Engineer: Flight test engineer on 36 programs.
+- Performed detailed test planning to efficiently evaluate the performance, handling qualities, mission suitability, specification compliance and airframe icing characteristics (where applicable).
+- Drafted flight test plans.
+- Established test instrumentation requirements.
+- Devised innovative test techniques to evaluate state-of-the-art systems.
+- Planned individual test flights to accomplish test goals in a minimum of flight time.
+- Generated flight profiles, flight test cards and conducted pre-flight briefings.
+- Generated control room display formats using Data Views.
+- Monitored and directed tests as Flight Test Engineer onboard test aircraft.
+- Monitored and directed tests as Flight Test Director via telemetry from ground control room.
+- Established data reduction methods.
+- Wrote data-reduction subroutines in FORTRAN.
+- Processed and reduced flight test data.
+- Evaluated and interpreted test data to determine test article deficiencies, shortcomings and compliance with applicable specifications.
+- Drafted final test report using Microsoft Word, Excel and specialized VMS data plotting programs.
+- Acted as member of flight safety and data review boards.
+- Trained junior flight test engineers in flight test planning and flight test and data reduction techniques as well as data interpretation and report preparation.
+- Acted as flight test consultant to headquarters and contractors.
+- Acted as organization pitot-statics authority.
+- Responsible for calibration and maintenance oversight of flight test pitot-static reference equipment (air speed pacer aircraft and trailing airspeed devices).
+
+Flight Test Engineer, Redacted Company, 1983-1987
+
+Education
+Defining System Requirements, NASA, 2004 Advanced System Safety Practices, NASA, 2001 Personnel Management for Executives (Resident Course), US Army, 1994 Test and Evaluation Management, US Air Force Institute of Technology University of Kansas, 1994, Hazards of High-Intensity Electromagnetic Radiation to Flight, CKC Laboratories, 1991
+
+Bachelor of Science in Aeronautical Engineering, California Polytechnic State University, 1982

@@ -1,0 +1,27 @@
+Candidate 54227873
+
+Summary
+A Computer Science junior at Lynchburg College with the understanding and problem solving to work my way through any situation. Using the life skills I learned while I attained my Eagle Scout rank, the highest in boy scouts and only given to a very small percentage of scouts.
+
+Skills
+Proficiency in C++, AutoCAD, AutoCAD Inventor, Python, Linux, Xcode, Visual Basic, MS Word, MS Powerpoint, Programming in MS Excel
+
+Experience
+Engineering Intern, Redacted Company, 2015-2015
+- Designed and worked with building information modeling (BIM) in AutoCAD MEP throughout the entire work-cycle under extreme time crunches.
+- Creating functional ethernet, pneumatic, and electronic controls for a confidential client.
+- Assisted with installation of a pneumatic controls system for a large and confidential development outside of Charlottesville, VA.
+- Worked in the field at Indian Head Military Base, MD collecting outfall locations for later analysis and reduction.
+
+Engineering Intern, Redacted Company, 2014-2014
+- Created and edited AutoCAD drawings for the US State Department, Arlington National Cemetery, and Jefferson Island, MD.
+- Using Autodesk Inventor, recreated the company's patented Reverse Osmosis Multi Element Module (ROMEM) with a high level of detail, as well as rendering numerous images using Autodesk Showcase.
+- Researched, Acquired, Built, and Configured an Enterprise Server to replace the firm's antiquated system.
+- Specifications: Intel Xeon E5-2620 @ 2.0 GHz, Processor MSI X79A-GD45 Plus, Motherboard Windows Server 2012, OS 8x 8 Gb G.Skill Ripjaws Z series 240-pin DDR3, RAM 3x Seagate Barracuda 2 Tb SATA 6.0 Gb/s 3.5", Internal hard drive Seagate Barracuda 3 Tb SATA 6.0 Gb/s 3.5", Internal hard drive Cooler Master V8 GTS, CPU cooler Wiring and testing for VAV (Variable Air Velocity) boxes and installation of Intelligent Room Sensors for Sprint, Reston Va.
+- Researched and acquired numerous technical items to help improve the company's efficiency.
+- Assisted in acquiring and connecting an Industrial Wireless Network Bridge to connect the company headquarters network to a new remote office building network.
+
+Education
+Data Structures & Analysis in C++ and Python *Mathematical Theory in Computer Science in Computer Science/ Minor Sports Management Micro and Macro Economics, Lynchburg College, 2017
+
+Diploma in Engineering/STEM Award, Oakton High School, 2013

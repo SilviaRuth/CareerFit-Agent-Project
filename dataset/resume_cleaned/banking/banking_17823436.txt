@@ -1,0 +1,33 @@
+Candidate 17823436
+
+Skills
+C, C++, core java, Back Ends: Oracle 9i, 10g, 11gRII, MS SQL Server-2005, IBM DB2, Computer Tech.: UML, Web Designing: HTML, XML, Operating Systems: Windows 9X/XP/2000/2003 Server, Linux Red hat 5, SUSE 11, Development Tools: Rational Rose, MS Visio, MS Project, Oracle SQL Developer, Crystal Reports, Java Workflow Editor, Eclipse, Application servers: Jboss, Tomcat5, 5.0.1.GA, IBM Websphere App Server 7., Databases & Tools: Oracle 9i, MS SQL 2008, Oracle Enterprise Manager Console, SQL Developer, Power Builder 9.0, Bankind Application: Finacle Ebanking Application by Infosys Ltd., Go Live, ad, applications master, Approach, automate, automation, banking, BI, Business Intelligence, Change management, competitive, CA, Hardware, Customer Relationship Management, CRM, Client, Databases, Database, delivery, Designing, Documentation, Editor, English, ERP, Funds, Hindi, HTML, IBM, DB2, IBM Websphere, Information Security, J2EE, Java, Jboss 5.1.0, Jboss, Languages, Linux, Market research, market, Marketing, Windows 9, Windows, 2000, migration, Operating Systems, Oracle 9, Oracle, Developer, Oracle Enterprise Manager, Oracle SQL, PDF, Product Management, Rational Rose, Red hat 5, RedHat Linux 2.5, Requirement, Retail, Sales, SAP, SDLC, servers, SMS, Software Development, MS SQL Server, MS SQL, SQL, Tax, user training, Tomcat6, Troubleshooting, UML, validation, Visio, Web Designing, Workflow
+
+Experience
+Business Analyst Sr. Technical Business Analyst, Redacted Company
+
+SDLC, Redacted Company, 2011-2013
+- Requirement Gathering Requirement Analysis Release management Product management Product implementation role BRS analysis Feasibility analysis Vender management Client handling Product Management Highlights: Initiated new projects like mobile devices compatibility Key resource for Standard Product Enhancement and Documentation.
+- Interacting with Marketing Team to understand market demands.
+- Worked actively for "Cloud SFA" project to implement product on cloud technology.
+- Market research of competitive products for product enhancement.
+- Involved in pre-sales activities for understanding market and product enhancement.
+- Involved in "30 Days Implementation Plan" documentation for WSFA.
+- Actively involved in complete Software Development Life cycle to manage the project at every phase of SDLC in order to meet business requirements.
+- Exposure to industry verticals such as Banking, Pharmaceuticals and Healthcare.
+- Deciding time lines for UAT, Deployments, Staging movements, Live deployments.
+- Working as an Application Owner.
+- Online Banking India (Finacle Ebanking Application by Infosys Ltd.) Retail Internet Banking, India version migration from 6.2.3 to 11.0.2 PDF Statements integration with session validation Service Request module for Domestic and NRI Customers Online Banking International Geographies (UK, CA, DE, HK, SG) Funds Transfer (Scheduled, Hot Payments) Service request module (implementation of more than 100 Service requests) Click to Call Service Generate Password through OTP Tax certificates download (Integration and session validation) UI revamp for ICICI Bank UK Responsibilities: Handling RIB for UK, Germany, Canada as an Application Owner.
+- Co-ordinate with Business for requirement understanding.
+- BRS study, feasibility and Acceptance.
+- Discuss the approach with in-house Development team or vendor and get an approval on Cost and timelines.
+- Provide an Impact analysis Preparation of System test Cases UAT testing Change management (VSS checkout checkins) Release on UAT to Business for testing, acceptance and Sign-Off Co-ordinate with deployment team for Staging movement and Production movement Documentations: Approach Document (b) System Testcases (c) Release Doc (d)Live Deployment docs Guide production support team for Live issues RCA Co-ordinating with other related teams like UBPS, CDCI, core banking.
+- Troubleshooting and Responding to ad hoc exercises and Production issues.
+- Handling Level 3(Application owner) escalations for severe Live issues Vendor co-ordination Co-ordinate with Business for Requirement understanding and project sign-off Training Received: Information Security: Web / Mobile application threats.
+- Projects Implemented at Base Information Management Pvt.
+- Ltd.
+
+Software Implementation Engineer, Redacted Company, 2008-2011
+
+Education
+Bachelor of Engineering in Information Technology, University of Mumbai, 6 2008, Integrated Trading and Manufacturing (ITM,An ERP by Base Information) BI Tool : BI Base (Business Intelligence tool by Base Information) Information Technology

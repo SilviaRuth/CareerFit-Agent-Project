@@ -1,0 +1,37 @@
+Candidate 47549345
+
+Summary
+Seeking an Internship/Co-op in the field of Electrical/Instrumentation & Control Engineering for Spring & Summer 2017
+
+Skills
+MATLAB, Simulink, Siemens PSS@E, Power World, ETAP, LabVIEW, Multisim, RT-LAB, C++, MS office., Certificate in Industrial Automation & Control from Apollo Knowledge Institute. July 2012 - Sept 2012, Skills acquired in PLC programming (Allen Bradley & Siemens PLC), HMI, SCADA, Servo drives, VFD, Hydraulic & Pneumatic control system., API, Apollo, AutoCAD, Automation, C++ programming, com, Controller, Electronics, engineer, engineering projects, FAT, Drawing, http, ISA, Logic, MS office, NEC, Optimization, philosophy, PLC programming, PLC, RESEARCH, Siemens, Siemens PLC, simulation, System Design, System Analysis, teaching, wiring
+
+Experience
+Engineering Instructor, Redacted Company, 2016-2016
+- Instruct and supervise high school students to build engineering projects.
+- List of projects: http://www.bluestampengineering.com/meet-the-students/palo-alto-16/.
+
+Graduate Teaching Assistant, Redacted Company, 2015-Present
+- Assist professor in teaching courses Control system, Electrical & Electronic circuits, Computer based industrial power system protection, & Introduction to C++ programming.
+
+Instrumentation & Control Engineer, Redacted Company, 2012-2014
+- Execution experience with DCS (Honeywell Experion PKS (C300 controller)) & ESD systems.
+- Supervised all Electrical & Instrumentation Installation & Commissioning activities including Control & motor loop check, Panel testing, Field Instrument & Control Valve testing of Shah Gas Development Project, Abu Dhabi, UAE.
+- Prepared all engineering documents such as Instrument Index, Instrument & Control Valve Datasheets, Cause and Effect drawings, Hook up Drawing, MTO, Material Requisition, Vendor offer evaluation, Technical write up, preparation of control system philosophy, FAT procedure etc.
+- IEEE, API, ISA, IEC, NEC standards.).
+
+Intern, Redacted Company, 2011-2011
+- Interacted & worked with plant operator and chief engineer on SCADA, HMI, PLC, control panel wiring, flow, pressure, level transmitter & control valves.
+- RESEARCH & PROJECT Research on "Dynamic Stability of Grid-Microgrid interconnection system using Fuzzy Logic Controller".
+- To design a fuzzy logic controller to limit the switching transients and enable a smooth transition of Microgrid from Islanded mode to Grid-connected mode.
+- Matlab/Simulink-Simpower system and Opal-RT for simulation) Project on "Close loop traffic control system using PLC (Programmable Logic controller)".
+- To control the time period of traffic lights based on density of traffic using PLC (used LG PLC for simulation).
+
+Education
+Master of Science in Electrical Engineering, University of Houston, May 2017, Electrical Engineering 3.85
+
+Digital Control System, Linear Multivariable Control System, Smart Grid Technology (Convex Optimization, Unit commitment, Economic dispatch), Industrial Power System Protection, Power System Analysis.
+
+Bachelor of Technology in Instrumentation & Control Engineering, Nirma University, May 2012, Instrumentation & Control Engineering 3.5
+
+Analog & Digital systems, Control System Design, Power Electronics, Instrumentation System.

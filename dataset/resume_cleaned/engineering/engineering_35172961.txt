@@ -1,0 +1,24 @@
+Candidate 35172961
+
+Summary
+PhD cleanroom expert looking for an opportunity to work as a full- time module/process engineer in Lam Research Experience working in both a research cleanroom facility and a semiconductor fab. Hands on experience with fabrication methods such as plasma etching, photolithography, wet etch processing, and PVD Well understanding of Statistical Process Control (SPC) and Design of Experiments (DOE)
+
+Skills
+Academic, documentation, edge, fiber optics, Laser, Mechanical, Scanning
+
+Experience
+Process Engineering Intern, Redacted Company, 2014-2014
+- Worked on short-loop study for qualifying new metal etch platform Performed edge exclusion standardization for measurement tools in Etch/CMP/Wet Etch area Wrote "Klarity ACE" recipes to provide scheduled/automated reports for inline parameters capability, tool-tool (chamber-chamber) matching, and PT-Inline cross-correlations for plasma etch module engineers Generated internal documentation for sampling plans in Etch/CMP/ Wet Etch area Academic Cleanroom Experience Washington Nanofabrication Facility, UNIVERSITY OF WASHINGTON.
+
+Research Assistant, Redacted Company, 2008-Present
+- Project: "A NEW INTEGRATED ENDOSCOPE SYSTEM" Developed a full MEMS fabrication process of a mechanical resonance based scanning device.
+- Integrated with Laser and fiber optics to enable in 2D micro-displays scanning system Setup benchtop spin coater (SCS 6800) and sputter (Denton Desk V) in lab.
+
+Graduate Researcher, Redacted Company, 2003-2005
+
+Education
+Ph. D in Mechanical Engineering, University of Washington, April, 2015, GPA: 3.52 / 4.0
+
+M. S in Bio-Industrial Mechatronics Engineering, National Taiwan University, 2006, GPA: 3.9 / 4.0
+
+B. S in Mechanical Engineering, National Central University, 2003

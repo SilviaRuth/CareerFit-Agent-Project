@@ -1,0 +1,15 @@
+{
+  "parser_level": "medium",
+  "min_score": 0.6,
+  "extraction_complete": true,
+  "required_fields": {
+    "candidate_name": "Jordan Rivera",
+    "summary": "Backend engineer with 5 years building Python services for healthcare operations and workflow tooling.",
+    "skills_count": 5,
+    "experience_count": 2,
+    "education_count": 1
+  },
+  "unsupported_sections": [
+    "Open Source"
+  ]
+}

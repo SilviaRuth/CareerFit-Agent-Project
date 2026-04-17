@@ -1,0 +1,25 @@
+Candidate 32985311
+
+Skills
+Programming Languages: C, SQL, Python, R, Tableau developer Tools: HP ALM Quality center, HP QTP, MS office, Trello- Project management tool, Streak CRM., automation tools, business processes, C, Chemistry, CRM, client, English, event management, functional, HP, image, team lead, machinery, Mathematics, Oil, developer, Physics, Programming, progress, Project management, QTP, Quick Test Professional, Quality, quality assurance, simulation, Tableau, VB script
+
+Experience
+Software Engineering Analyst, Redacted Company, 2017-2017
+- Enactus chapter of Thapar University Founded project Soul of the clay as the team lead of Enactus to aid the artisans by up skilling them with modern day techniques, thereby increasing the income of these artisans by 150%.
+- Executed project Naritva, where I along with my team implemented a socio-economic business model in order to improve women sanitation in rural areas of India with motive to reduce diseases prevalent among rural women.
+- Executed project Jaivika to bolster farmers by setting up machinery to produce low cost manure from organic waste.
+- Student Alumni Interaction Cell - Administered alumni relations as a senior member in SAIC and held the responsibility of event management in cultural events.
+
+Software Engineering Analyst, Redacted Company, 2016-2017
+- Project- Global Site System Services Delivered automation tools using HP Quick Test Professional and VB script to achieve 95 percent test coverage and increase the efficiency of process by 25 percent.
+
+Associate Software Engineer, Redacted Company, 2015-2016
+- Project- Global Site System Services Worked as a part of quality assurance team for one of the leading Oil and Gas Company by functional testing in a simulation lab to assure the smooth functioning of 300 sites across the globe.
+- Communicated with a team of business analysts in order to understand the business scenarios and draft test scenarios for application testing.
+
+Education
+Syracuse University, Present
+
+B.E in Chemical Engineering, MS IM Thapar University, June 2015, Chemical Engineering 6.7/10
+
+Delhi Public School, May 2011, Secured 86.8 percent in Class XII: Mathematics: 96/100, Physics: 81/100, Chemistry: 89/100, English- 91/100

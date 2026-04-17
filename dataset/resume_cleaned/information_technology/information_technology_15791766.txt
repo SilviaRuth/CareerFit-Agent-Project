@@ -1,0 +1,44 @@
+Candidate 15791766
+
+Summary
+Technical Support Professional skilled at resolving complex customer service issues in a timely manner. Enjoys troubleshooting to find solutions to technical issues. Successful at driving financial and productivity results in fast paced environments.
+
+Skills
+Windows XP/7/8, Server 2003/2008, Active Directory, MS Outlook 2007/2010, SCCM, RDC, SMS, PC Hardware/Software, Printers, Copiers, Laptops, Mobile devices, Routers, Switches, Storage, VPN, VOIP, Wifi, Avaya PBX systems, Remedy, A+, agile, Avaya, call center, Excellent communication, CA, Hardware, contracts, critical thinking, customer service, decision-making, documentation, functional, help-desk, HP printers, IP, laptop computers, Microsoft Certified Professional, MCSE, office, MS Outlook, Windows, Windows OS, Windows 2000, 2000, negotiating, Enterprise, Network, networks, PBX, PC Hardware, telephone systems, problem solving skills, quality control, risk analysis, scheduling, servers, TCP/IP, tech support, phones, troubleshooting, Upgrades, Xerox copiers
+
+Experience
+Project Manager, Redacted Company, 2013-Present
+- Built and maintained successful relationships with service providers, dealers and consumers.
+- Provided base level IT support to company personnel.
+- Defined project deliverables and monitored status of tasks.
+- Delivered status reports to stakeholders for budgeting and planning purposes.
+- Collaborated with cross-functional teams to draft project schedules and plans.
+- Monitored costs, timescales and resources used to achieve [Goal].
+- Monitored team progress and enforced deadlines.
+- Partnered with [Department Name] and [Department name] to address [Issue description].
+- Planned, implemented and managed all project contracts, performed scheduling, risk analysis, quality control and trained staff.
+- Key Performance: Managed 40 team members with the ability to initiate/manage cross-functional teams and multi-disciplinary projects.
+- Increased productivity with critical thinking, decision-making and problem solving skills.
+- Planned, organized and scheduled daily activities.
+- Excellent communication skills to coordinate with customers, vendors, and stakeholders.
+- Skilled in leading, negotiating and delegating abilities.
+- Tolerant to stressed situations.
+
+Information Technology Specialist, Redacted Company, 2004-2013
+- Trained new employees and explained protocols clearly and efficiently.
+- Researched issues on various computer systems and databases to resolve complaints and answer inquiries.
+- 9 years experience working as an agent to all corporate systems in the field, call center and central service office.
+- Analyzed system problems, performed troubleshooting, ensured connectivity and trained staff.
+- Key Performance: Managed and supported workstations on TCP/IP, VPN, and Wi-Fi networks, managed Active Directory, SCCM, VOIP, Avaya PBX systems.
+- Managed and supported workstations in various locations with use of SMS (System management software) and remote tools such as VNC, RDC and Active Directory Facilitated Adds/Moves/Changes on Avaya PBX telephone systems Supported the integration of new technologies such as Cloud printing and CSO (Remote Enterprise) into operation.
+- Maintenance & Upgrades: Performed weekly health checks via SMS and documented results for problem resolutions Performed routine maintenance on workstations, IP phones, Xerox copiers, HP printers and laptop computers.
+- Performed all hardware/software upgrades servers, workstations, copiers and printers.
+- Acted as a liaison to resolve all technical issues for vendors, managers, trainers etc.
+- Developed and maintained documentation needed by support staff, including troubleshooting steps, installation instructions, new tools overviews, and contact lists.
+- Responsible for notifying users of network/system issues.
+- Established solid work relationships with management, technical staff, vendors, end users.
+
+Education
+Master of Science in Management, Project Management, Colorado Technical University, 6/2012, GPA: 3.35
+
+Bachelor of Science in Information Technology, University of Phoenix, 10/2009, GPA: 3.53

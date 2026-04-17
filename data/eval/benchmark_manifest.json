@@ -1,0 +1,64 @@
+{
+  "cases": [
+    {
+      "pair_id": "strong_fit",
+      "resume_sample": "strong_fit_resume.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "strong_fit_expected.json"
+    },
+    {
+      "pair_id": "partial_fit",
+      "resume_sample": "partial_fit_resume.txt",
+      "jd_sample": "partial_fit_jd.txt",
+      "expected_eval": "partial_fit_expected.json"
+    },
+    {
+      "pair_id": "poor_fit",
+      "resume_sample": "poor_fit_resume.txt",
+      "jd_sample": "poor_fit_jd.txt",
+      "expected_eval": "poor_fit_expected.json"
+    },
+    {
+      "pair_id": "strong_vs_messy_jd",
+      "resume_sample": "strong_fit_resume.txt",
+      "jd_sample": "data/samples/messy_jd.txt",
+      "expected_eval": "strong_vs_messy_jd_expected.json"
+    },
+    {
+      "pair_id": "messy_resume_vs_backend",
+      "resume_sample": "data/samples/messy_resume.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "messy_resume_vs_backend_expected.json"
+    },
+    {
+      "pair_id": "eng11981094_vs_backend",
+      "resume_sample": "dataset/resume_cleaned/engineering/engineering_11981094.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "eng11981094_vs_backend_expected.json"
+    },
+    {
+      "pair_id": "eng10624813_vs_backend",
+      "resume_sample": "dataset/resume_cleaned/engineering/engineering_10624813.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "eng10624813_vs_backend_expected.json"
+    },
+    {
+      "pair_id": "it13405733_vs_backend",
+      "resume_sample": "dataset/resume_cleaned/information_technology/information_technology_13405733.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "it13405733_vs_backend_expected.json"
+    },
+    {
+      "pair_id": "it10265057_vs_backend",
+      "resume_sample": "dataset/resume_cleaned/information_technology/information_technology_10265057.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "it10265057_vs_backend_expected.json"
+    },
+    {
+      "pair_id": "strong_vs_it_jd",
+      "resume_sample": "strong_fit_resume.txt",
+      "jd_sample": "dataset/jd_cleaned/information_technology/information_technology_01_software_engineer.txt",
+      "expected_eval": "strong_vs_it_jd_expected.json"
+    }
+  ]
+}

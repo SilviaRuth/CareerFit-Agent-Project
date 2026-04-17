@@ -1,0 +1,7 @@
+Candidate 11005406
+
+Skills
+Windows 95-XP-Windows 7/8.8, 1/10, Windows NT/2000/2003/2008/2012, Red Hat (limited), Ubuntu (limited) VIRTUALIZATION TECHNOLOGY:, ESX/ESXi 3.5-5.5, MS Hyperv 2005-2008 SECURITY SYSTEMS/LOAD BALANCERS:, Brocade SSL Load Balancer, F5 BigIP AFT/LTM Load Balancer, SSL Cert Management - 230 Sites, Watchguard, Cisco, Exchange, Firewall, Iis, Internet Information Services, It Support, Layout For, Microsoft Windows, R2, Sap, Security, System Security, Virtualization, Windows 2003, Windows Server 2003, Cisco Asa, Emc, Emc Vnx, Orion, Vnx, Access, Atc, Dfs, Engineer, Fibre Channel, Marketing, San, Solarwinds, Ssl, Storage Area Network, Systems Engineer, Vmware, Analog, Aws, Clients, Cost Analysis, Data Center, Emc Vnxe, Isp, Microsoft Exchange, Pbx, Sql, System Administration, Systems Administration, Training, Virtual Machine, Vm, Vnxe, Wireless, Ac, Brocade, Business Continuity, Catalyst, Ccna, Deployment, Dhcp, Dns, Dos, Emc Navisphere, Ethernet, Iscsi, Lan, Lan Manager, Layer 2, Navisphere, Netware, Os/2, Red Hat, Router, Switching, Tcp, Tcp/ip, Windows 7, Windows 95, Business Management
+
+Education
+BS in Business Management, Ottawa University, Ottawa University ~ Overland Park, KS Campus Currently pursuing a BS in IT, Minor in Business Management

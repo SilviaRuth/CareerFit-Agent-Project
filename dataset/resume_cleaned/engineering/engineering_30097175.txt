@@ -1,0 +1,40 @@
+Candidate 30097175
+
+Summary
+Dedicated team player with extensive knowledge of electrical engineering concepts and a creative aptitude for new product development.
+
+Skills
+Seasoned Lab Expert: 12 years SEM, EDX, DIB and high precision laboratory skills including X-Ray Analysis, Gas Chromatography equip/techniques, High Purity Liquid Chromatography equip/techniques, Stress/Strain collection, Expert in multiple lab equipment including but not limited to MicroPolisher, MicroCleaver, Goniometer, Oscilloscopes, Automated Function Generators, Power Supplys and Multimeters, Software Connoisseur: Upper level expertise in C++, SQL, Verilog, VHDL, MatLab, PSpice, LTSpice, PowerWorld, LabView, Windows 2000/XP, Web Design, MS Office (Excel, Project, PowerPoint and Word), and HTML programming., basic, C++, CPR certified, Data Acquisition, designing, Digital Design, direction, documentation, Electronics I, engineer, fashion, First Aid, HTML programming, Intel, market, materials, Excel, MS Office, PowerPoint, Windows 2000, Word, Multimeters, natural, Physics, Physics I, speaking, quality, safety, Supervisory Control and Data Acquisition, schematics, Statistics, Systems Design I, Technical Writing, VI
+
+Experience
+Engineering Tech, Redacted Company, 2008-Present
+- Worked in engineering team running, compiling, developing, and analyzing factory experiments aimed to improve Intel's Far Back End Lithography process.
+- Used computer and speaking skills to successfully complete and report multiple individual/group tasks related to equipments' performance.(developed automated reports using SQL that displayed factory performance)
+- Developed procedures for advanced maintenance on semiconductor equipment that would transfer worldwide.(owned best know methods specfication that describes lab procedures and areas best know methods)
+- Worked to save money and improve performance (saved >$13k in identifying opportunity to reuse reticle boxes)
+
+Manufacturing Technicican, Redacted Company, 2000-2008
+- Performed advanced maintenance on high voltage equipment.
+- Work environment included hazardous chemical / gas exposure and mitigation techniques for these exposures.
+- Responded and communicated with senior engineers on daily positions
+
+Senior Capstone Project, Redacted Company, 2007-2008
+- Specified, selected, and implemented a Supervisory Control and Data Acquisition System to gather data from wind generators and a weather station.
+- Final system used a crossbow mote© that acquired generator speed, current output, voltage, wind speed, wind direction, temperature, and sunlight.
+
+Research and Development Associate, Redacted Company, 2000-2000
+- Worked in wood products development, team-designing and testing pre-market materials.
+- Assisted in all phases of product characterization and utilized project documentation defining standards, specifications, plans, prints, schematics and/or other necessary documentation required to achieve defined project goals.
+
+Head Freshmen Basketball Coach, Redacted Company, 1999-2000
+- Guided a team of high school boys in developing athletic and social skills.
+- Responsibilities included planning and organizing team meetings, practices and events, and had full social accountability of youths during away trips
+
+Research Assistant, Redacted Company, 1999-1999
+- Participated in the implementation of a project to regulate nuisance vegetation using natural biological controls (grass carp).
+- Responsibilities included preparing reagents and other media required for daily vegetation study, analyzing and logging vegetative samples in orderly fashion, and recovery of biological controls.
+
+Education
+B.S in Electrical Engineering, Portland State University, June 2009
+
+B.S in Biology Chemistry, Southern Oregon University, June 2000

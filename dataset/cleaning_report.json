@@ -1,0 +1,17 @@
+{
+  "jd_samples": 48,
+  "jd_categories": 24,
+  "resume_rows": 2484,
+  "usable_resume_rows": 1767,
+  "resume_with_summary": 1856,
+  "resume_with_skills": 2410,
+  "resume_with_experience": 2335,
+  "resume_with_education": 2414,
+  "outputs": {
+    "jd_cleaned_md": "JD.cleaned.md",
+    "jd_cleaned_csv": "JD.cleaned.csv",
+    "jd_text_dir": "jd_cleaned",
+    "resume_cleaned_csv": "Resume.cleaned.csv",
+    "resume_text_dir": "resume_cleaned"
+  }
+}

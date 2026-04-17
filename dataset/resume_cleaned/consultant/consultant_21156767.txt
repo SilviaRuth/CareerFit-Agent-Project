@@ -1,0 +1,21 @@
+Candidate 21156767
+
+Summary
+Customer-oriented Principal Consultant knowledgeable about developing and implementing successful business solutions that drive productivity and growth. Offering expertise in SQL, Data Visualization, Scripting language and more than 6 years of experience in the software industry.
+
+Skills
+SQL Server/MySQL, Data Analysis and Visualization, C#/.NET framework, Python, JavaScript, Azure DevOps
+
+Experience
+Principal Consultant, Redacted Company
+
+Business Intelligence Developer, Redacted Company
+
+College Student, Redacted Company
+
+Software Engineer, Redacted Company
+
+Education
+Master of Science Computer Science, Completed coursework in Data Science, C# Programming and .NET and Data Mining. 3.95/4.0 GPA
+
+Bachelor of Engineering Information Science, "Best Outgoing Student" Recipient Honor Roll 2010-2011

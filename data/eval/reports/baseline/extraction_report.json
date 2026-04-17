@@ -1,0 +1,107 @@
+{
+  "manifest_path": "data\\eval\\extraction_manifest.json",
+  "metrics": {
+    "case_count": 8,
+    "confidence_accuracy": 1.0,
+    "field_expectation_accuracy": 1.0,
+    "unsupported_segment_coverage": 1.0
+  },
+  "cases": [
+    {
+      "case_id": "strong_resume",
+      "document_type": "resume",
+      "parser_score": 1.0,
+      "parser_level": "high",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "messy_resume",
+      "document_type": "resume",
+      "parser_score": 0.65,
+      "parser_level": "medium",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "low_confidence_resume",
+      "document_type": "resume",
+      "parser_score": 0.07,
+      "parser_level": "low",
+      "extraction_complete": false,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "cleaned_dataset_resume",
+      "document_type": "resume",
+      "parser_score": 0.98,
+      "parser_level": "high",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "strong_jd",
+      "document_type": "job_description",
+      "parser_score": 0.98,
+      "parser_level": "high",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "messy_jd",
+      "document_type": "job_description",
+      "parser_score": 0.75,
+      "parser_level": "medium",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "partial_jd",
+      "document_type": "job_description",
+      "parser_score": 0.96,
+      "parser_level": "high",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    },
+    {
+      "case_id": "cleaned_dataset_jd",
+      "document_type": "job_description",
+      "parser_score": 0.98,
+      "parser_level": "high",
+      "extraction_complete": true,
+      "confidence_correct": true,
+      "field_expectation_accuracy": 1.0,
+      "unsupported_segment_coverage": 1.0,
+      "missing_expected_fields": [],
+      "missing_expected_unsupported_sections": []
+    }
+  ]
+}

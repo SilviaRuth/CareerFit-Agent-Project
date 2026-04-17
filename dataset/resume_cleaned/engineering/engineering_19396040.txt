@@ -1,0 +1,39 @@
+Candidate 19396040
+
+Summary
+Seeking for full time position where I can apply my technical knowledge & skills for continuous improvement. I have 26 months of experience in Lean Manufacturing, Production Planning and Supply Chain Management. Excellent computer and analytical skills.
+
+Skills
+Application Software: MS Office, Minitab, PowerPoint, Excel, Solid works, AutoCAD, Pro E, Database: MS Access, SAP, Programming: Java, C, C++, Visual Basic, R, Python, Calibration, charts, data analysis, Database, designing, documentation, Forecasting, IMS, inspection, inventory, ISO, ISO 9001, Java, Lean Manufacturing, MS Access, MS Office, process improvement, Programming, quality, safety, SAP R/3, Scheduling, Siemens, SOP, Strategy/planning, supervising 4, reduce waste
+
+Experience
+Industrial Engineering Intern, Redacted Company, 2015-2016
+- Conduct Time Study & perform analysis on data to determine hourly production scheduling, non value adding activities, reduce cycle time by 32% & lead time by 48%.
+- Line balancing to achieve required takt time and reduce work in process (WIP) inventory.
+- Implement Lean manufacturing such as Kaizen, 5S, documentation of Kanban card process & Continues Improvement to reduce waste, inventory, non-value adding activity to improve productivity.
+- Developed material picking charts which determines the exact quantity of items to be picked, thereby, enhancing material picking operations.
+- Scheduling material required for production and manage inventory of raw material.
+- Writing standard operating procedure (SOP) for various process in entire plant.
+- Ergonomic designing of work cell to improve efficiency of workers.
+
+Junior Engineer, Redacted Company, 2013-2014
+- Managed assembly line for traction and induction motors at Siemens.
+- Responsible for supervising 4 Inspectors and 24 team members in the assembly department.
+- Responsible for generating a production schedule and Process Planning for necessary changes based on customer priority and orders.
+- Responsible for safety of everyone in the plant and Forecasting risk from data analysis and provide Strategy/planning for Lean Manufacturing Practices within the plant.
+- Participate in monthly cost team projects, process improvement projects and assign cross-training projects and Kaizen projects to team members.
+- Manage quality, day to day production, labor efficiency.
+
+Intern, Redacted Company, 2012-2013
+- Developed the inspection process for motor accessories.
+- Designed tools, gauges and fixture in AutoCAD and /or ProE as required.
+- Managed the outsourced manufacturing of necessary tools, gauges or fixtures.
+- Maintain Gauge Calibration database.
+- Managed the calibration schedule with outside vendors or in-house calibration group.
+- Worked in PM and QM modules of SAP R/3 to enter or retrieve data.
+- Awareness of ISO 9001:2008 and ISO 14001(EMS), Integrated Management system (IMS) & Hazard identification and risk awareness (HIRA) documents on shop floor.
+
+Education
+Masters of Science in Industrial Engineering Production & Inventory management, University of Texas, May 2016, GPA: 3.5
+
+Bachelor of Engineering in Production Engineering Manufacturing, Planning and Supply Chain, Mumbai University, July 2013, GPA: 3.5

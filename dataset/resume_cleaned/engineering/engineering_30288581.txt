@@ -1,0 +1,36 @@
+Candidate 30288581
+
+Summary
+Driven and a self-motivated Mechanical Engineer with experience teaching Mechanical Engineering courses to undergraduate students. Seeking opportunities to use those concepts in the field of Construction and Management.
+
+Skills
+Microsoft Office (Word, Excel, Power Point, Outlook), AutoCad, Academic, banking, basic, Calculus, credit, database, Database Management System, Engineer, Experiments, GUI, LASER, layout, Materials, MATLAB, Mechanical Engineering, Microsoft Office, Outlook, Word, MySQL, Optimization, Physics, Police, progress, Research, Retail, Scheduling, Statistics, VBA, website
+
+Experience
+Mechanical Engineering Tutor, Redacted Company, 2014-2015
+- Subjects tutored- Mechanics, Probability and Statistics, MATLAB, Operations Research, Calculus.
+- Helped students understand the basic concepts of Physics and Calculus.
+
+Assistant Professor, Redacted Company, 2013-2014
+
+Intern, Redacted Company, 2010-2013
+- Design Project: Development of Central Chilled water plant system layout for a 45000sq.
+- ft.
+- Retail outlet.
+- Studied the project life cycle management of the System.
+- Headed the Intern team and presented weekly progress reports to the Lead Design Engineer Academic Projects: Analysis of LASER Cladding at IIT Bombay.
+- Studied the effects of Laser Cladding by Preplaced powder method on mild steel.
+- Calculated the effects of different parameters affecting the LASER clad.
+- Reduced the usage of powder by 30% and LASER power by 20% Banking Database Management System.
+- Designed a banking database management system for bankers which could calculate the credit score for new customers.
+- Designed and created a database in MySQL.
+- Implemented GUI in Excel using VBA Optimization and Scheduling of Shifts for Police Department.
+- Determined optimum shift timings for police officers and allocated appropriate shifts.
+- Analyzed publicly available data from a website.
+- Developed models for optimizing the availability of police officers.
+- Used Excel and AMPL for solving these models and scheduling the officers based on each model.
+
+Education
+Master of Science in Industrial Engineering, Arizona State University, May 2016, Industrial Engineering 3.15
+
+Bachelor of Engineering in Mechanical Engineering, University of Mumbai, May 2011, Mechanical Engineering 3.9 Sustainable Energy Sources, Project Life Cycle Management, Design of Engineering Experiments, Probability and Statistics, Heat and Mass Transfer

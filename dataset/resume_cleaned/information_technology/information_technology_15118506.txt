@@ -1,0 +1,31 @@
+Candidate 15118506
+
+Experience
+Director of Information Technology, Redacted Company, 2012-Present
+- Developed and implemented the IT strategy for the organization including software, support and infrastructure
+- Hired, developed, and managed IT staff
+- Negotiated terms and products from external vendors, including changes needed as business needs changed
+- Met and exceeded goals set by executive leadership accomplishing both time and financial gains
+- Set annual budgets for organizational technology needs
+
+IT Administrator, Redacted Company, 2008-2012
+- Planned, installed and managed Microsoft domain environment utilizing Microsoft Server 2008
+- Upgraded environment to Server 2012
+- Planned, installed and managed Microsoft Exchange server, successfully migrating end user data from third party non-Exchange environment
+- Planned, installed and managed VMware platform for a virtual environment. Converted all physical servers to virtual environment
+- Planned, installed and managed VMware Horizon View virtual desktop environment
+- Successfully migrated 120 users from physical computers to zero clients utilizing the VDI environment
+- Maintained Cisco routing, switching, VoIP, and camera infrastructure, implementing our design utilizing third party vendors
+- Managed help desk, utilizing ITIL framework for 260 end users
+- Executed break/fix for computers, printers, security system, camera system, and all A/V systems
+
+New Car Sales, Redacted Company, 2005-2008
+- Recognized by Toyota as one of the top salespeople in the Chicago Region
+
+IT Consultant, Redacted Company, 2000-2005
+- Provided IT consultation and implementation of retail cash register networks
+- Managed staff of more than 10 independent IT contractors in implementation of contract projects
+- Acted as project manager for new equipment and software roll outs for some of the largest retail chains in the US including Wal-Mart, Mar-Maxx, and Toys 'R Us
+
+Education
+Bachelor of Science in Management Information Systems, Cardinal Stritch University

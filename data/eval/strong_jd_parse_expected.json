@@ -1,0 +1,13 @@
+{
+  "parser_level": "high",
+  "min_score": 0.95,
+  "extraction_complete": true,
+  "required_fields": {
+    "job_title": "Senior Backend Engineer",
+    "company": "HealthStack",
+    "required_count": 5,
+    "preferred_count": 4,
+    "education_count": 1
+  },
+  "unsupported_sections": []
+}

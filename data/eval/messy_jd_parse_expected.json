@@ -1,0 +1,15 @@
+{
+  "parser_level": "medium",
+  "min_score": 0.7,
+  "extraction_complete": true,
+  "required_fields": {
+    "job_title": "Platform Backend Engineer",
+    "company": "CareBridge",
+    "required_count": 4,
+    "preferred_count": 3,
+    "education_count": 1
+  },
+  "unsupported_sections": [
+    "Compensation Notes"
+  ]
+}

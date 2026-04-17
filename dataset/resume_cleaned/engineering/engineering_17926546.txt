@@ -1,0 +1,36 @@
+Candidate 17926546
+
+Summary
+Team-oriented Engineering Associate with over 8 years experience designing, developing, maintaining, and testing electro-mechanical systems.
+
+Skills
+Electro-mechanical design JMP, Microsoft Visual Basic Microsoft Excel, Vision system programming Microsoft power point, Electronic computer systems Microsoft Visio, Engineering software Six Sigma 5X methodology, Strong presentation skills Adaptable, Process improvement Electrical Troubleshooting Tools, Team player Ability to read schematics, Mechanical design/implementation Ability to write and read wiring diagram, CAD, hardware, client, DC, Drafting, electronics, Engineer, Engineering Design, frame, functional, inspection, Logic, machinery, materials, mechanical, Mechanical design, Microsoft Excel, Microsoft power point, Microsoft Visio, PLC, presentation skills, Process improvement, product improvement, programming, Project management, protocols, purchasing, quality, Radiography, read, reporting, Scheduling, schematics, Six Sigma 5, software testing, system integration, Team player, triage, Troubleshooting, validation, Vision, Microsoft Visual Basic, wiring diagram
+
+Experience
+Engineering Associate, Redacted Company, 2008-Present
+- Started as an instrument Tech on the Manufacturing floor responsible for building and servicing Catalyst DX.
+- Worked as a stand in technical lead for a few months.
+- Moved to Catalyst Pilot line in 2011.
+- Was responsible for lab maintenance, Instrument software testing, validation of new components, and extended instrument field fail triage.
+- In the fall of 2013 I started working under an Engineer for the Digital Radiography department.
+- I am responsible for product reliability, product improvement and NPD qualification including writing test protocols, test execution, reporting findings.
+- Other responsibilities include ESD implementation and testing, lab maintenance and management.
+- I work with suppliers and customers on a regular basis.
+- I work in a large cross functional group daily.
+- I am considered a hardware subject matter expert for all CR and DR instruments at IDEXX.
+- I am familiar with the software and system integration.
+- I have had the opportunity to design multiple components and test fixtures from electrical test boxes to metal inspection jugs and composite protective covers.
+- In addition, I am responsible for all obsolesces and validation testing.
+- In addition, I train all new personal on equipment and filed servicing systems, including software, mechanical, and electrical AC/ DC troubleshooting.
+- In this position I oversee work from technicians and interns working on and assisting with various projects.
+
+Electrical Technician and Mechanist, Redacted Company, 2007-2008
+- Resolved part and assembly discrepancies.Collaborated with engineers and project managers regarding design parameters for client projects.Designed brackets and custom frame work for automated machines.
+- Prepared accurate specifications for purchase of materials and equipment for purchasing department.Debugged and troubleshot complex analog, digital, and RF circuits.
+- Worked with and troubleshooted Programmable Logic Controllers (PLC) and assembly lines to maintain productivity.on the automated machinery at customer sites.
+- assembled complex electrical circuits both AC and DC.
+
+Education
+Associate of Applied Science, SMCC South, I studied at SMCC in 2007-2008 towards a degree in applied science in the field of electronics.
+
+Drafting and design YCCC Wells, ME, US Studied CAD and Drafting in the Engineering Design Program Currently working with YCCC and USM in Industrial Management- consideration in electro-mechanical systems in mechanical engineering, 2015

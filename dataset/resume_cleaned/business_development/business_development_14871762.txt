@@ -1,0 +1,30 @@
+Candidate 14871762
+
+Summary
+Process oriented Data Analyst and Delivery Lead with 5+ years proven track record of analyzing Business Intelligence to increase top line and bottom line of the business vertical. Reduced costs of manufacturing signaling systems by 10% and increased sales by 25% by analyzing operating data. Closely worked with business clients and SMEs to collect, clarify and translate business requirements into functional and technical requirements. Demonstrated logical and strategic thinking, leadership and organizational skills, contingency planning and adaptability to new technologies. Distinguishing ability to simultaneously manage multiple Clients, work closely with the Leadership team and be a complete Team Player, to successfully design, implement and deliver complicated projects against challenging deadlines, whilst keeping the teams in sync and motivated. Pursuing MS in Information Systems in Big Data Analytics and looking to leverage skills and experience to grow in the field of Data Analytics by contributing towards effective business decisions.
+
+Skills
+Python, SQL, Java, R, Excel, Tableau, Statistical Analysis, Multiple Linear Regression, CERTIFICATION, Sun Certified Java Associate, Business Development, BI, Client, clients, delivery, dimensions, Documentation, ERP, inspection, Inventory, Team Development, Director, 98, Process Control, processes, profit, Project management, quality, sales, Sun, supply chain, Vendor Management
+
+Experience
+Business Development Executive, Redacted Company, 2011-2014
+- New project, was involved in gathering business requirements from client, creating process documents for the product, working with supply chain and operations team to forecast delivery schedule.
+- Analyzed BI data of similar projects and reduced implementation and delivery time by 22% by introducing additional station for bottle neck processes and dividing inspection stage in to steps.
+- Created test documentation for the product based on client testing requirements.
+- Managed multiple (5+) vendors to ensure on time delivery.
+- Closely monitored quality issues using statistical analysis, achieving 98% first pass rate which resulted in increasing profit margin by 11 % in comparison with initial projection.
+- Lead a team involved in Transfer of Technology between the Client and the Organization.
+- Ensured satisfactory Test and Deployment on client site, in France.
+
+Delivery Lead, Redacted Company, 2009-2011
+
+Management Trainee, Redacted Company, 2008-2008
+
+Education
+GEORGIA STATE UNIVERSITY
+
+Master of Science in Information Systems, J. Mack Robinson College of Business, July 2018
+
+VISWESWARAIAH TECHNOLOGICAL UNIVERSITY
+
+Bachelor of Engineering in Information Science, Vidyavardhaka College of Engineering, June 2008

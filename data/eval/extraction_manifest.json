@@ -1,0 +1,52 @@
+{
+  "cases": [
+    {
+      "case_id": "strong_resume",
+      "document_type": "resume",
+      "sample_name": "strong_fit_resume.txt",
+      "expected_eval": "strong_resume_parse_expected.json"
+    },
+    {
+      "case_id": "messy_resume",
+      "document_type": "resume",
+      "sample_name": "messy_resume.txt",
+      "expected_eval": "messy_resume_parse_expected.json"
+    },
+    {
+      "case_id": "low_confidence_resume",
+      "document_type": "resume",
+      "sample_name": "low_confidence_resume.txt",
+      "expected_eval": "low_confidence_resume_parse_expected.json"
+    },
+    {
+      "case_id": "cleaned_dataset_resume",
+      "document_type": "resume",
+      "sample_name": "dataset/resume_cleaned/hr/hr_16852973.txt",
+      "expected_eval": "cleaned_dataset_resume_parse_expected.json"
+    },
+    {
+      "case_id": "strong_jd",
+      "document_type": "job_description",
+      "sample_name": "strong_fit_jd.txt",
+      "expected_eval": "strong_jd_parse_expected.json"
+    },
+    {
+      "case_id": "messy_jd",
+      "document_type": "job_description",
+      "sample_name": "messy_jd.txt",
+      "expected_eval": "messy_jd_parse_expected.json"
+    },
+    {
+      "case_id": "partial_jd",
+      "document_type": "job_description",
+      "sample_name": "partial_fit_jd.txt",
+      "expected_eval": "partial_jd_parse_expected.json"
+    },
+    {
+      "case_id": "cleaned_dataset_jd",
+      "document_type": "job_description",
+      "sample_name": "dataset/jd_cleaned/information_technology/information_technology_01_software_engineer.txt",
+      "expected_eval": "cleaned_dataset_jd_parse_expected.json"
+    }
+  ]
+}

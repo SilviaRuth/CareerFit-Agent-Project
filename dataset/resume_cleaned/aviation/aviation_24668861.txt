@@ -1,0 +1,48 @@
+Candidate 24668861
+
+Summary
+Six Sigma Black Belt: Total Quality Management, SPC, QFD, Mistake-Proofing, Root Cause Corrective Action, Value Stream Mapping, Gage Capability, PFMEA, APQP, DFMEA, poka-yoke, Cpk, DMADV, QFD, SIPOC, COPIS, and CAPA. Results-driven Mechanical Engineer with solid product engineering and QA experience. Team-oriented Senior Quality Engineer with over five years experience developing and testing commercial and military turbines.
+
+Skills
+Training program implementation, The Mathworks MATLAB, Quality control, Energy management systems, Engineering software, Strong presentation skills, Process improvement, Operations research, Reliability Testing, Geometric Dimensioning, Lean Manufacturing, Physics, Material Properties, Leadership, Team player, Failure Analysis, Product Engineering, 3-D, Approach, auditing, calculators, continuous improvement, Data-mining, Derivatives, engineer, ETL, finance, Government, ISO, ISO 9001, law, Director, Materials, Mathematics, MATLAB, meetings, Minitab, Modeling, personnel, pricing, Proofing, proposal, Quality, Quality Assurance, Reporting, Research, RFP, routers, Six Sigma, SPC, Statistics, supply chain, Supply Chain Management
+
+Experience
+Senior Aerospace Quality Engineer, Redacted Company, 2009-2014
+- Handled the authorization of all internal blueprint and UTC revision changes.
+- Supervised the Non-Destructive Testing and ETL lab.
+- Performed AS9102 First Article Inspections and prepare all applicable documents for submittal per AS 9100 standards.
+- Directed Kaizen and Lean Manufacturing meetings weekly in front of an audience of about thirty engineers.
+- Identify negative quality trends and initiate appropriate corrective/preventative actions.
+- Lead project engineer of the JSF F-35 ramjet development stages.
+- Any engineering changes required my prior approval.
+- Review, authorize, and sign off all process routers making sure quality clauses and customer specifications are documented and acknowledged.
+- Maintained Aerospace Quality Management Systems both internal and external.
+- Collaborated with engineers and project managers regarding design parameters for client projects.
+- Initiated statistical analysis project that resulted in sound recommendations adopted by entire department through Value Stream Mapping.
+- Auditing experience with outside agencies and internal.
+- Trained junior level Quality Engineers on how to properly organize FAIR packages and also taught them helpful Six Sigma methods.
+- Handled all regulatory complaints from agencies such as the United States DoD and FAA and took appropriate corrective action.
+- Progressive knowledge of the Codes of Federal Regulations as they pertained to GE Aviation.
+
+Materials Program Manager, Redacted Company, 2005-2009
+- Focal point to Supplier Quality Assurance, Materials Control Lab, and Engineering Source Approval personnel to ensure the facility is compliant with procedures and audit requirements.
+- Maintain constant liaison and communicate effectively with clients.
+- Prepared accurate specifications for purchase of materials and equipment for purchasing department.
+- Lead the program's supply chain activities, and advise the SCM Director on material strategies and plans.
+- Reporting of unit reliability, repair costs, technical changes & investigations, repair shop capacity & performance metrics.
+- Developed and lead supply chain proposal activities including task descriptions, bases of estimates, RFP solicitation, and cost and pricing.
+- Develop the EAC (Estimate at Completion) and material forecasts by coordinating the collaborative inputs of the various elements of supply chain and finance.
+- Participate in Daily Management and prepare reports and corrective actions for Key Performance Indicators (KPI) in advance of monthly review.
+- Exert influence and have an effect on the overall objectives and long-range goals of programs and be an influencing member of the IPT (Integrated Product Team) team.
+- Strict adherence was followed using both customer and Aerospace standards.
+- Write reproduction procedures for any anomalies encountered, and generate comprehensive reports.
+- Demonstrate experience in manufacturing and continuous improvement tools.
+- Exert influence and have an effect on the overall objectives and long-range goals of the program and the program IPT team.
+- Working knowledge and training in Supply Chain Management, contract law, FAR/DFAR as it relates to Government contract
+- Directed customer installations maintaining cost efficiencies based on space and power allocation.
+- Resolved part and assembly discrepancies.
+
+Mathematics and Physics Tutor, Redacted Company, 2002-2005
+- Educate students on how to solve mathematical equations using formulas and proofs, and in addition, using technology, including the TI series calculators, MATLAB, and Minitab.
+- Tutor mathematical topics including Calculus 1, 2, 3, Differential Equations, Partial Derivatives, Statistics, Stochastic and Advanced Calculus, Discrete Mathematics, Linear Algebra, Number Theory, Finite Element Analysis, Lie Super-Algebra, Fluid Mechanics, Applied Physics, Solid State Physics, and Real Analysis.
+- Additionally, I worked with engineering students prepare for the FE Examand actuarial students prepare for their first four professional exams by appointment.

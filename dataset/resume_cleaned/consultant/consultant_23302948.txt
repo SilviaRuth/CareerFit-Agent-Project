@@ -1,0 +1,64 @@
+Candidate 23302948
+
+Summary
+Results driven and team oriented reservoir engineer with extensive experience in reservoir management, enhanced oil recovery, reserve evaluation, integrated reservoir modeling, compositional simulation, economic analysis, geomechanics, and project management, looking to utilize his diverse analytical and research skills in a challenging role. Fluent in English and French. Has experience working with professionals of different technical and cultural backgrounds.
+
+Skills
+Pressure and rate transient analyses, Decline curve analysis (Fekete Harmony), Volumetrics and material balance, Economic analysis (ARIES), Knowledge in SEC reserves estimation concepts, Project management, Reservoir management, History-matching and production forecast, Compositional and black oil simulation, Enhance oil recovery (Waterflooding, CO2 injection, WAG, and polymer flood)., Knowledgeable in unconventional resourse evaluation and modeling of fractured systems., Good understanding of reservoir geology and depositional system fundamentals, Geochemical modeling, Reservoir geomechanics, Good understanding of log and core analyses
+
+Experience
+Consultant, Redacted Company, 2009
+- Develop a semi-analytical equations to estimate CO2 storage efficiency and pressure changes at the wellbore.
+- Conduct fluid flow and geochemical simulations of CO2 and municipal wastewater injection.
+- Evaluate geomechanical effects of fluid injection into the Lawson formation.
+
+Reservoir Engineer, Redacted Company, 2011-2014
+- Work diligently with geoscience and engineering staff to develop models that reflect geology and reservoir features.
+- Collect and synthesize input data for compositional simulations.
+- Calibrate reservoir models to field observations and data.
+- Estimate reserves and forecast production using both analytical techniques and compositional simulation.
+- Evaluate the viability of different field development scenarios and new drilling locations.
+- History-match reservoir models to field observations and data.
+- Design 5-spot patterns of different sizes (20, 40, and 80 acres) for the eight oil fields.
+- Conduct miscible and immiscible compositional simulations of continuous CO2 and water-alternate-CO2 injection
+- Generate dimensionless curves from simulation results to evaluate EOR performance for each oil field.
+- Define, plan, monitor, and modify project. Evaluate progress using MS Project. (www.CO2sinkefficiency.org)
+- Work with a team of sedimentary geologists, geostatisticians, engineers, and field operators to develop rigorous geologic and geocellular models of formations having different depositional environments.
+- Mentor and train reservoir modeling staffs develop skills to conduct compositional simulations.
+- Develop simulation workflow and manage reservoir modeling tasks.
+- Design and manage the development of an access database tool used to analyze and interpret simulation results.
+- Provide general reservoir engineering and characterization expertise to other projects
+- Respond to request from field operators, agencies, and staff.
+- Lead research tasks in other projects.
+- Write reports, journal manuscripts and communicate results to management and clients.
+
+Post-Doctoral Research Engineer, Redacted Company, 2009-2010
+- Calculate equation of state using measured crude oil properties.
+- Upscale reservoir static model using Petrel.
+- Collect and generate input data for compositional simulations
+- History-match reservoir model to field data and estimate hydrocarbon reserves.
+- Conduct coupled flow-geomechanical reservoir simulation of CO2-EOR and storage using Visage.
+- Analyze simulation results and evaluate changes in reservoir stress and strain
+- Correlate predicted geomechanical stress changes with bserved microseismicity
+- Conduct simulation studies to evaluate impact of inflow-control-devices on well injectivity.
+
+Geophysical survey assistant, Redacted Company, 2004-2005
+- Line-up cables and place geophones for geophysical surveys
+- Assist in equipment and personnel transportation to field sites.
+
+Education
+Training, 2014, Landmark Aries training course, June 05, 2014, Houston, Texas. Practical aspects of CO2 flo0ding, April 13, 2014, SPE 19th Symposium on Improved Oil Recovery, Tulsa, OK. Reservoir characterization from laboratory to field, April 12, 2014, SPE 19th Symposium on Improved Oil Recovery, Tulsa, OK.
+
+Training, 2013, Landmark Nexus Basic Reservoir Simulation Course, May 20-22, 2013, Houston Texas. Landmark Nexus Intermediate Reservoir Simulation Course
+
+Training, 2012, Kepner-Tregoe Project Management Workshop, July 11-13, 2012, Champaign, Illinois.
+
+Training, 2011, Evaluating Reservoir Quality, Seal Potential, and Net Pay Course, July 14-15, 2011, Champaign, Illinois.
+
+Ph.D in Civil Engineering, University of South Florida, 2009
+
+M.S in Petroleum Engineering, Technical University of Denmark, 2004
+
+B.S in Chemistry, University of Buea, 1997, Minor in Chemical Process Technology
+
+Training, Schlumberger Eclipse, Petrel, VISAGE, and PVTi, on-the-job training, 2010

@@ -1,0 +1,29 @@
+Candidate 25080805
+
+Skills
+Strong knowledge of SAS, R and SSPS programming, Excellent research skills, Microsoft Word, Excel, PowerPoint, Excellent quantitative skills, Team leadership, Organizational planning, Leadership/communication skills, Customer-oriented
+
+Experience
+internship, Redacted Company, 2014-2014
+- Main tasks of this job: 1.Collect, enter and analyze stock prices: collect useful data and enter them into the database in a correct classification way, use statistical methods to analyze them based on R programming.
+- 2.Predict the future trend of different stocks and divide them into different category: use time series methods to predict the trend 3.Write summary report: use statistical methods to analyze data with R and write the performance evaluation report based on quantitative facts.
+- 4.Customer service: answer the phone call and solve customers' problems and do the reception job at the front table.
+- Also offer the instruction about stocks and how to choose them to new clients.
+- 5.design the questionnaire and the get the feedback
+
+internship, Redacted Company, 2013-2013
+- Main tasks about the job: 1.data collection and entering: collect financial data and classify them into the correct table and items.
+- 2.Write summary report: use statistical methods to analyze data with R and write the performance evaluation report based on quantitative facts.
+- 3.Customer service: answer the phone call and solve customers' problems and do the reception job at the front table.
+- 4.inventory control: keep record of the number of materials and keep track of the way they out and in.
+- 5.arrangement the business trip: book the hotel, arrange the schedules for each day, keep track of the budget of the business trip.
+
+internship, Redacted Company, 2012-2013
+- Main tasks about the job: 1.data collection and entering: collect financial data and classify them into the correct table and items.
+- 2.Write summary report: use statistical methods to analyze data with R and write the performance evaluation report based on quantitative facts.
+- 3.Customer service: answer the phone call and solve customers' problems and do the reception job at the front table.
+- 4.Meeting preparation: prepare documents need in the meeting, make sure all the participants can come, prepare PowerPoint slides and arrange the meeting room.
+- 5.Introduce production to customers: introduce financial products which the most suitable to the client and persuade them to buy.
+
+Education
+Master of Science in Statistics, University of Missouri, 2015, President of Chinese students' and scholars' association 3.7 GPA Coursework in practical statistical models, data analysis 1, 2, 3, statistical software and data analysis, introduction of probability theory, statistical inference, time series analysis, survival analysis, experimental design, current development in statistics. SAS advanced license

@@ -1,0 +1,77 @@
+Candidate 12526702
+
+Summary
+Skilled professional with 15 years of experience in electrical and quality engineering for numerous engineering and quality control processes. Expertise in creating detailed test plans and test cases for optimal quality control. Solid background in various testing methodologies for both client-facing and non-client-facing procedures and products.
+
+Skills
+AutoCAD, OrCADD, C, C++, Customer Support, Data Acquisition, Data Analysis, Database, FDA, GMP, Government, Interface Design, Labview, MS Access, MS Excel, MS Power Point, Microsoft Project, Microsoft Visual Basic, Microsoft Windows, MS Word, NT, Organizational leadership, Problem solving, Product Development, Procedure Writing, Programming, Project management, Protocols, Quality Improvement, Quality Control, Risk Assessment, Strategic Planning, System Integration, Technical Support, Presentations
+
+Experience
+Consultant, Redacted Company, 2009-Present
+- Conducted product analysis to address products high failure rates, which led to more than 15% decrease in failure rate.
+- Provided failure analysis, engineering support, forensic investigation, and statistical data analysis.
+- Provided training to staff in leadership, strategic planning, and organizational management.
+
+Electrical Engineer, Redacted Company, 2007-2008
+- Provided Systems and Electrical Engineering Support for Government Programs Development.
+- Supported vehicle hardware and integration, vehicle systems modeling and analysis, and systems requirements.
+- Provided System Integration Design usining MIL-STD-1553 interface, EIA RS-422 interface design, USB and Ethernet interfaces.
+- Performed Installation, Testing, and verification of Simulators' Audio Visual Systems.
+- Developed Vehicle's Software Test Description (STD), Interface Design Description (IDD).
+- Developed Interface Cable Systems for vehicles.
+
+Principal Electrical Engineer, Redacted Company, 2005-2006
+- Provided Engineering Support of Dialysis Instruments.
+- Planned and led project functions.
+- Provided project management, failure analysis, and forensic investigation of manufacturing and product field failures.
+- Provided expert advise on the Quality Improvement Team (QIT)
+- Performed products trend analysis, statistical data analysis calculations of raw data, DFMEAs, and design reviews.
+- Managed CAPA's and Risk assessment Analysis.
+- Ensured proper documentation of phase deliverables in Products Design History/Technical Files, Technical Summaries, Technical Manuals.
+- Wrote Products Test Protocols and Procedures
+- Conducted Environmental Tests for product reliability.
+
+Systems Engineer, Redacted Company, 2003-2004
+- Implemented test plans, validation protocols, verified code changes, identified and investigated bugs.
+- Performed stress tests and assessed product functionality and usability.
+
+Electrical Engineer, Redacted Company, 2001-2003
+- Designed power controls distribution and avionics wiring.
+- Performed Analysis on Voltage Power System control.
+- Designed and developed electrical test equipments.
+- Installed and verifiedn Simulators' Audio Visual Systems.
+
+Systems Quality Engineer, Redacted Company, 2000-2001
+- Wrote and implemented quality control procedures
+- Maintained weapon engagement simulation systems.
+- Provided Technical Support to manufacturing and Quality control for testing and calibration of laser equipments System
+- Designed and developed electrical test fixtures for optical devices.
+- Provided Logistical Support and Analysis, Reliability And Maintainability Analysis, Human Factors Analysis.
+- Conducted product reliability testing using environmental test chambers.
+- Made technical presentations to customers worldwide, which resulted in several government contracts with US supported Military Contracts with Egypt, Kuwait and Turkey.
+
+Applications Engineer, Redacted Company, 1999-2000
+- Improved Character and Graphic LCD displays designs, engineering changes, and customer support, product testing and validation.
+- Resolved customers' technical issues, which improved company's customer relations.
+- Resolved customers complaints and concerns.
+
+Project Engineer, Redacted Company, 1995-1999
+- Developed test programs, calibration test equipments
+- Maintained Automated Test Equipments (ATE)
+- Performed failure mode analysis, yield enhancement, statistical process
+- Developed and executed test plans, validation protocols, test procedures to support manufacturing lines of medical instruments.
+
+Reliability Engineer, Redacted Company, 1990-1995
+- Prepared the Company's Quality and reliability Metrics of all products, safety and hazard analysis, failure mode and effect analysis (FMEA), reliability metrics, and system assurance analysis (SAA)
+- Prepared product complaints information reports, medical device reports (MDR).
+- Monitored products reliability, maintainability, and availability.
+- Performed System criticality assessment (SCA) on several products
+- Analyzed acceptance of incoming material and in-process material, product return information, and product investigations.
+- Wrote test procedures and maintained the Quality Control database.
+- Executed and troubleshot Reliability Test plans.
+- Performed Reliability data analysis and reports distribution.
+
+Education
+Bachelor of Science in Electrical Engineering Minor in Computer Science, Northeastern University, 1997, Electrical Engineering; Minor in Computer
+
+Organization and Management, Capella University, 2011

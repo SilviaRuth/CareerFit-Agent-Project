@@ -1,0 +1,13 @@
+{
+  "parser_level": "high",
+  "min_score": 0.95,
+  "extraction_complete": true,
+  "required_fields": {
+    "candidate_name": "Alex Chen",
+    "summary": "Backend engineer with 6 years of experience building Python APIs for healthcare and workflow products.",
+    "skills_count": 8,
+    "experience_count": 2,
+    "education_count": 1
+  },
+  "unsupported_sections": []
+}

@@ -1,0 +1,11 @@
+Candidate 12043694
+
+Skills
+Installation, Configuring, and Management of Windows 7, Active Directory Windows Server 2008 R2, Administration of Active Directory, Managing Windows Server 2008 R2 Components, IP Addressing & Name Resolution, Network Components of Windows Server 2008 R2, Windows Server 2008 R2 MCSE 70-640, MCSE 70-642 and MCSE 70-646 Key Differences between Server 2003 and Server 2008., Windows 7 Domain Integration & Client Support. DHCP, WINS, RRAS, IPSEC, TCP/IP, & Computer Troubleshooting., Installing and supporting Windows 7 and Windows Server 2008 in virtual environment., IP and IP Routing, DHCP, Remote Access. Installing, managing, and maintaining hardware., Configuring Domain Name Resolution, Network Connectivity, Installing and Deploying Windows Server 2008., Windows Server 2008 AD DS, Domain Controllers, Sites and Replication, Domains and Forests., Windows Server 2008 AD Group Policy, Managing Files, Backup, Managing Printers, File Servers, Monitoring Computers, Patch Management and Security, Certificate Services and Server Virtualization, In depth knowledge of the following: Network protocols and devices, TCP/IP including Sub netting and CIDR notation., A+ Certified, Active Directory, Backup Hardware, Computer Troubleshooting, Client Support, IP Configuration, Power Point, Excel, Word, Access, MCSE, Windows 7, Network Security, Routing, TCP/IP Protocol.
+
+Education
+Bachelor of Science in Information System Security, Colorado Technical University, 2016, Pursuing BAS in Information System Security
+
+Certificate of Completion in Network Administrator, Centriq Training, 2012
+
+Bachelor of Science in Information Security, Columbia Southern University, 2011, Pursuing BAS in Information Security

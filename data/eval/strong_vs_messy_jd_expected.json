@@ -1,0 +1,21 @@
+{
+  "pair_id": "strong_vs_messy_jd",
+  "expected_fit_label": "strong",
+  "required_skill_matches": [
+    "4+ years experience",
+    "python",
+    "fastapi",
+    "rest api design"
+  ],
+  "preferred_skill_matches": [
+    "postgresql",
+    "aws",
+    "healthcare"
+  ],
+  "top_gaps": [],
+  "blocker_flags": {
+    "missing_required_skills": false,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

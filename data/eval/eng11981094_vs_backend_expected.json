@@ -1,0 +1,31 @@
+{
+  "pair_id": "eng11981094_vs_backend",
+  "expected_fit_label": "poor",
+  "required_skill_matches": [
+    "4+ years experience",
+    "rest api design"
+  ],
+  "preferred_skill_matches": [],
+  "top_gaps": [
+    {
+      "requirement_label": "python",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "fastapi",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "pytest",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": true,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

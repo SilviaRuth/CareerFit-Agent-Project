@@ -4,6 +4,8 @@
 
 These decisions are the default baseline for v1 planning as of 2026-04-16.
 
+Implementation note: the current repository has already moved beyond the original plain-text MVP. The active codebase now includes bounded PDF/DOCX ingestion plus grounded rewrite and interview-prep flows, while the locked defaults below still apply unless explicitly replaced.
+
 ---
 
 ## Locked Defaults
@@ -62,6 +64,19 @@ It will not support in v1:
 - multi-agent orchestration
 - frontend delivery
 - file parsing beyond plain text
+
+Current repo status beyond the original MVP boundary:
+
+- bounded file parsing for `.txt`, `.pdf`, and `.docx`
+- dedicated parse endpoints
+- single-orchestrator grounded generation via `/rewrite` and `/interview-prep`
+
+Still intentionally out of scope by default:
+
+- retrieval
+- semantic matching
+- multi-agent orchestration
+- frontend delivery
 
 ---
 

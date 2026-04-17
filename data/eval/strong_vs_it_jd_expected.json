@@ -1,0 +1,30 @@
+{
+  "pair_id": "strong_vs_it_jd",
+  "expected_fit_label": "poor",
+  "required_skill_matches": [
+    "python"
+  ],
+  "preferred_skill_matches": [],
+  "top_gaps": [
+    {
+      "requirement_label": "knowledge of data structures and algorithms",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "experience with software development lifecycle",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "strong problem-solving skills",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": true,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

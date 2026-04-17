@@ -1,0 +1,33 @@
+Candidate 28923650
+
+Summary
+Graduating Ph.D. candidate with a research focus on developing large-scale computational models using statistics and machine learning approach. Interested in a career as a computational scientist or quantitative software developer.
+
+Skills
+Air Force, ANSYS, approach, C, CAD, decision-making, designing, experimentation, Experiments, features, FORTRAN, instructor, lesson planning, machining, marketing, Materials, MATLAB, Mechanical Design, Microsoft Office, Modeling, NASTRAN, enterprise, OS, optimization, PATRAN, camera, physics, predict, Process Control, Research, research and design, robotic, Solidworks, Statistical Process Control, teaching
+
+Experience
+Thermal Engineering Intern, Redacted Company, 2011-2011
+- Hands-on training at large-scale industrial plants.
+- Learned about designing and manufacturing of large power generating equipment, including axial compressor, energy recovery turbo-expander, centrifugal compressor, centrifugal blower, large fan, steam turbine, etc.
+- Studied management mode of enterprise, production and marketing process.
+- AFRL-University Collaborative Center in Structure Sciences Cooperated with the Air Force Center focusing on the development of affordable and reusable hypersonic vehicles.
+- Varied research tasks throughout including: developing methodologies to efficiently predict dy- namic response of a "representative" panel with nonlinear geometric deformations; modifying structural and thermal models to reflect: (i) the multidisciplinary interactions (ii) the evolution of material properties (iii) the occurrence and evolution of material nonlinearity.
+
+Researcher, Redacted Company, 2011-2013
+- Worked alongside ASU faculty in the research and design of assistive robotic devices which needed efficient.
+- control strategies.
+- Varied research tasks throughout including: fabricating an infrared position sensor suit,.
+- machining mounting plates for a position sensor camera, and MATLAB utilization for data and signal.
+- processing.
+
+Teacher's Assistant, Redacted Company
+- Assisted instructor in running experimentation laboratory for Internal Combustion Engine (ICE) course.
+- Oversaw over 90 students and compiled each lab document along with lesson planning and teaching.
+- Hands.
+- on experience with assembling, disassembling and testing ICEs.
+
+Education
+Doctor of Philosophy in Mechanical Engineering, Arizona State University, Dec 2016, GPA: 3.9/4.0
+
+Master of Science in Mechanical Engineering, Arizona State University, December 2013, GPA: 4.0/4.0

@@ -1,0 +1,29 @@
+Candidate 43378989
+
+Summary
+In-depth knowledge and understanding of numerous software packages and operating systems. Skilled in Database Administrator, Network Administration, Web developer. Providing Customer and End-User Help Desk Support. Easily identify and resolve technical issues and concerns. Excellent communication and presentation capabilities
+
+Skills
+API, Billing system, C, C++, Hardware, Database, Dns, e-commerce, Eclipse, EJB, XMl, Ftp, hard drives, Html, Hubs, Ide, Information Technology, Java, JSP, JavaScript, memory, Access, Microsoft Access, C#, Excel, Office, Outlook, PowerPoint, Microsoft Visio Professional, Windows 7, Windows 8, Microsoft Windows XP, MS Word, MySQL, Network, Networks, object-oriented design, Oracle, Peripherals, coding, programming, RAID, Router, Servers, Servlet, Microsoft SQL Server, SQL Server, cisco switches, system design, Tcp/Ip, Team work, user documentation, Uml, Vpn, Microsoft Visual Basic, Visual Studio, website, written, Xhtml
+
+Experience
+Consultant, Redacted Company, 2014-2017
+- Provided object-oriented design, programming and implementation support to the customer Billing system written in Java Design database system for e-commerce website with persistence EJB platform Prepared test plans and data, and user documentation for customer billing system.
+- Problem-solved hardware issues with fault -tolerant hard drives.
+
+Database Administrator, Redacted Company, 2009-2017
+- Working with database management systems, determining and storing data.
+- Identify user needs and set up new computer database.
+- Integrate data from outdated systems to new system.
+
+Machinist, CNC Programmer, Redacted Company, 2001-2009
+- Setup fixtures, program CNC machines for plumbing equipment
+
+Education
+Bachelor of Science in Computer Science/ Information Technology, Limestone College, May 2013
+
+Bachelor of Science in Business Administration, Limestone College, Dec. 2011
+
+Bachelor of Science in Computer Science Software/Programming, Limestone College, Dec. 2011
+
+Master's degree Information Technology(MIT), University of Virginia Tech Present

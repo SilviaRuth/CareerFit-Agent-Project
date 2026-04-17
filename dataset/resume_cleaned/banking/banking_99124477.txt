@@ -1,0 +1,27 @@
+Candidate 99124477
+
+Summary
+7+ years of experience in Analysis, Design, Coding, Testing, Database Administrator & Production Support of application software in Mainframe platform. Having working Domain experience in the areas of Banking, Financial, Warehouse, Legacy System. Extensive hands on experience on IBM Mainframe Application programming using COBOL II, CICS, JCL, DB2, VSAM, UNIX. Using BRIO for generation of Usage Reports. Extensively used debugging tools such as XPEDITOR, IBM DEBUGER. Hands on experience on DB2 tools such as QMF, SPUFI, FILE-AID, DB2 Admin, DB2 command editor. Expertise in using configuration management tools ENDEVOR, SCLM. Good exposure on Analysis and Designing of Documents like Software requirement Specifications (SRS) and specification design documents (HLD and LLD). Expertise in using scheduling tool OPC. Excellent in Problem Troubleshooting, Problem resolution and root cause analysis. Excellent knowledge of both Batch and Online Systems running on Mainframes. CERTIFICATIONS: IBMCertified z/OS Database AdmiN,DB2 Application Developer and DB2 UDB V8 family Fundamentals Certifications.
+
+Skills
+analytical skills, banking, CICS, COBOL-II, COBOL, client, clients, Database, delivery, documentation, ENDEVOR, English, File-Aid, functional, Hindi, IBM, DB2, DB2 8.0, DB2 9.0, IBM-MVS, ISPF, JCL, Languages, team building, Team Lead, Mainframe, MS-Access, Windows, News-Letter, OS, Developer, PL1, Coding, proposals, QMF, quality, Quest, reengineering, reporting, REXX, scheduling, SPUFI, SQL, TSO, UDB, VSAM
+
+Experience
+Associate Consultant, Redacted Company, 2010-2014
+
+HSBC CORE BANKING, Redacted Company, 2010-2014
+- HSBC Database: DB2 9.0 Team Size: 10 Role: Developer -> Team Member -> Team Lead Env: Mainframe Z/OS Technology: IBM-MVS, DB2, SPUFI, Scheduler, REXX, JCL/PROC, VS COBOL-II, COBOL, CICS, ENDEVOR, EXPEDITOR, R2DS, MQ Roles / Responsibilities: Managed Team of more than 7 members Proactively taking up the responsibilities as and when demanded Done Resource Management activities: Resource Onboarding, Fun Fridays, News-Letter, team outings, Daily status reporting, Leave management, timesheet management without any schedule slippage Mentored the new team members and solve their technical issues and prepared documentation for commonly occurring technical issues.
+- Worked in different modules / streams as below during the project tenure: Product and parameters Account maintenance Cheque management Account value Taxation Advice, statements and reporting Exception handling Bulk inputs Fees & Interests OAM Gained in-depth core banking knowledge like important control record setup, complete transaction flow on an account and application of fees and interest on an account.
+- Providing design proposals and Development of new programs to handle various functions of banking activities both online and batch.
+- Creating the CICS MAP from scratch and developing the Presentation layer and service programs As a coordinator for various releases, taken responsibility of daily status reporting and follow ups as and when required, resolved proactively functional/technical hurdles that can impact the deliverables, which resulted in timely and flawless delivery for all the releases Creating High level design document and providing best architectural solution possible Providing of Techinical Specifications based on business requirment.
+- Proving the solutions for performance tunning and working on testing part, STUB creation and other activity for tunning Creating UTP for the service and online programs Tracking and reporting all the defects in SIT and sent out status reports as and when required Working in POC project for E2E process of reengineering activity Resolving production issues, Abends & tickets, working on code changes, scheduling change, bug fixing, completing adhoc & business requests were our priority work.
+- Gain ability to work under high pressure and to complete deliverables on time with high quality Working in a team, which had team members of similiar experience as of me and proving myself among them would also be the one of the important achivement Active player in project / allocating tasks within team and timely delivered the tasks to clients Involved in various Reviews of project deliverables - Document Reviews, Code Reviews, peer reviews Handle the responsibility of arranging the knowledge improving sessions for team which includes domain knowledge, technical sessions and walkthrough of projects so that all the team member have the knowledge of all the projects and all are in same platform Emphasis on preparing document in every phase of project like testing reports, learning's during project, technical issues faced in project and how it was solved as if someone else faces it they can directly refer to document and solve in less time.
+- Creation of STUB program / Batch modules for manipulation of 20 million records Working on Performance Testing and Tuning for different Batch programs.
+- Active participation in Impact Analysis, Coding and Unit Testing, AIT / SIT phases.
+- Involved in various Reviews of project deliverables - Document Reviews, Code Reviews, peer reviews Involved in Retrofit activity and Reviews.
+- Working in SIT defect resolution team.
+
+SYSTEM ENGINEER, Redacted Company, 2007-2010
+
+Education
+MBA in Finance, Symbiosis University, 2011, BE Computer - Pune University 2005

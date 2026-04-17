@@ -1,0 +1,13 @@
+{
+  "parser_level": "low",
+  "min_score": 0.05,
+  "extraction_complete": false,
+  "required_fields": {
+    "candidate_name": "Jamie Doe",
+    "summary": "",
+    "skills_count": 0,
+    "experience_count": 0,
+    "education_count": 0
+  },
+  "unsupported_sections": []
+}

@@ -1,0 +1,35 @@
+Candidate 15145575
+
+Skills
+Active Directory, Backup, CCNA, CISCO, Cisco Certified, Computer Hardware, Hardware, Client, customer satisfaction, Dec, DHCP, DNS, EIGRP, English, ERP, Firewalls, FTP, GUI, Hindi, IP, LAN, Managing, access, Microsoft Certified Professional, MCP, mail, Microsoft office, Office, outlook, Windows 8, Windows, Windows7, Windows XP, migration, ESS, Network Associates, Network Printers, network and troubleshooting, network, Networking, OSPF, policies, printer, Protocols, RIP, Routers, Routing, SAP, SAP Basis, Servers, Switches, technical support, Phones, TELNET, Terminal Server, Troubleshooting, Vista, WAN, Windows Server
+
+Experience
+IT Support Officer, Redacted Company, 2011-2015
+
+System Administrator, Redacted Company, 2010-2011
+
+Lab Technician Technical Support, Redacted Company, 2009-2010
+- Comprehensive knowledge of CISCO networking technologies and Protocols.
+- Handling the network infrastructure LAN/WAN, migration & configuration of network Devices (Routers, Switches, Firewalls etc.).
+- Skilled in planning and implementing LAN/WAN solutions.
+- Configuring Routing protocols (RIP, EIGRP.
+- OSPF, Static and Default Route) Assisting in the design & implementation of the network and troubleshooting.
+- Troubleshooting Extending high-end technical support on various Servers and ensuring high customer satisfaction levels through prompt redressal of their problems.
+- Configuring and troubleshooting IP Phones, Network Printers and Virtual Interface (VMWare) related issues.
+- Assigning user nodes to various devices installed and networked, handle allocation and protection of user rights, as per company's policies.
+- Configuration and Maintaining LAN installing Active Directory, DNS, DHCP, FTP, TELNET,User profile, Remote Connectivity, Assigning IP Address, Managing Local and Domain User's Account, and sharing Permission, Terminal Services, Trusting, Software Deployment etc.
+- Configure windows server 2003 and 2008 with Active Directory,Terminal Server Group Policy and manage Data server with security.
+- SAP Basis Client GUI installation.
+- SAP Online Support System Backup and Recovery DR to HADR Data synchronization Monitoring.
+- User management Transaction Lock/Unlock User Authorization and Users Role Windows Servers Microsoft active directory services, Server 2003-2008, Configure Domain security policies, Local security policies Configure and manage File server and Share Folders.
+- Design: DNS and DHCP servers in 2003-2008 Server.
+- Configure and Manage Users profiles.
+- share folders and implementing group polices.
+- Configuration Microsoft Terminal services, RDP, and other remote access tools.
+
+Education
+B.A, EIILM University
+
+Higher Secondary passed From M.P. Board Bhopal. High School passed From M.P. Board Bhopal. Professional Certifications MCP Microsoft Certified Professional fist paper clear of administering Windows Server 2012 in June 2013. (ID No. 10171726) CCNA - Cisco Certified Network Associates in Dec. 2009. (ID No. 11716258) JCHNP- Jetking Certified Hardware Networking Professional from jetking infotrain limited ,A.B. Road Indore
+
+M.P, 2010

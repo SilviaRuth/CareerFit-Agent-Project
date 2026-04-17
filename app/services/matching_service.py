@@ -13,7 +13,14 @@ from app.core.config import (
 )
 from app.schemas.common import EducationItem, EvidenceSpan, RequirementItem
 from app.schemas.jd import JDSchema
-from app.schemas.match import BlockerFlags, DimensionScores, GapItem, MatchResult, RequirementMatch
+from app.schemas.match import (
+    BlockerFlags,
+    DimensionScores,
+    EvidenceSummary,
+    GapItem,
+    MatchResult,
+    RequirementMatch,
+)
 from app.schemas.resume import ResumeSchema
 from app.services.extraction_service import extract_jd_schema, extract_resume_schema
 
@@ -119,6 +126,12 @@ def match_schemas(resume_schema: ResumeSchema, jd_schema: JDSchema) -> MatchResu
         strengths=strengths,
         explanations=explanations,
         evidence_spans=all_evidence,
+        evidence_summary=_build_evidence_summary(
+            evidence_spans=all_evidence,
+            required_matches=required_matches,
+            preferred_matches=preferred_matches,
+            gaps=all_gaps,
+        ),
     )
 
 
@@ -533,6 +546,39 @@ def _weighted_overall_score(dimension_scores: DimensionScores) -> int:
         + dimension_scores.education * MATCH_WEIGHTS["education"]
     )
     return int(round(weighted_total / 100))
+
+
+def _build_evidence_summary(
+    *,
+    evidence_spans: list[EvidenceSpan],
+    required_matches: list[RequirementMatch],
+    preferred_matches: list[RequirementMatch],
+    gaps: list[GapItem],
+) -> EvidenceSummary:
+    """Build grouped evidence counts for easier regression review."""
+    resume_section_counts: dict[str, int] = {}
+    jd_section_counts: dict[str, int] = {}
+    for span in evidence_spans:
+        target = (
+            resume_section_counts
+            if span.source_document == "resume"
+            else jd_section_counts
+        )
+        target[span.section] = target.get(span.section, 0) + 1
+    return EvidenceSummary(
+        total_evidence_spans=len(evidence_spans),
+        resume_evidence_spans=sum(
+            1 for span in evidence_spans if span.source_document == "resume"
+        ),
+        jd_evidence_spans=sum(
+            1 for span in evidence_spans if span.source_document == "job_description"
+        ),
+        resume_section_counts=resume_section_counts,
+        jd_section_counts=jd_section_counts,
+        required_match_count=len(required_matches),
+        preferred_match_count=len(preferred_matches),
+        gap_count=len(gaps),
+    )
 
 
 def _status_value(status: str) -> float:

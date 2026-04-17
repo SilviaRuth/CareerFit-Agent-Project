@@ -1,0 +1,42 @@
+Candidate 42156237
+
+Summary
+Highly analytical and process-oriented data analyst with in-depth knowledge of marketing project management, data manipulation and visualization. Furnish insights, analytics and business intelligence to advance opportunity identification, process reengineering and corporate growth. Core Qualifications Market Segmentation Business Intelligence Reporting Regression Analysis Business Analysis Dashboard generation Data Mining Data Modeling Statistical Analysis Data Experiments Project Management Process Improvement
+
+Skills
+Power user of MS Excel, Power BI, Power Query, Power Pivot, Qlikview Desktop, Minitab, Tableau, Google Analytics, JIRA, Salesforce, TSQL, SQL, HTML, PHP, JavaScript, MS Access, MS Visio, MS Project. In progress - R, Python., budget, BI, content, clients, database, English, ETL, German, Hindi, marketing, market, MS Excel, MS Project, MySQL, optimization, profit, progress, Punjabi, Python, reporting, sales, Visio
+
+Experience
+Senior Digital Marketing Analyst, Redacted Company, 2016-Present
+- Design and build dashboards to help analyze, monitor and visualize key performance metrics.
+- ADD skills, accomplishment style.
+- Interpret data, extract trends and identify insights or opportunities for product decisions.
+- Design and monitor end-user reporting tools and systems, ensuring reports are accurate and up-to-date.
+- Work with internal stakeholders and teams across the company.
+- Accomplishment:.
+- A 30% increase in revenue by segmenting, resulting in an incremental $2M profit.
+
+Web Analyst, Redacted Company, 2014-2016
+- Extracted, transformed and loaded (ETL) customer data using code that was Developed.
+- using SQL.
+- Built dashboards to monitor and control marketing efforts.
+- Helped identify and repair datasets that are incomplete, inconsistent, or require cleaning.
+- Handled internal customer data inquiries, data investigations, or other information requests from project teams.
+- Helped investigate and understand available data sources on the market to solve customer site content challenges.
+- Accomplishment:.
+- A 20% optimization in marketing cost by re-allocating $2M budget to profitable areas.
+
+Web Developer, Redacted Company, 2002-2005
+- Developed customized web solutions using PHP, HTML, and JavaScript for clients.
+- Created database structures, relationships, and data types in MySQL and MS Access.
+- Accomplishment:.
+- Increase of 22% in sales by increasing overall visitor traffic by over 400K.
+
+Education
+Masters of Business Administration
+
+MBA, University of Redlands, 2013
+
+Bachelor of Sciences, University of Hamburg, 2011
+
+College - Berufsschule City Nord,, 2007

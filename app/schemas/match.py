@@ -58,6 +58,19 @@ class BlockerFlags(BaseModel):
     unsupported_claims: bool = False
 
 
+class EvidenceSummary(BaseModel):
+    """High-level evidence tracing summary for review and regression analysis."""
+
+    total_evidence_spans: int = 0
+    resume_evidence_spans: int = 0
+    jd_evidence_spans: int = 0
+    resume_section_counts: dict[str, int] = Field(default_factory=dict)
+    jd_section_counts: dict[str, int] = Field(default_factory=dict)
+    required_match_count: int = 0
+    preferred_match_count: int = 0
+    gap_count: int = 0
+
+
 class MatchResult(BaseModel):
     """Structured output for the deterministic matching pipeline."""
 
@@ -70,3 +83,4 @@ class MatchResult(BaseModel):
     strengths: list[str] = Field(default_factory=list)
     explanations: list[str] = Field(default_factory=list)
     evidence_spans: list[EvidenceSpan] = Field(default_factory=list)
+    evidence_summary: EvidenceSummary = Field(default_factory=EvidenceSummary)

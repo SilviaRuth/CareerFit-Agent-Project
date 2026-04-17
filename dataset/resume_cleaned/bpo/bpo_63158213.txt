@@ -1,0 +1,14 @@
+Candidate 63158213
+
+Summary
+Bilingual Network Engineer offering in-depth understanding of IT infrastructure areas, particularly IT Network Design, Implementation & Optimization of Wired & Wireless Network. Detail-oriented self-starter with demonstrated success in initiating, tracking, reporting and closing projects.
+
+Skills
+Routers: Cisco 17XX, 18XX, 26XX, 28XX, 37XX, 38XX, 39XX &72XX series & ASR 1K & 9K Series Switches: Cisco 3550, 3750, 45XX, 65XX series, Nexus 5K, 2K, 7K, 9K Load Balancer: Cisco CSS, F5 Networks WAN Optimization: Cisco WAAS, PPP Multilink Routing: OSPF, EIGRP, BGP, RIP-2, PBR, Route Filtering, Redistribution, Summarization, Static Routing. Switching: VLAN, VTP, STP, PVST+, RPVST+, Inter VLAN routing &Multi- Layer Switching, Multicast operations, Layer 3 Switches, Ether channels, Transparent Bridging LAN: Ethernet, Fast Ethernet, Gigabit Ethernet, FDDI, CDDI, Token Ring, ATM LAN Emulation WAN: Leased lines 64k - 155Mb (PPP / HDLC), channelized links (E1/T1/E3/T3), Fiber Optic Circuits, Frame Relay, ISDN, and Load Balancing. Various Features & Services: IOS and Features, HSRP, GLBP, IRDP, NAT, SNMP, SYSLOG, NTP, DHCP, CDP, DNS, TFTP and FTP Management. IP Telephony: IP Telephony utilizing Cisco routers, FXO/FXS/E&M/T1/ISDN/ PRI, Call manager (publisher & subscriber) AAA Architecture: TACACS+, RADIUS, Cisco ACS. Security / Firewalls: Cisco ASA Firewalls 55XX, IPSEC & SSL VPNs, IPS/IDS, DMZ Setup, CBAC, Cisco NAC, ACL, IOS Firewall features, IOS Setup & Security Features Juniper: EX 2200, EX 4200, EX 4500, MX-480, M Series, SRX210, SRX240 VPN: Remote VPN & Site to Site VPN, DMVPN Wireless Site assessment using AirMagnet & Ekahua Adaptors.​ Installation, configuration and maintenance of Palo Alto Firewalls. ​
+
+Education
+MBA in IT, London School of Accountancy & Management, 2011
+
+PGDMS in Management, London School of Accountancy & Management, 2010
+
+Associate of Science in Science, Rizvi College of Arts, Science & Commerce, 2001

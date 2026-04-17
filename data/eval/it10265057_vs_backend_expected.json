@@ -1,0 +1,28 @@
+{
+  "pair_id": "it10265057_vs_backend",
+  "expected_fit_label": "poor",
+  "required_skill_matches": [],
+  "preferred_skill_matches": [],
+  "top_gaps": [
+    {
+      "requirement_label": "4+ years experience",
+      "requirement_priority": "required",
+      "gap_type": "seniority_mismatch"
+    },
+    {
+      "requirement_label": "python",
+      "requirement_priority": "required",
+      "gap_type": "missing_evidence"
+    },
+    {
+      "requirement_label": "fastapi",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": true,
+    "seniority_mismatch": true,
+    "unsupported_claims": false
+  }
+}

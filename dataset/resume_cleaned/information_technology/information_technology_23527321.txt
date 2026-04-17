@@ -1,0 +1,61 @@
+Candidate 23527321
+
+Skills
+SAP, Business Process Design, Dispersed Team Management
+
+Experience
+Head, Information Technology and Information Center, Redacted Company, 2015
+- Provide leadership and direction to the GMS Information Center - a collection of data scientists and analysts dedicated to the production of high-value analytics to support manufacturing.
+
+Director, Supply Chain and Logistics Information Technology, Redacted Company, 2010-2015
+- Established supply chain technology direction for global manufacturing organization.
+- Established the GMS Information Center - an organization dedicated to providing advanced analytical capabilities to support the manufacturing organization.
+- Delivered key transformational projects including: Demand Planning Solution (SAP APO) Supply Planning and Sales and Operations Planning (Kinaxis RapidResponse) Inventory Optimization (Kinaxis RapidResponse) Provide leadership and direction to delivery and business analysis teams executing projects.
+- Lead business process re-engineering efforts and provide guidance and support to business subject matter experts.
+- Supported development and execution of Global Sales and Operations process.
+
+Senior Director, COMET Program, Redacted Company, 2009-2010
+- Responsible for managing the delivery efforts for the global COMET program, focusing on the procurement, employee expense management and eSourcing areas.
+- Directed ongoing rollouts in North America, Europe and Asia Pacific regions.
+
+Director, SAP Center of Excellence, Redacted Company, 2005-2009
+- Responsible for a $15MM annual budget; 75 FTEs and 30+ offshore (mix of consultants and employees); adept at remote management with domestic staff in New Jersey, Tennessee, Delaware and international staff in Europe and Singapore.
+- Reduced compensation costs by nearly $1MM through offshore utilization; Retooled legacy JDE personnel for inclusion on the SAP ERP team.
+- Led deployment of centerpiece SAP solution for the US Pharmaceutical Business and key solutions for Asia Pacific, Europe and South America.
+- Led upgrade effort for APO solution for healthcare products segment of business.
+- Led the effort to design, solution and deploy a global SAP template for Schering-Plough; Solution will reduce current footprint down to a single instance of SAP.
+- Acquisition team member and leader of integration efforts for US and APAC commercial operations.
+- Overall responsibility for leadership development through the Management Readiness Program.
+- Managed the Project Manager Capability Review Program.
+
+Director, Supply Chain Systems, Redacted Company, 2002-2005
+- Led the effort to implement SAP for the US Commercial operations of Schering - Plough.
+- Solution included key Order to Cash functionality and Warehouse Management for US Pharmaceutical distribution channels.
+- Provided consultative support to projects being executed in Belgium (APO) and Singapore (R/3).
+
+Manager, Commercial and Field Force Systems, Redacted Company, 1998-2002
+- Led a team of developers implementing web-based solutions for support of Schering - Plough's field forces in the United States.
+- Key projects included Formulary Management, Account Management, Customer Relationship Management, Field Force Expense Management and Managed Care Account Planning.
+- Designed, developed and delivered training programs for field force personnel to prepare them to properly utilize deployed technology.
+
+Manager, Service Delivery Systems, Redacted Company, 1997-1998
+- Led the implementation of outbound call center solutions for key operations in the Ohio call center.
+- Led the implementation of script systems for pharmacists to make and accept patient calls regarding treatment in support of the Disease Management Programs for Smoking Cessation, Hypertension, High Cholesterol, Multiple Sclerosis and Congestive Heart Failure.
+
+Manager, Client Services Systems, Redacted Company, 1994-1997
+- Led the implementation of the Marketing and Client Services application for the front-office organization of the global bond operations.
+- Led the implementation of a Portfolio Accounting System for the Global Advisors subsidiary of the Prudential.
+- Oversaw the implementation and support of the LAN and PC technology teams for the Global Advisors subsidiary.
+
+Project Manager, Redacted Company, 1992-1994
+- Led the implementation of a new cash management system to support the treasury operations of Prudential.
+
+PC Coordinator, Redacted Company, 1990-1992
+- Responsible for day-to-day support of PC hardware and software for the Prudential Help Desk.
+
+Education
+Master of Business Administration, University of Maryland, 2003
+
+Master of Science in Computer Science, New Jersey Institute of Technology, 1994
+
+Bachelor of Science in Computer Science, New Jersey Institute of Technology, 1990

@@ -1,0 +1,27 @@
+Candidate 10985403
+
+Summary
+CAD | CAM | Finite Element Analysis | Mechanical Design | Product Design and Development
+
+Skills
+5 years of experience with CAD packages (SolidWorks, Autodesk Inventor, AutoCAD, CATIA, PTC CREO), 2.5 years of experience with CAE Softwares (HyperMesh, Abaqus, ANSYS, Optistruct), 2.5 years of experience with Analysis (Linear & Non-linear Static, Dynamic, GD & T, Tolerance Analysis, Design Optimization), Experience with Sheet metal, Design for manufacturing, generating Bill of Materials, DFMEA, Sculpting., Experience with advanced material selection for rapid prototyping, advanced manufacturing, welding and 3D printing., 3D, automation, Automotive, CAD/CAM, CAD, Dec, Engineering Analysis, lathe, Manufacturing process, Materials, material selection, Oil, Optimization, pick, prototyping, Robotic, safety, simulation, SolidWorks, SPC, statistical analysis, welding
+
+Experience
+Mechanical Engineering Intern, Redacted Company, 2013-2013
+- Initiated a project to perform a failure investigation in mufflers due to the low clearance of roads and provided feedback.
+- Established and coordinated maintenance, GD&T, safety procedures, service schedule and supply of materials in the maintenance shop.
+- Developed failure reports including feedback based on common failures from the automotive industry.
+- Set up and calibrated accelerometers on Hyundai cars to conduct tests to analyze the modes of vibration of vehicle and the steering column.
+
+Manufacturing Engineering Intern, Redacted Company, 2012-2012
+- Analyzed automation, process parameters, different equipment to shape and control the profile of chips and Manufacturing process of Hot Strip Coil.
+- Re-designed the existing shop floor to improve space utilization, increase material flow, optimize labor and reduce holding costs by 5% and improved space utilization by 20%.
+- Performed statistical analysis on historical data of the operating parameters using SPC and DOE's to identify significant factors contributing to process deviation and affecting the cold crushing strength of the pellet.
+- Generated Bill of Materials and calculated overall manufacturing cost.
+
+Education
+Master's in Mechanical & Aerospace Engineering, Illinois Institute of Technology (IIT), May 2017, Mechanical & Aerospace Engineering 3.5/4.0
+
+Advanced CAD/CAM, Engineering Analysis, Finite Element Analysis, Advanced Manufacturing
+
+Bachelor of Technology in Mechanical Engineering, Narsee Monjee Institute of Management Studies, May 2014, Mechanical Engineering 3.19/4.0

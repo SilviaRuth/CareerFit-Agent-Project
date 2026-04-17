@@ -16,6 +16,7 @@ Schema-first backend for explainable resume-to-JD parsing, matching, and grounde
 - Milestone 1: deterministic `/match` flow
 - Milestone 2: parsing and ingestion via `/parse/resume` and `/parse/jd`
 - Milestone 3: grounded `/rewrite` and `/interview-prep` via a single orchestrator service
+- Milestone 4: offline benchmark coverage, extraction evaluation, multi-resume comparison, and baseline report artifacts
 
 ## Orchestration Pattern
 
@@ -55,10 +56,13 @@ The API exposes:
 - `POST /parse/jd`
 - `POST /rewrite`
 - `POST /interview-prep`
+- `POST /compare/resumes`
 
 ## Parsing Docs
 
 - Parsing and ingestion guide: [docs/PARSE_API.md](docs/PARSE_API.md)
+- Evaluation guide: [docs/EVALUATION.md](docs/EVALUATION.md)
+- Comparison guide: [docs/COMPARISON_API.md](docs/COMPARISON_API.md)
 
 The parsing guide covers:
 
@@ -81,3 +85,14 @@ python -m pytest -q
 - Expected outcomes: `data/eval/`
 
 These fixtures cover deterministic matching, messy parsing inputs, low-confidence parsing, and grounded generation flows.
+
+## Run Offline Benchmark
+
+```powershell
+.venv\Scripts\Activate.ps1
+python -m app.evaluation.benchmark_runner
+python -m app.evaluation.extraction_runner
+python -m app.evaluation.artifact_writer
+```
+
+The evaluation runners use `data/eval/benchmark_manifest.json` and `data/eval/extraction_manifest.json`. The artifact writer refreshes the checked-in baseline reports under `data/eval/reports/baseline/`.

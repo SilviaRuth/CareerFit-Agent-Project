@@ -1,0 +1,18 @@
+Software Engineer
+Sample 4. Engineering Company
+
+Responsibilities
+- Design, develop, and maintain software applications
+- Write clean, efficient, and scalable code
+- Collaborate with cross-functional teams (product, QA, DevOps)
+- Debug, test, and optimize system performance
+- Participate in system architecture and design decisions
+
+Required
+- Proficiency in programming languages (Python, Java, C++)
+- Knowledge of data structures, algorithms, and system design
+- Experience with software development lifecycle (SDLC)
+- Strong problem-solving and debugging skills
+
+Education
+- Bachelor's degree in Computer Science or related field

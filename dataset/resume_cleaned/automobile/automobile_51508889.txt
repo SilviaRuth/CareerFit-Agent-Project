@@ -1,0 +1,134 @@
+Candidate 51508889
+
+Skills
+Skills Used:, IDE/Tools: TIBCO MDM 8.3.2, CIM 7.2.1, CIM, CIM 7.0, CIM6.2, TIBCO DQ, TIBCO Patterns, TIBCO Business Events 5.1, TIBCO EMS 8.3, TIBCO Business Studio 3.5, TIBCO MDM Studio 4.0, Eclipse, Rational Rose, Magic Draw, MS Vizio. SQL Navigator, TOAD, Framework/Concepts: Master Data Management, MDM Solutions Architecture, Project Management, Configuration Management, System Integration, J2EE, Struts, Application/Web Server: JBoss, Weblogic, Apache Tomcat, Languages/Tools: Core Java, JavaScript, JDBC, PL/SQL, Shell Script, SQL Loader, XSL/XSLT, OS: Windows NT, NT 4.0, Windows XP, Unix, Database: Oracle, SQL Server, Hands on experience in data De-duping with Data Matching and Merging using TIBCO Patterns and Data Analysis/Data Cleansing/Standardizing with TIBCO Data Quality Tools, TIBCO trained proffessional in TIBCO Business Events 5.1, TIBCO EMS 8.2 administration, Solutions Architecture by TIBCO Educations.
+
+Experience
+Senior Architect - MDM, Redacted Company, 2014-Present
+- MDM Implementation Landscape
+- Technical/Functional Design for MDM implementation along with Data Quality/de-duplication
+- Architecture to integrate TIBCO MDM with System for inbound data stream to MDM and outbound synchronization to downstream systems.
+- MDM Infrastructure Landscape planning and architecture
+- Complete Architecture for Vendor and Customer MDM
+- Manage the Resource Planning for Complete MDM implementation for Customer and Vendor
+- End-to-End MDM development/delivery management.
+- Daily status/scrum with team members on project progress
+- Managing Clients expectations from MDM point of view.
+
+Senior Architect - MDM, Redacted Company, 2013
+- MDM Architecture Overview
+- Design workflows for MDM along with Data Quality
+- TIBCO MDM installation overview
+
+Senior Architect - MDM, Redacted Company, 2013-2014
+- Manage/Lead the MDM team of 10 members to achieve the goals of the project and help them implement MDM workflows and rulebases in efficient way.
+- Architect and Engineer the complex workflows in MDM achieve the complex requirements for Party and Accounts data in AML.
+- Designed the workflows and business rules to achieve the business requirements for AML.
+- MDM Infrastructure sizing, installation planning and implementation.
+
+Senior Architect - MDM, Redacted Company, 2013-2014
+- MDM Architecture Overview
+- Design and Showcase MDM workflow for Parameterized Data Quality
+- Design parameterized weighted Data Quality workflows in TIBCO MDM
+
+MDM Architect, Redacted Company, 2012-2013
+- Manage/Lead the MDM team to achieve the goals of the project and help them implement MDM workflows and rulebases in efficient way.
+- Architect and Engineer the complex workflows in MDM achieve the goal of Product MDM.
+- Worked on complex workflows and rulebases in MDM to achieve the requirements in best possible way.
+- TIBCO MDM installation planning and implementation.
+
+Senior Architect, Redacted Company, 2011-2012
+- Analyze the data (with huge volume) and perform an effective data migration from legacy systems to SVoM repositories.
+- Perform effective data matching and come up with de-duplication of data using TIBCO Matching Engine.
+- Merging the data by fragmenting data into three categories: Auto Merge, Manual Merge and Unique Records based on the matching results from TIBCO Matching Engine.
+- Data prepared after de-duplication will have to be loaded in TIBCO CIM MDM repositories with relationships.
+- Lead the TIBCO CIM MDM team to achieve the goals of the project.
+- Architect and Engineer the complex workflows in CIM achieve the goal of Single View of membership Project.
+
+Architect - MDM, Redacted Company, 2009-2011
+- Worked with Business Analyst and Users to create Mapping documents and Specification documents
+- Architecture and design of TIBCO MDM Integration with TIBCO BW.
+- Performance tuning and optimization of TIBCO MDM in Production environments
+- Designed TIBCO MDM rule bases and workflows to implement the Business requirements.
+- TIBCO MDM solutions architecture design for NSOS
+- Design for TIBCO EMS usage with MDM for seamless synchronization.
+- TIBCO MDM and TIBCO EMS Administration.
+- Designed common interface template, global error handling and auditing processes for all the TIBCO application interfaces.
+- Designed Output maps for the different system to access the data from MDM.
+- TIBCO MDM Integration with outlook and other applications running in conjunction with NSOS program to synchronize Master Data.
+- Helped teams to come up with test cases for integration testing with various systems across the organization.
+- Configured Oracle 11G that supports TIBCO MDM in back end
+- Documentation and Knowledge transfer to CIM users
+- Worked on TIBCO MDM installations in DEV, QA, UAT and Production.
+- Monitor and fix issues ongoing in batches running on Informatica Power Center.
+- Operation Support Design
+
+Operations Engineer and Lead, Redacted Company, 2008-2009
+- Worked with Business Analyst and Users to create Mapping documents and Specification documents
+- Integrated Smart Mapper with TIBCO CIM
+- Performance tuning and optimization of TIBCO CIM application in Production environment
+- Designed and implemented TIBCO CIM rule bases and workflows to implement the Business requirements.
+- TIBCO EMS configuration and administration
+- TIBCO CIM Administration.
+- Designed Output Maps, Synchronization Profiles in TIBCO MDM to synchronize data with external systems.
+- TIBCO CIM integration with other applications including email notifications.
+- Developed integration and Unit Test Cases
+- Configured Oracle to supports TIBCO CIM in back end
+- Documented Operational usage of TIBCO CIM implementation and Educated business users
+- Installed TIBCO CIM 6.2 in DEV,UAT and Production
+- Design and Architecture of the TIBCO CIM Implementation
+- Upgraded TIBCO CIM 6.2 to CIM 7.0
+- Monitor and fix issues coming in batches running on Informatica PowerCenter.
+- Support TIBCO Middleware issues related to TIBCO MDM
+
+Senior System Analyst, Redacted Company, 2006-2008
+- Analysis and Design of TIBCO CIM workflows for data feeds from ER&C, Worldbase, Alacra
+- Tested all workflows and rulebases implemented
+- Analysis of defects and fixed critical bugs in firefighting mode.
+- Implemented top-down architecture for importing the client data from the market vendor data to Wachovia data stores.
+- Assisted development team and TIBCO engineering to customize TIBCO CIM components to achieve the business requirements for the Financial Sector.
+- Design/develop/maintain Ant scripts to build and deploy the TIBCO CIM environment with JBOSS and TICBO EMS.
+- Developed the shell scripts to backup the daily data after being loaded into TIBCO CIM and send out email confirmations after the jobs were run.
+- Developed workflow and rulebases documentation to transfer the process to Wachovia Production support group.
+- Shadow support with the Production support team and trained on the Autosys batch.
+- Worked on Enterprise Application Integration using TIBCO BW Suite to integrate different applications running on different platforms and supported the business using TIBCO BW.
+
+System Analyst, Redacted Company, 2006-2006
+- Co-ordination with Onsite - offshore teams.
+- Based on Design specifications, developed Struts framework based application to achieve business requirements.
+- Configured Weblogic App Server for design time and run time application.
+- Implemented Classification Module in Development region.
+- Implemented standard Error handling and reporting functions.
+- Implementation of development artifacts and deployment in QA region.
+- Developed test cases for String testing and unit testing
+
+System Analyst, Redacted Company, 2005-2005
+- Analysis and Design of the Requirement to fit into multitier architecture.
+- Development of classification modules using Struts Framework
+- Unit testing and Integration testing
+- UAT Support
+- Performed Onsite-Offshore Co-ordination
+
+System Analyst, Redacted Company, 2005-2005
+- Involved in design and documentation of various process flows for services
+- Used Apache Tomcat as server for developing the web based application.
+- Involved in configuration of different environments like development, testing and production
+- Involved in setting up development servers and test server for configuration management.
+- Worked with team to setup Configuration Management Plan.
+- Developed maintenance guides for the ECM application.
+- Developed Test Plans for the ECM application.
+
+System Analyst, Redacted Company, 2004-2005
+- Transformed business process specifications into technical specifications through analysis
+- Design the Web application flow based on MVC architecture using Jakarta-Struts Framework
+- Develop Model and Action classes for the application developing in Struts framework.
+- Used JSP and servlets to develop front end for the Web tools
+- Developed EJBs (Session beans)
+- Developed various processes for processing HTTP and FTP activities.
+- Xpath Configurations for various requirement in application.
+- Developed JDBC based connectivity in the applications.
+
+Education
+Masters in Computer Applications, Visva Bharati University
+
+Bachelor of Science in Physics, Chemistry, Maths, Ranchi University

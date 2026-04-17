@@ -1,0 +1,18 @@
+Software Engineer
+Sample Information Technology Company
+
+Responsibilities
+- Design, develop, and maintain software systems
+- Write clean, scalable, and testable code
+- Collaborate with cross-functional teams
+- Debug and optimize system performance
+- Participate in system design and architecture decisions
+
+Required
+- Proficiency in programming languages (Python, Java, C++)
+- Knowledge of data structures and algorithms
+- Experience with software development lifecycle
+- Strong problem-solving skills
+
+Education
+- Bachelor's degree in Computer Science or related field

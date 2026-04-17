@@ -1,5 +1,7 @@
 # ROADMAP.md
 
+Historical note: this document records the original Milestone 1 boundary. The active milestone breakdown now lives in `docs/PLAN.md`, and the current repo has already moved beyond this initial scope into Milestones 2 and 3.
+
 ## Goal
 
 Lock the first milestone to a backend-only MVP that can take resume text plus JD text, normalize them deterministically, extract structured schemas, run rule-based matching, and return evidence-linked JSON.

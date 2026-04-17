@@ -1,0 +1,9 @@
+Candidate 37335325
+
+Skills
+Product, system and software testing across multiple OS platforms (Windows, Windows Store, Android, iOS, Arduino & Linux) over full product life cycle, including Agile, V-model and Waterfall development methods, Managing multiple on-going projects with geographically dispersed teams, establishing and using sub-contract resources with on and off-shore models, Developing clear test strategies, proven ability to translate functional, non-functional and use case requirements into test plan, scripts and automation with full traceability to requirements, Leading continuous improvement of development, testing and organization processes, Proficient MS Office, Visual Studio, Eclipse and C, Scrum master for multiple concurrent scrum teams. Facilitate and organize all scrum ceremonies including the daily stand-up, retrospectives, demos, release planning and backlog grooming meetings. Support the scrum team member to mitigate impediments, resolve conflict., Tool administration and usage including, Jira, Rally, Clear Quest, Quality Center, ProtexIP, Sub-version, GIT, RTC, Bugzilla, Jenkins, Gerrit and others, Experience in testing software as a service (SaaS) applications, Design performance and stress testing of peer-to-peer / device-to-device network application and cloud XMPP server, audio, automation, C, C++, CD-ROMs, Ceridian, cisco, Hardware, cost reduction, clients, drivers, executive management, Functional, inspection, Intel, Java, Linux, MAC, Managing, marketing and sales, C#, Windows, Windows XP, multimedia, Objective C, OS, policies, printers, processes, product development, quality, quality assurance, quest, sales, scanners, Scheduling, scrum, scripts, software development, software testing, sound cards, sun, test tools, USB, validation, video, Vista
+
+Education
+Master of Science in Computer Resource Information Management, Webster University, 2004
+
+Bachelor of Science in Computer Science, Kabul University, 1992

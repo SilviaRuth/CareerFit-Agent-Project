@@ -1,0 +1,44 @@
+Candidate 43752620
+
+Summary
+Automotive Engineer seeking Systems Engineer position at your esteemed organization with scope for career advancement and professional development.
+
+Skills
+AutoCAD, Ansys, Cero, CATIA, HyperMesh, DFMEA, MS Office Suite, Fortran, C, MATLAB/Simulink, CNC Programming, automobiles, Automotive, basic, Benchmarking, Business Plan Development, calibration, CNC, concept, designing, dimensions, features, functional, gateways, inspection, inspect, market, Materials, MATLAB, office, works, oil, Processes, Product Development, Programming, Quality, requirement, selling, sales, Simulation, surveys, Systems Engineering, System Engineering, transmission, unique, websites, welding
+
+Experience
+Engineering Intern, Redacted Company, 2016-2016
+- Completed basic and advanced level of training from regional training office of Maruti Suzuki India Limited.
+- Implemented 5S, Kaizen, Poka-yoke in servicing of automobiles.
+- Overhauled Engines and Transmissions with assistance of technicians.
+- Carried out tasks such as inspection and replacement of clutch, common rail, glow plugs, spark plugs, head gaskets, shims, tappets, brake pads, brake shoes, brake fluid, engine oil, coolant, EGR systems, VVT systems, engine filters, fuel filters, wheel bearings.
+- Gained knowledge in working of CAN Bus systems.
+- Assisted technicians in cylinder compression test, servicing of inter-coolers, suspension systems, brake systems.
+- Operated SDT (Suzuki Diagnostic Tool) to inspect, analyze and eliminate errors caused by various sensors and actuators present in different vehicle systems.
+
+Mechanical Engineering Intern, Redacted Company, 2014
+- The main objective of the internship was to understand the different mechanisms and technical concepts involved in the end to end manufacturing of rail coaches and engines.
+- The internship helped get a feel of industry environment.
+- Witnessed various concepts such as welding, sheet metal works, CNC machine working etc.
+- Benchmarking and Preliminary analysis (Mid-Size SUV), University of Michigan-Dearborn, September 2016.
+- Collected Customer requirements from surveys, websites, magazine and, blogs.
+- Conducted a benchmarking study of competitor vehicles with the reference selected vehicle.
+- Developed preliminary specifications of the target vehicle.
+- Developed Pugh Diagrams to determine how the target vehicle and benchmarked vehicles compare with the reference vehicle.
+- QFD, requirement cascade and interface analysis for a selected vehicle system (Instrument Panel), University of Michigan-Dearborn, October 2016.
+- Determined functional specifications through the application of the Quality Function Deployment (QFD) to a selected vehicle system.
+- Cascaded vehicle attributes and sub-attributes requirements to vehicle system and its sub-system requirements.
+- Developed interface diagram and interface matrix for the selected vehicle system included all major sub-systems.
+- Identified and analyzed major trade-offs considered in designing the selected system to fit and work with other vehicle systems.
+- Business Plan Development (Mid-Size SUV), University of Michigan-Dearborn, November 2016.
+- Determined and developed various features, options, unique characteristics of vehicle systems and provided a brief description of the proposed vehicle.
+- Determined the characteristics of anticipated customers and provided a brief description of market segment.
+- Determined selling price and sales projection of the proposed vehicle.
+- Developed Gantt chart and System Engineering 'V' model to show the vehicle program timings and various gateways.
+- Determined costs, prepared revenue summary table, developed plots of curves containing life-cycle costs and revenues for the vehicle program.
+- Constructed a benchmarking table that included comparisons done between target vehicle and competitors and risks involved for the addition of new features.
+
+Education
+Master of Science in Automotive Systems Engineering, University of Michigan, May 2018, Automotive Systems Engineering 3.72
+
+Bachelor of Engineering in Mechanical Engineering, Visvesvaraya Technological University, June 2015, Mechanical Engineering 75.35
