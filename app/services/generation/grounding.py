@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from app.schemas.common import EvidenceSpan
 from app.schemas.match import GapItem, RequirementMatch
-from app.services.generation.workflow import GenerationContext
+from app.services.generation.context import GroundedFlowContext
 
 
 def dedupe_evidence(spans: list[EvidenceSpan]) -> list[EvidenceSpan]:
@@ -27,7 +27,7 @@ def dedupe_evidence(spans: list[EvidenceSpan]) -> list[EvidenceSpan]:
     return unique
 
 
-def collect_context_evidence(context: GenerationContext) -> list[EvidenceSpan]:
+def collect_context_evidence(context: GroundedFlowContext) -> list[EvidenceSpan]:
     """Collect all evidence used across the current match result."""
     spans = list(context.match_result.evidence_spans)
     spans.extend(context.resume_parse.parsed_schema.evidence_spans)
@@ -65,7 +65,11 @@ def sort_gaps(gaps: list[GapItem]) -> list[GapItem]:
     )
 
 
-def top_supported_matches(context: GenerationContext, *, required_only: bool = True) -> list[RequirementMatch]:
+def top_supported_matches(
+    context: GroundedFlowContext,
+    *,
+    required_only: bool = True,
+) -> list[RequirementMatch]:
     """Return matched requirements with resume evidence, prioritizing required matches."""
     matches = list(context.match_result.required_matches)
     if not required_only:

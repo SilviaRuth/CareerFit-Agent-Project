@@ -22,6 +22,27 @@ These defaults remain in force unless a later decision record explicitly replace
 
 ---
 
+## Orchestration Pattern
+
+For Milestone 3, grounded generation uses a single orchestrator service.
+
+Current decision:
+
+- keep orchestration in backend service code, not a multi-agent framework
+- coordinate `parse -> match -> gate -> generate` through one explicit module
+- treat rewrite and interview-prep modules as callable capabilities, not autonomous agents
+- keep generation subordinate to parse outputs, match diagnostics, evidence spans, warnings, and gating metadata
+
+Rejected for the current stage:
+
+- multi-agent planner/executor/reviewer setups
+- framework-heavy orchestration graphs
+- autonomous tool loops
+
+This keeps the critical path deterministic, reviewable, and aligned with the repo's schema-first architecture.
+
+---
+
 ## MVP Boundary
 
 The first MVP is backend-only and explainability-first.

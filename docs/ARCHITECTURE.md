@@ -79,12 +79,11 @@ User Input
 
         ↓
 
-[Reasoning / Agent Layer]
- ├─ Orchestrator
- ├─ Analysis prompts
- ├─ Resume rewrite module
- ├─ Interview prep module
- └─ Learning recommendation module
+[Orchestration Layer]
+ ├─ Single orchestrator service
+ ├─ Rewrite rendering module
+ ├─ Interview prep rendering module
+ └─ Guardrails and gating
 
         ↓
 
@@ -245,19 +244,18 @@ The analytical core of the system.
 
 ---
 
-### 5.4 Reasoning / Agent Layer
+### 5.4 Orchestration Layer
 
-Coordinates multi-step analysis and generation.
+Coordinates multi-step analysis and grounded generation.
 
 #### Responsibilities
 
-* decide which tools/modules to invoke
-* produce final fit narrative
-* rewrite resume bullets aligned to JD
-* generate interview prep content
-* suggest learning priorities
+* sequence parse -> match -> gate -> generate
+* keep generation subordinate to extracted schemas and match diagnostics
+* route requests into bounded rewrite and interview-prep services
+* surface parser and evidence limitations directly in the output
 
-#### Agent Design Principles
+#### Orchestration Design Principles
 
 * evidence first, generation second
 * no generated claim without source span
@@ -269,19 +267,19 @@ Coordinates multi-step analysis and generation.
   4. improve
   5. present
 
-#### Recommended Agent Pattern
+#### Recommended Pattern
 
-Use a lightweight orchestrator, not an over-engineered multi-agent swarm in v1.
+Use a lightweight single orchestrator, not an over-engineered multi-agent swarm in v1.
 
-Suggested internal agents/modules:
+Keep the implementation as callable modules/functions:
 
-* Parser Agent
-* Schema Extraction Agent
-* Match Analysis Agent
-* Resume Rewrite Agent
-* Interview Prep Agent
+* parsing services
+* matching services
+* one orchestration service
+* rewrite rendering services
+* interview-prep rendering services
 
-But implementation-wise, keep them as callable modules/functions first.
+These are internal capabilities, not autonomous agents.
 
 ---
 
@@ -319,6 +317,18 @@ The system produces:
 * missing signals
 * resume bullet improvements
 * interview prep focus areas
+
+### Current M3 flow
+
+The Milestone 3 backend uses a single orchestrator service:
+
+1. parse resume text into a bounded parse response
+2. parse JD text into a bounded parse response
+3. match parsed schemas deterministically
+4. compute generation gating from parser confidence, evidence quality, and blockers
+5. render rewrite or interview-prep outputs from the shared grounded context
+
+This keeps the critical path deterministic and reviewable without introducing a framework-heavy agent graph.
 
 ---
 
@@ -374,7 +384,6 @@ project-root/
 │  ├─ core/
 │  ├─ schemas/
 │  ├─ services/
-│  ├─ agents/
 │  └─ utils/
 ├─ docs/
 │  ├─ ARCHITECTURE.md
@@ -404,12 +413,16 @@ app/
 │  ├─ jd.py
 │  └─ match_result.py
 ├─ services/
-│  ├─ parser_service.py
+│  ├─ parse_service.py
 │  ├─ extraction_service.py
 │  ├─ matching_service.py
-│  └─ rewrite_service.py
-├─ agents/
-│  └─ orchestrator.py
+│  ├─ orchestration_service.py
+│  └─ generation/
+│     ├─ context.py
+│     ├─ generation_guardrails.py
+│     ├─ grounding.py
+│     ├─ rewrite_service.py
+│     └─ interview_prep_service.py
 ├─ core/
 │  ├─ config.py
 │  └─ logging.py
@@ -435,11 +448,11 @@ Return score, evidence, and gaps.
 
 ### `POST /rewrite`
 
-Generate JD-aligned resume bullet improvements.
+Generate bounded JD-aligned resume improvement guidance through the single orchestrator flow.
 
 ### `POST /interview-prep`
 
-Generate likely interview topics and preparation points.
+Generate grounded interview preparation guidance through the single orchestrator flow.
 
 ### `GET /health`
 

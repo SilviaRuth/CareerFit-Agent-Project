@@ -9,29 +9,21 @@ from app.schemas.generation import (
     InterviewPrepResponse,
     RewriteResponse,
 )
-from app.services.generation.interview_prep_service import generate_interview_prep_from_text
-from app.services.generation.rewrite_service import generate_rewrite_response_from_text
+from app.services.orchestration_service import (
+    run_grounded_interview_prep_flow,
+    run_grounded_rewrite_flow,
+)
 
 router = APIRouter(tags=["generation"])
 
 
 @router.post("/rewrite", response_model=RewriteResponse)
 def rewrite_resume(request: GroundedGenerationRequest) -> RewriteResponse:
-    """Generate bounded resume rewrite guidance grounded in parse and match outputs."""
-    return generate_rewrite_response_from_text(
-        resume_text=request.resume_text,
-        job_description_text=request.job_description_text,
-        resume_source_name=request.resume_source_name,
-        jd_source_name=request.jd_source_name,
-    )
+    """Run the single-orchestrator rewrite flow."""
+    return run_grounded_rewrite_flow(request)
 
 
 @router.post("/interview-prep", response_model=InterviewPrepResponse)
 def interview_prep(request: GroundedGenerationRequest) -> InterviewPrepResponse:
-    """Generate grounded interview preparation guidance from parse and match outputs."""
-    return generate_interview_prep_from_text(
-        resume_text=request.resume_text,
-        job_description_text=request.job_description_text,
-        resume_source_name=request.resume_source_name,
-        jd_source_name=request.jd_source_name,
-    )
+    """Run the single-orchestrator interview-prep flow."""
+    return run_grounded_interview_prep_flow(request)

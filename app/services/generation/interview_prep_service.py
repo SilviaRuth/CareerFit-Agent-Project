@@ -10,14 +10,13 @@ from app.schemas.generation import (
     TalkingPoint,
     WeakAreaPreparation,
 )
-from app.services.generation.generation_guardrails import build_generation_gate
+from app.services.generation.context import GroundedFlowContext
 from app.services.generation.grounding import (
     dedupe_evidence,
     extract_bullet_text,
     sort_gaps,
     top_supported_matches,
 )
-from app.services.generation.workflow import GenerationContext, build_generation_context
 
 
 def generate_interview_prep_from_text(
@@ -26,10 +25,11 @@ def generate_interview_prep_from_text(
     resume_source_name: str | None = None,
     jd_source_name: str | None = None,
 ) -> InterviewPrepResponse:
-    """Generate grounded interview preparation guidance from raw text inputs."""
+    """Backward-compatible convenience wrapper around the orchestrated flow."""
     from app.schemas.generation import GroundedGenerationRequest
+    from app.services.orchestration_service import run_grounded_interview_prep_flow
 
-    context = build_generation_context(
+    return run_grounded_interview_prep_flow(
         GroundedGenerationRequest(
             resume_text=resume_text,
             job_description_text=job_description_text,
@@ -37,15 +37,16 @@ def generate_interview_prep_from_text(
             jd_source_name=jd_source_name,
         )
     )
-    return generate_interview_prep(context)
 
 
-def generate_interview_prep(context: GenerationContext) -> InterviewPrepResponse:
-    """Generate safe interview-prep guidance from shared context."""
-    gating, gate_warnings = build_generation_gate(context)
+def render_interview_prep_response(context: GroundedFlowContext) -> InterviewPrepResponse:
+    """Render safe interview-prep guidance from an orchestrated grounded context."""
+    if context.gating is None:
+        raise ValueError("Grounded interview-prep rendering requires populated gating metadata.")
+
     focus_areas = _build_focus_areas(context)
     questions = _build_interview_questions(context)
-    talking_points = _build_talking_points(context, gating.generation_mode)
+    talking_points = _build_talking_points(context, context.gating.generation_mode)
     weak_area_preparation = _build_weak_area_preparation(context)
     evidence_used = dedupe_evidence(
         [
@@ -62,7 +63,11 @@ def generate_interview_prep(context: GenerationContext) -> InterviewPrepResponse
         ]
     )
 
-    summary = _build_interview_summary(context, gating.generation_mode, focus_areas)
+    summary = _build_interview_summary(
+        context,
+        context.gating.generation_mode,
+        focus_areas,
+    )
     return InterviewPrepResponse(
         summary=summary,
         likely_focus_areas=focus_areas,
@@ -70,12 +75,12 @@ def generate_interview_prep(context: GenerationContext) -> InterviewPrepResponse
         recommended_talking_points=talking_points,
         weak_area_preparation=weak_area_preparation,
         evidence_used=evidence_used,
-        generation_warnings=gate_warnings,
-        gating=gating,
+        generation_warnings=context.generation_warnings,
+        gating=context.gating,
     )
 
 
-def _build_focus_areas(context: GenerationContext) -> list[InterviewFocusArea]:
+def _build_focus_areas(context: GroundedFlowContext) -> list[InterviewFocusArea]:
     """Create likely interview focus areas from responsibilities and required matches."""
     focus_areas: list[InterviewFocusArea] = []
     priority = 1
@@ -136,7 +141,7 @@ def _build_focus_areas(context: GenerationContext) -> list[InterviewFocusArea]:
     return focus_areas[:6]
 
 
-def _build_interview_questions(context: GenerationContext) -> list[InterviewQuestion]:
+def _build_interview_questions(context: GroundedFlowContext) -> list[InterviewQuestion]:
     """Create grounded interview questions from strengths and weak areas."""
     questions: list[InterviewQuestion] = []
     priority = 1
@@ -173,7 +178,7 @@ def _build_interview_questions(context: GenerationContext) -> list[InterviewQues
 
 
 def _build_talking_points(
-    context: GenerationContext,
+    context: GroundedFlowContext,
     generation_mode: str,
 ) -> list[TalkingPoint]:
     """Create talking points only from supported evidence."""
@@ -199,7 +204,9 @@ def _build_talking_points(
     return talking_points[:4]
 
 
-def _build_weak_area_preparation(context: GenerationContext) -> list[WeakAreaPreparation]:
+def _build_weak_area_preparation(
+    context: GroundedFlowContext,
+) -> list[WeakAreaPreparation]:
     """Prepare truthful framing for explicit weak areas."""
     items: list[WeakAreaPreparation] = []
     for gap in sort_gaps(context.match_result.gaps)[:4]:
@@ -216,14 +223,14 @@ def _build_weak_area_preparation(context: GenerationContext) -> list[WeakAreaPre
 
 
 def _build_interview_summary(
-    context: GenerationContext,
+    context: GroundedFlowContext,
     generation_mode: str,
     focus_areas: list[InterviewFocusArea],
 ) -> str:
     """Build the top-line interview prep summary."""
     if generation_mode == "minimal":
         return (
-            "Interview prep is intentionally conservative because parsing confidence is low; focus on verified resume examples and honest gap framing."
+            "Interview prep is intentionally conservative because the grounded flow was downgraded to minimal mode; focus on verified resume examples and honest gap framing."
         )
 
     top_focus = [item.focus_area for item in focus_areas[:2]]
@@ -239,7 +246,7 @@ def _build_interview_summary(
 
 
 def _find_jd_responsibility_evidence(
-    context: GenerationContext,
+    context: GroundedFlowContext,
     responsibility: str,
 ) -> list[EvidenceSpan]:
     """Find matching JD evidence for a responsibility line."""

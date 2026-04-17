@@ -9,12 +9,27 @@ Schema-first backend for explainable resume-to-JD parsing, matching, and grounde
 - Bounded file ingestion for `.txt`, `.pdf`, and `.docx`
 - Evidence-linked JSON outputs
 - Grounded rewrite and interview-prep guidance built on parse plus match results
+- Single-orchestrator backend flow for grounded generation
 
 ## Milestone Status
 
 - Milestone 1: deterministic `/match` flow
 - Milestone 2: parsing and ingestion via `/parse/resume` and `/parse/jd`
-- Milestone 3: grounded `/rewrite` and `/interview-prep`
+- Milestone 3: grounded `/rewrite` and `/interview-prep` via a single orchestrator service
+
+## Orchestration Pattern
+
+Milestone 3 uses one deterministic orchestration layer in `app/services/orchestration_service.py`.
+
+That layer coordinates:
+
+- resume parsing
+- JD parsing
+- matching
+- generation gating
+- bounded rewrite or interview-prep rendering
+
+Generation modules are callable services, not autonomous agents. They stay subordinate to parse responses, match results, evidence spans, warnings, and gating metadata.
 
 ## Local Setup
 

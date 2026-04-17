@@ -3,17 +3,35 @@
 from __future__ import annotations
 
 from app.schemas.generation import GenerationGate, GenerationWarning
-from app.services.generation.workflow import GenerationContext
+from app.services.generation.context import GroundedFlowContext
 
 
-def build_generation_gate(context: GenerationContext) -> tuple[GenerationGate, list[GenerationWarning]]:
+def build_generation_gate(
+    context: GroundedFlowContext,
+) -> tuple[GenerationGate, list[GenerationWarning]]:
     """Compute structured generation gating from parse confidence and blockers."""
     warnings: list[GenerationWarning] = []
     reasons: list[str] = []
 
+    resume_medium = context.resume_parse.parser_confidence.level == "medium"
     resume_low = context.resume_parse.parser_confidence.level == "low"
+    jd_medium = context.jd_parse.parser_confidence.level == "medium"
     jd_low = context.jd_parse.parser_confidence.level == "low"
     blockers = context.match_result.blocker_flags
+    missing_skill_gap_count = sum(
+        gap.gap_type in {"missing_skill", "domain_gap"}
+        and gap.requirement_priority == "required"
+        for gap in context.match_result.gaps
+    )
+    missing_evidence_gap_count = sum(
+        gap.gap_type == "missing_evidence" for gap in context.match_result.gaps
+    )
+    severe_blockers = any(
+        (
+            blockers.seniority_mismatch,
+            blockers.unsupported_claims,
+        )
+    ) or missing_skill_gap_count >= 2
     limited_by_blockers = any(
         (
             blockers.missing_required_skills,
@@ -21,7 +39,21 @@ def build_generation_gate(context: GenerationContext) -> tuple[GenerationGate, l
             blockers.unsupported_claims,
         )
     )
-    limited_by_missing_evidence = any(gap.gap_type == "missing_evidence" for gap in context.match_result.gaps)
+    limited_by_missing_evidence = missing_evidence_gap_count > 0
+
+    if resume_medium or jd_medium:
+        reasons.append("medium_parser_confidence")
+        warnings.append(
+            GenerationWarning(
+                warning_code="medium_parser_confidence",
+                message=(
+                    "Parser confidence is medium for at least one input, so generation keeps a "
+                    "bounded scope and favors higher-signal evidence."
+                ),
+                severity="info",
+                limited_output=True,
+            )
+        )
 
     if resume_low or jd_low:
         reasons.append("low_parser_confidence")
@@ -33,6 +65,20 @@ def build_generation_gate(context: GenerationContext) -> tuple[GenerationGate, l
                     "to conservative, evidence-first guidance."
                 ),
                 severity="warning",
+                limited_output=True,
+            )
+        )
+
+    if missing_evidence_gap_count >= 2:
+        reasons.append("significant_missing_evidence")
+        warnings.append(
+            GenerationWarning(
+                warning_code="significant_missing_evidence",
+                message=(
+                    "Several requirements are only weakly evidenced, so generation will prefer "
+                    "clarification and honest framing over richer rewrites."
+                ),
+                severity="info",
                 limited_output=True,
             )
         )
@@ -81,7 +127,9 @@ def build_generation_gate(context: GenerationContext) -> tuple[GenerationGate, l
 
     if resume_low or jd_low:
         generation_mode = "minimal"
-    elif limited_by_blockers or limited_by_missing_evidence:
+    elif severe_blockers:
+        generation_mode = "minimal"
+    elif resume_medium or jd_medium or limited_by_blockers or missing_evidence_gap_count >= 2:
         generation_mode = "limited"
     else:
         generation_mode = "full"

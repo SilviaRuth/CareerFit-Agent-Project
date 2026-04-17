@@ -3,15 +3,13 @@
 from __future__ import annotations
 
 from app.schemas.generation import RewriteAction, RewrittenBullet, RewriteResponse
-from app.services.generation.generation_guardrails import build_generation_gate
+from app.services.generation.context import GroundedFlowContext
 from app.services.generation.grounding import (
-    collect_context_evidence,
     dedupe_evidence,
     extract_bullet_text,
     sort_gaps,
     top_supported_matches,
 )
-from app.services.generation.workflow import GenerationContext, build_generation_context
 
 
 def generate_rewrite_response_from_text(
@@ -20,10 +18,11 @@ def generate_rewrite_response_from_text(
     resume_source_name: str | None = None,
     jd_source_name: str | None = None,
 ) -> RewriteResponse:
-    """Generate grounded rewrite guidance from raw text inputs."""
+    """Backward-compatible convenience wrapper around the orchestrated flow."""
     from app.schemas.generation import GroundedGenerationRequest
+    from app.services.orchestration_service import run_grounded_rewrite_flow
 
-    context = build_generation_context(
+    return run_grounded_rewrite_flow(
         GroundedGenerationRequest(
             resume_text=resume_text,
             job_description_text=job_description_text,
@@ -31,19 +30,20 @@ def generate_rewrite_response_from_text(
             jd_source_name=jd_source_name,
         )
     )
-    return generate_rewrite_response(context)
 
 
-def generate_rewrite_response(context: GenerationContext) -> RewriteResponse:
-    """Generate bounded rewrite guidance from the shared generation context."""
-    gating, gate_warnings = build_generation_gate(context)
-    prioritized_actions = _build_prioritized_actions(context, gating.generation_mode)
-    rewritten_summary = _build_rewritten_summary(context, gating.generation_mode)
+def render_rewrite_response(context: GroundedFlowContext) -> RewriteResponse:
+    """Render bounded rewrite guidance from an orchestrated grounded context."""
+    if context.gating is None:
+        raise ValueError("Grounded rewrite rendering requires populated gating metadata.")
+
+    prioritized_actions = _build_prioritized_actions(context, context.gating.generation_mode)
+    rewritten_summary = _build_rewritten_summary(context, context.gating.generation_mode)
     rewritten_bullets, unsupported_requests = _build_rewritten_bullets(
         context,
-        gating.generation_mode,
+        context.gating.generation_mode,
     )
-    cautions = _build_rewrite_cautions(context, gating.generation_mode)
+    cautions = _build_rewrite_cautions(context, context.gating.generation_mode)
     evidence_used = dedupe_evidence(
         [
             span
@@ -56,11 +56,14 @@ def generate_rewrite_response(context: GenerationContext) -> RewriteResponse:
             for span in bullet.evidence_used
         ]
     )
-
     if not evidence_used:
-        evidence_used = collect_context_evidence(context)[:5]
+        evidence_used = context.evidence_registry[:5]
 
-    summary = _build_rewrite_summary_text(context, gating.generation_mode, prioritized_actions)
+    summary = _build_rewrite_summary_text(
+        context,
+        context.gating.generation_mode,
+        prioritized_actions,
+    )
     return RewriteResponse(
         summary=summary,
         prioritized_actions=prioritized_actions,
@@ -69,13 +72,13 @@ def generate_rewrite_response(context: GenerationContext) -> RewriteResponse:
         evidence_used=evidence_used,
         unsupported_requests=unsupported_requests,
         cautions=cautions,
-        generation_warnings=gate_warnings,
-        gating=gating,
+        generation_warnings=context.generation_warnings,
+        gating=context.gating,
     )
 
 
 def _build_prioritized_actions(
-    context: GenerationContext,
+    context: GroundedFlowContext,
     generation_mode: str,
 ) -> list[RewriteAction]:
     """Create rewrite actions grounded in current gaps and evidence."""
@@ -124,7 +127,10 @@ def _build_prioritized_actions(
     return actions
 
 
-def _build_rewritten_summary(context: GenerationContext, generation_mode: str) -> str | None:
+def _build_rewritten_summary(
+    context: GroundedFlowContext,
+    generation_mode: str,
+) -> str | None:
     """Create a bounded summary rewrite only when grounded evidence is sufficient."""
     if generation_mode == "minimal":
         return None
@@ -160,7 +166,7 @@ def _build_rewritten_summary(context: GenerationContext, generation_mode: str) -
 
 
 def _build_rewritten_bullets(
-    context: GenerationContext,
+    context: GroundedFlowContext,
     generation_mode: str,
 ) -> tuple[list[RewrittenBullet], list[str]]:
     """Generate bullet suggestions only from directly supported evidence."""
@@ -169,9 +175,14 @@ def _build_rewritten_bullets(
 
     if generation_mode == "minimal":
         unsupported_requests.append(
-            "Detailed rewritten bullets were withheld because parser confidence is low."
+            "Detailed rewritten bullets were withheld because grounded generation was downgraded to minimal mode."
         )
-        return bullets, unsupported_requests
+        unsupported_requests.extend(
+            f"No grounded rewrite was generated for {gap.requirement_label} because the resume does not contain supporting evidence."
+            for gap in sort_gaps(context.match_result.gaps)
+            if gap.gap_type == "missing_skill"
+        )
+        return bullets, unsupported_requests[:5]
 
     for match in top_supported_matches(context)[:3]:
         resume_evidence = [
@@ -210,12 +221,17 @@ def _build_rewritten_bullets(
     return bullets[:3], unsupported_requests[:5]
 
 
-def _build_rewrite_cautions(context: GenerationContext, generation_mode: str) -> list[str]:
+def _build_rewrite_cautions(
+    context: GroundedFlowContext,
+    generation_mode: str,
+) -> list[str]:
     """Collect high-signal rewrite cautions from blockers and low-confidence inputs."""
     cautions: list[str] = []
     blockers = context.match_result.blocker_flags
     if generation_mode == "minimal":
-        cautions.append("Parsing confidence is low, so rewrite output is intentionally narrow.")
+        cautions.append(
+            "Rewrite output is intentionally narrow because parser quality or blocker risk makes richer generation unsafe."
+        )
     if blockers.unsupported_claims:
         cautions.append("Unsupported summary claims should be reduced, not amplified.")
     if blockers.seniority_mismatch:
@@ -226,14 +242,14 @@ def _build_rewrite_cautions(context: GenerationContext, generation_mode: str) ->
 
 
 def _build_rewrite_summary_text(
-    context: GenerationContext,
+    context: GroundedFlowContext,
     generation_mode: str,
     prioritized_actions: list[RewriteAction],
 ) -> str:
     """Summarize the rewrite plan in one bounded sentence."""
     if generation_mode == "minimal":
         return (
-            "Rewrite guidance is limited because parsing confidence is low; focus on truthful gap framing and preserve only verifiable evidence."
+            "Rewrite guidance is limited because the grounded flow was downgraded to minimal mode; focus on truthful gap framing and preserve only verifiable evidence."
         )
 
     if prioritized_actions:
