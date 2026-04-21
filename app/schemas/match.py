@@ -71,6 +71,17 @@ class EvidenceSummary(BaseModel):
     gap_count: int = 0
 
 
+class AdaptationSummary(BaseModel):
+    """Deterministic role/company emphasis summary for reviewable output shaping."""
+
+    role_focus: str = ""
+    company_signals: list[str] = Field(default_factory=list)
+    emphasized_requirements: list[str] = Field(default_factory=list)
+    prioritized_strengths: list[str] = Field(default_factory=list)
+    prioritized_gaps: list[str] = Field(default_factory=list)
+    explanation: str = ""
+
+
 class MatchResult(BaseModel):
     """Structured output for the deterministic matching pipeline."""
 
@@ -84,3 +95,4 @@ class MatchResult(BaseModel):
     explanations: list[str] = Field(default_factory=list)
     evidence_spans: list[EvidenceSpan] = Field(default_factory=list)
     evidence_summary: EvidenceSummary = Field(default_factory=EvidenceSummary)
+    adaptation_summary: AdaptationSummary = Field(default_factory=AdaptationSummary)

@@ -1,0 +1,30 @@
+{
+  "pair_id": "healthcare_vs_nurse",
+  "expected_fit_label": "poor",
+  "required_skill_matches": [
+    "healthcare"
+  ],
+  "preferred_skill_matches": [],
+  "top_gaps": [
+    {
+      "requirement_label": "ability to work in high-pressure environments",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "registered nurse (rn) license",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "communication and empathy",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": true,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

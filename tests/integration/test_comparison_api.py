@@ -17,9 +17,9 @@ def test_compare_resumes_endpoint_returns_ranked_output() -> None:
             "resumes": [
                 {"resume_id": "strong", "resume_text": load_sample("strong_fit_resume.txt")},
                 {"resume_id": "partial", "resume_text": load_sample("partial_fit_resume.txt")},
-                {"resume_id": "poor", "resume_text": load_sample("poor_fit_resume.txt")}
+                {"resume_id": "poor", "resume_text": load_sample("poor_fit_resume.txt")},
             ],
-            "job_description_text": load_sample("strong_fit_jd.txt")
+            "job_description_text": load_sample("strong_fit_jd.txt"),
         },
     )
 
@@ -29,4 +29,5 @@ def test_compare_resumes_endpoint_returns_ranked_output() -> None:
     assert payload["ranking"][0]["resume_id"] == "strong"
     assert payload["ranking"][0]["fit_label"] == "strong"
     assert payload["ranking"][0]["evidence_summary"]["total_evidence_spans"] > 0
+    assert payload["ranking"][0]["adaptation_summary"]["role_focus"] == "backend_platform"
     assert payload["ranking"][2]["resume_id"] == "poor"

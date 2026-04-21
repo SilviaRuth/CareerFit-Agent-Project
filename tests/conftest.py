@@ -38,9 +38,7 @@ def build_pdf_bytes(lines: list[str]) -> bytes:
     """Create a minimal text PDF for ingestion tests without OCR."""
     content_lines = ["BT", "/F1 12 Tf", "72 720 Td"]
     for index, line in enumerate(lines):
-        escaped_line = (
-            line.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
-        )
+        escaped_line = line.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
         if index > 0:
             content_lines.append("0 -16 Td")
         content_lines.append(f"({escaped_line}) Tj")
@@ -54,7 +52,11 @@ def build_pdf_bytes(lines: list[str]) -> bytes:
             b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
             b"/Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>"
         ),
-        b"<< /Length " + str(len(stream)).encode("ascii") + b" >>\nstream\n" + stream + b"\nendstream",
+        b"<< /Length "
+        + str(len(stream)).encode("ascii")
+        + b" >>\nstream\n"
+        + stream
+        + b"\nendstream",
         b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
     ]
 
@@ -73,8 +75,7 @@ def build_pdf_bytes(lines: list[str]) -> bytes:
         pdf.extend(f"{offset:010} 00000 n \n".encode("ascii"))
     pdf.extend(
         (
-            f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\n"
-            f"startxref\n{xref_start}\n%%EOF"
+            f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_start}\n%%EOF"
         ).encode("ascii")
     )
     return bytes(pdf)

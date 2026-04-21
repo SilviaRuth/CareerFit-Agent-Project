@@ -1,0 +1,15 @@
+{
+  "parser_level": "low",
+  "min_score": 0.5,
+  "extraction_complete": false,
+  "required_fields": {
+    "candidate_name": "Candidate 10062724",
+    "summary": "",
+    "skills_count": 17,
+    "experience_count": 8,
+    "education_count": 0
+  },
+  "unsupported_sections": [
+    "Glendale College of Law"
+  ]
+}

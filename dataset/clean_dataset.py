@@ -11,7 +11,6 @@ from pathlib import Path
 
 from lxml import html
 
-
 DATASET_DIR = Path(__file__).resolve().parent
 RAW_JD_PATH = DATASET_DIR / "JD.md"
 RAW_RESUME_PATH = DATASET_DIR / "Resume.csv"
@@ -501,7 +500,9 @@ def extract_summary_section(section) -> str:
     parts: list[str] = []
     nodes = section.xpath(".//p | .//li")
     if not nodes:
-        nodes = section.xpath(".//div[contains(@class, 'field')] | .//span[contains(@class, 'field')]")
+        nodes = section.xpath(
+            ".//div[contains(@class, 'field')] | .//span[contains(@class, 'field')]"
+        )
     for node in nodes:
         text = normalize_text(node.text_content())
         if not text or text.lower() == "summary":
@@ -514,7 +515,9 @@ def extract_skills_section(section) -> list[str]:
     collected: list[str] = []
     nodes = section.xpath(".//li | .//p")
     if not nodes:
-        nodes = section.xpath(".//div[contains(@class, 'field')] | .//td[contains(@class, 'field')]")
+        nodes = section.xpath(
+            ".//div[contains(@class, 'field')] | .//td[contains(@class, 'field')]"
+        )
     for node in nodes:
         text = normalize_text(node.text_content())
         if not text or text.lower() == "skills":
@@ -536,7 +539,9 @@ def extract_experience_section(section) -> list[str]:
     blocks: list[str] = []
     paragraphs = section.xpath(".//div[contains(@class, 'paragraph')]")
     for paragraph in paragraphs:
-        title = cleaned_non_placeholder(extract_role_title(paragraph.xpath(".//span[contains(@class, 'jobtitle')]")))
+        title = cleaned_non_placeholder(
+            extract_role_title(paragraph.xpath(".//span[contains(@class, 'jobtitle')]"))
+        )
         if not title:
             continue
         company = cleaned_non_placeholder(
@@ -549,7 +554,10 @@ def extract_experience_section(section) -> list[str]:
         if not company:
             company = "Redacted Company"
         heading_parts = [title, company]
-        date_values = [normalize_text(value) for value in paragraph.xpath(".//span[contains(@class, 'jobdates')]/text()")]
+        date_values = [
+            normalize_text(value)
+            for value in paragraph.xpath(".//span[contains(@class, 'jobdates')]/text()")
+        ]
         year_range = build_year_range(date_values)
         if year_range:
             heading_parts.append(year_range)
@@ -597,13 +605,25 @@ def extract_education_section(section) -> list[str]:
     blocks: list[str] = []
     paragraphs = section.xpath(".//div[contains(@class, 'paragraph')]")
     for paragraph in paragraphs:
-        degree = cleaned_non_placeholder(first_text(paragraph.xpath(".//span[contains(@class, 'degree')]")))
-        program = cleaned_non_placeholder(first_text(paragraph.xpath(".//span[contains(@class, 'programline')]")))
-        school = cleaned_non_placeholder(
-            first_text(paragraph.xpath(".//span[contains(@class, 'companyname') and contains(@class, 'educ')]"))
+        degree = cleaned_non_placeholder(
+            first_text(paragraph.xpath(".//span[contains(@class, 'degree')]"))
         )
-        year = cleaned_non_placeholder(first_text(paragraph.xpath(".//span[contains(@class, 'jobdates')]")))
-        field = cleaned_non_placeholder(first_text(paragraph.xpath(".//span[contains(@class, 'field')]")))
+        program = cleaned_non_placeholder(
+            first_text(paragraph.xpath(".//span[contains(@class, 'programline')]"))
+        )
+        school = cleaned_non_placeholder(
+            first_text(
+                paragraph.xpath(
+                    ".//span[contains(@class, 'companyname') and contains(@class, 'educ')]"
+                )
+            )
+        )
+        year = cleaned_non_placeholder(
+            first_text(paragraph.xpath(".//span[contains(@class, 'jobdates')]"))
+        )
+        field = cleaned_non_placeholder(
+            first_text(paragraph.xpath(".//span[contains(@class, 'field')]"))
+        )
 
         summary_parts = []
         if degree and program:
@@ -616,7 +636,10 @@ def extract_education_section(section) -> list[str]:
             summary_parts.append(school)
         if year:
             summary_parts.append(year)
-        if field and field.lower() not in {degree.lower() if degree else "", program.lower() if program else ""}:
+        if field and field.lower() not in {
+            degree.lower() if degree else "",
+            program.lower() if program else "",
+        }:
             summary_parts.append(field)
         summary = ", ".join(part for part in summary_parts if part)
         if summary:
@@ -636,7 +659,9 @@ def extract_project_section(section) -> list[str]:
 def extract_role_title(nodes: list) -> str:
     for node in nodes:
         raw_text = unescape(node.text_content() or "")
-        parts = [normalize_text(part) for part in re.split(r"\n+", raw_text) if normalize_text(part)]
+        parts = [
+            normalize_text(part) for part in re.split(r"\n+", raw_text) if normalize_text(part)
+        ]
         if not parts:
             continue
         if len(parts) == 1:
@@ -707,7 +732,11 @@ def write_cleaned_resumes(path: Path) -> list[CleanedResume]:
                     "projects_present": cleaned.projects_present,
                     "usable_for_parser": cleaned.usable_for_parser,
                     "txt_path": str(
-                        (RESUME_TEXT_DIR / slugify(cleaned.category or "uncategorized") / f"{cleaned.slug}.txt").relative_to(DATASET_DIR)
+                        (
+                            RESUME_TEXT_DIR
+                            / slugify(cleaned.category or "uncategorized")
+                            / f"{cleaned.slug}.txt"
+                        ).relative_to(DATASET_DIR)
                     ),
                     "cleaned_resume_text": cleaned.cleaned_text.strip(),
                 }

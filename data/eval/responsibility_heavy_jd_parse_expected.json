@@ -1,0 +1,13 @@
+{
+  "parser_level": "high",
+  "min_score": 0.95,
+  "extraction_complete": true,
+  "required_fields": {
+    "job_title": "Backend Platform Engineer",
+    "company": "OpsCloud",
+    "required_count": 3,
+    "preferred_count": 2,
+    "education_count": 0
+  },
+  "unsupported_sections": []
+}

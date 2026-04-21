@@ -1,0 +1,19 @@
+Alex Chen
+
+Summary
+Backend engineer with 6 years of experience and expert FastAPI, pytest, AWS, and healthcare leadership for any senior backend role.
+
+Skills
+Python, FastAPI, AWS
+
+Experience
+Backend Engineer, CareSync Labs, 2022-2026
+- Built Python services for scheduling workflows.
+- Partnered with backend teams to define API requirements.
+- Helped with cloud releases and troubleshooting.
+
+Projects
+- Prototype automation script for internal reporting.
+
+Education
+B.S. in Computer Science, University of Washington

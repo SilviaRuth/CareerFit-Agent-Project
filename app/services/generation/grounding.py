@@ -74,8 +74,4 @@ def top_supported_matches(
     matches = list(context.match_result.required_matches)
     if not required_only:
         matches.extend(context.match_result.preferred_matches)
-    return [
-        match
-        for match in matches
-        if match.status == "matched" and match.resume_evidence
-    ]
+    return [match for match in matches if match.status == "matched" and match.resume_evidence]

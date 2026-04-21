@@ -59,7 +59,9 @@ def extract_jd_schema(text: str) -> JDSchema:
     return analyze_jd_text(text).schema
 
 
-def analyze_resume_text(text: str, *, pre_normalized: bool = False) -> ExtractionResult[ResumeSchema]:
+def analyze_resume_text(
+    text: str, *, pre_normalized: bool = False
+) -> ExtractionResult[ResumeSchema]:
     """Extract a resume schema and bounded extraction diagnostics."""
     normalized_text = text if pre_normalized else normalize_text(text, document_type="resume")
     all_lines = normalized_text.split("\n")
@@ -77,7 +79,10 @@ def analyze_resume_text(text: str, *, pre_normalized: bool = False) -> Extractio
         warnings.append(
             ParserDiagnostic(
                 warning_code="summary_inferred_from_intro",
-                message="Summary section was missing; summary text was inferred from leading content.",
+                message=(
+                    "Summary section was missing; "
+                    "summary text was inferred from leading content."
+                ),
                 section="summary",
                 severity="warning",
                 source="extraction",
@@ -162,7 +167,9 @@ def analyze_resume_text(text: str, *, pre_normalized: bool = False) -> Extractio
 
 def analyze_jd_text(text: str, *, pre_normalized: bool = False) -> ExtractionResult[JDSchema]:
     """Extract a JD schema and bounded extraction diagnostics."""
-    normalized_text = text if pre_normalized else normalize_text(text, document_type="job_description")
+    normalized_text = (
+        text if pre_normalized else normalize_text(text, document_type="job_description")
+    )
     all_lines = normalized_text.split("\n")
     non_empty_lines = [line for line in all_lines if line.strip()]
     warnings: list[ParserDiagnostic] = []
@@ -314,7 +321,10 @@ def _split_sections(text: str, allowed_headers: Iterable[str]) -> SectionSplitRe
             warnings.append(
                 ParserDiagnostic(
                     warning_code="unsupported_section_header",
-                    message=f"Section header '{unknown_header}' is not supported by the bounded parser.",
+                    message=(
+                        f"Section header '{unknown_header}' "
+                        "is not supported by the bounded parser."
+                    ),
                     section=unknown_header.lower().replace(" ", "_") if unknown_header else None,
                     severity="warning",
                     source="extraction",

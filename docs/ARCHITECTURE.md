@@ -1,598 +1,187 @@
 # ARCHITECTURE.md
 
-## 1. Overview
+## Overview
 
-JD Matching Agent is an AI-first system that evaluates the fit between a candidate resume and a job description (JD), then produces:
+CareerFit Agent is a deterministic backend pipeline for resume and JD analysis.
 
-- structured match scores
-- evidence-backed gap analysis
-- resume improvement suggestions
-- interview preparation points
-- optional rewritten resume bullets aligned to the JD
+The current architecture supports:
 
-The system is designed as a modular pipeline rather than a single prompt wrapper.  
-Core principle: **retrieval + structured analysis + controllable generation + transparent evidence**.
+- bounded ingestion for text, TXT, PDF, and DOCX inputs
+- deterministic schema extraction for resumes and JDs
+- rule-based matching with evidence spans and blocker flags
+- single-orchestrator grounded generation for rewrite and interview prep
+- multi-resume comparison against one shared JD
+- offline benchmark and report generation for Milestone 4 regression review
 
----
+The current backend does not implement retrieval, semantic matching, JD URL ingestion, or
+multi-agent orchestration.
 
-## 2. Product Goals
+## Milestone State
 
-### Primary Goals
-1. Parse resume and JD into structured representations.
-2. Compare candidate signals against job requirements.
-3. Produce interpretable fit analysis with evidence.
-4. Identify skill gaps and priority improvements.
-5. Generate actionable outputs for job application workflows.
+- M1: completed in the current codebase
+- M2: completed in the current codebase
+- M3: completed in the current codebase
+- M4: completed in the current codebase
+- M5: not started
 
-### Secondary Goals
-1. Support multiple resume versions for different roles.
-2. Track changes across JD variants.
-3. Allow recruiter-style and candidate-style views.
-4. Provide reusable evaluation data for future tuning.
+The current focus before M5 is preserving correctness, keeping docs in sync, and protecting the
+evaluation baseline.
 
----
+## High-Level Flow
 
-## 3. Non-Goals
+### Parse and match flow
 
-At the current stage, this project does **not** aim to:
-- replace ATS systems
-- guarantee hiring outcomes
-- fully automate final resume submission
-- scrape job sites at scale
-- make legal claims about discrimination or fairness compliance
+1. Ingest raw text or a bounded uploaded file.
+2. Normalize document text.
+3. Extract a validated `ResumeSchema` or `JDSchema`.
+4. Match parsed schemas with deterministic rules.
+5. Return score, strengths, gaps, blockers, explanations, and evidence.
 
----
+### Grounded generation flow
 
-## 4. High-Level Architecture
+1. Parse resume text.
+2. Parse JD text.
+3. Match parsed schemas.
+4. Compute generation gating from parser confidence, blockers, and evidence quality.
+5. Render rewrite or interview-prep output from the shared grounded context.
 
-```text
-User Input
- ├─ Resume (PDF/DOCX/TXT)
- ├─ Job Description (URL/TXT/PDF)
- └─ Optional metadata (target role, seniority, location)
+### Multi-resume comparison flow
 
-        ↓
+1. Parse one shared JD.
+2. Parse each resume independently.
+3. Match each parsed resume against the shared JD.
+4. Rank results with blocker-aware, confidence-aware ordering.
+5. Return ranked summaries with additive adaptation metadata.
 
-[Ingestion Layer]
- ├─ Resume parser
- ├─ JD parser
- ├─ Text cleaner
- └─ Document normalizer
+## Core Modules
 
-        ↓
+### API layer
 
-[Structuring Layer]
- ├─ Resume schema extraction
- ├─ JD schema extraction
- ├─ Skill/entity extraction
- ├─ Experience normalization
- └─ Requirement classification
+`app/api/routes/`
 
-        ↓
+Public endpoints:
 
-[Matching Engine]
- ├─ Lexical matching
- ├─ Semantic matching
- ├─ Rule-based scoring
- ├─ Evidence linking
- └─ Gap detection
+- `GET /health`
+- `POST /match`
+- `POST /parse/resume`
+- `POST /parse/jd`
+- `POST /rewrite`
+- `POST /interview-prep`
+- `POST /compare/resumes`
 
-        ↓
+Routes should only validate transport concerns and delegate business logic.
 
-[Orchestration Layer]
- ├─ Single orchestrator service
- ├─ Rewrite rendering module
- ├─ Interview prep rendering module
- └─ Guardrails and gating
+### Parsing and ingestion
 
-        ↓
+- `app/services/ingestion/file_ingestion.py`
+- `app/services/text_normalizer.py`
+- `app/services/extraction_service.py`
+- `app/services/parse_service.py`
 
-[Output Layer]
- ├─ Match score summary
- ├─ Strengths
- ├─ Gaps
- ├─ Resume rewrite suggestions
- ├─ Interview question suggestions
- └─ Traceable evidence / citations
+Responsibilities:
 
-````
+- bounded file ingestion
+- normalization diagnostics
+- section detection
+- schema extraction
+- parser confidence and unsupported segment reporting
 
----
+### Matching
 
-## 5. Core Modules
+`app/services/matching_service.py`
 
-### 5.1 Ingestion Layer
+Responsibilities:
 
-Responsible for collecting and normalizing raw inputs.
+- deterministic requirement evaluation
+- missing skill vs missing evidence distinction
+- blocker flag calculation
+- dimension scores and overall score
+- evidence summary creation
+- additive adaptation summary injection
 
-#### Inputs
+### Adaptation and comparison
 
-* resume files
-* JD text or URLs
-* optional portfolio/project links
+- `app/services/adaptation_service.py`
+- `app/services/comparison_service.py`
 
-#### Responsibilities
+Responsibilities:
 
-* parse PDF/DOCX/TXT safely
-* preserve section boundaries where possible
-* normalize whitespace, bullets, headers
-* detect likely resume sections:
+- deterministic role and company emphasis summaries
+- multi-resume ranking against a shared JD
+- ranking tie-breaks informed by parser confidence
 
-  * summary
-  * education
-  * skills
-  * experience
-  * projects
-  * certifications
+Adaptation metadata is additive. It should shape presentation and ordering, not silently redefine
+the underlying score contract.
 
-#### Design Notes
+### Grounded generation
 
-* keep raw text and cleaned text separately
-* record parser confidence / parsing warnings
-* do not over-compress formatting too early
+- `app/services/orchestration_service.py`
+- `app/services/generation/generation_guardrails.py`
+- `app/services/generation/rewrite_service.py`
+- `app/services/generation/interview_prep_service.py`
+- `app/services/generation/grounding.py`
 
----
+Responsibilities:
 
-### 5.2 Structuring Layer
+- build one shared grounded context
+- compute gating from parser quality and evidence risk
+- keep outputs narrowly grounded
+- prevent unsupported or overconfident generation
 
-Transforms unstructured text into a canonical schema.
+### Evaluation
 
-#### Resume schema example
+- `app/evaluation/benchmark_runner.py`
+- `app/evaluation/extraction_runner.py`
+- `app/evaluation/comparison_runner.py`
+- `app/evaluation/artifact_writer.py`
 
-```json
-{
-  "candidate_name": "",
-  "target_roles": [],
-  "skills": [],
-  "experience_items": [],
-  "project_items": [],
-  "education_items": [],
-  "certifications": []
-}
-```
+Responsibilities:
 
-#### JD schema example
+- run fixture-backed regression checks
+- produce reviewable JSON artifacts
+- refresh baseline reports intentionally
+- create labeled snapshots for comparison review
 
-```json
-{
-  "job_title": "",
-  "company": "",
-  "required_skills": [],
-  "preferred_skills": [],
-  "responsibilities": [],
-  "experience_requirements": [],
-  "education_requirements": [],
-  "keywords": []
-}
-```
+## Data Contracts
 
-#### Responsibilities
+Important public contract families:
 
-* extract technical skills
-* identify role level and domain
-* classify requirements into:
+- parse responses in `app/schemas/parse.py`
+- match responses in `app/schemas/match.py`
+- generation responses in `app/schemas/generation.py`
+- comparison responses in `app/schemas/comparison.py`
 
-  * required
-  * preferred
-  * implied
-* normalize synonyms:
+The repo favors explicit, stable schemas over loose dictionaries.
 
-  * NLP ↔ Natural Language Processing
-  * IR ↔ Information Retrieval
-  * LLM apps ↔ GenAI applications
+## Current Safety Boundaries
 
-#### Design Notes
+- file uploads are bounded
+- unsupported or malformed files fail clearly
+- parse responses expose warnings and confidence
+- generation must remain evidence-linked
+- resumes and JDs should be treated as sensitive career documents
+- outputs must not imply guaranteed hiring outcomes
 
-* use deterministic normalization before LLM inference
-* maintain both original span and normalized label
-* make extraction auditable
+## Evaluation Story
 
----
+Milestone 4 is artifact-driven.
 
-### 5.3 Matching Engine
+The checked-in evaluation layer includes:
 
-The analytical core of the system.
+- match benchmark manifests and expected outputs
+- extraction benchmark manifests and expected outputs
+- comparison benchmark manifests and expected outputs
+- baseline reports under `data/eval/reports/baseline/`
+- snapshot-capable report writing under `data/eval/reports/snapshots/`
 
-#### Subcomponents
+This evaluation bundle is part of the architecture, not an optional afterthought.
 
-1. **Lexical matcher**
+## Non-Goals At The Current Stage
 
-   * keyword overlap
-   * exact phrase detection
-   * section-aware scoring
-
-2. **Semantic matcher**
-
-   * embedding-based similarity
-   * project-to-requirement relevance
-   * experience-to-responsibility alignment
-
-3. **Rule-based scorer**
-
-   * required skill missing penalties
-   * preferred skill soft bonuses
-   * seniority mismatch adjustments
-   * domain-specific weighting
-
-4. **Evidence linker**
-
-   * map each claim to a resume span
-   * avoid unsupported praise or criticism
-
-5. **Gap detector**
-
-   * identify absent, weak, or unclear qualifications
-   * separate “missing skill” from “missing evidence”
-
-#### Output
-
-```json
-{
-  "overall_score": 0,
-  "dimension_scores": {
-    "skills": 0,
-    "experience": 0,
-    "projects": 0,
-    "education": 0,
-    "domain_fit": 0
-  },
-  "matched_evidence": [],
-  "gaps": [],
-  "risk_flags": []
-}
-```
-
----
-
-### 5.4 Orchestration Layer
-
-Coordinates multi-step analysis and grounded generation.
-
-#### Responsibilities
-
-* sequence parse -> match -> gate -> generate
-* keep generation subordinate to extracted schemas and match diagnostics
-* route requests into bounded rewrite and interview-prep services
-* surface parser and evidence limitations directly in the output
-
-#### Orchestration Design Principles
-
-* evidence first, generation second
-* no generated claim without source span
-* keep chain modular:
-
-  1. extract
-  2. score
-  3. diagnose
-  4. improve
-  5. present
-
-#### Recommended Pattern
-
-Use a lightweight single orchestrator, not an over-engineered multi-agent swarm in v1.
-
-Keep the implementation as callable modules/functions:
-
-* parsing services
-* matching services
-* one orchestration service
-* rewrite rendering services
-* interview-prep rendering services
-
-These are internal capabilities, not autonomous agents.
-
----
-
-## 6. Data Flow
-
-### Step 1: Input normalization
-
-Resume and JD are parsed into normalized text artifacts.
-
-### Step 2: Schema extraction
-
-The system converts both documents into structured JSON representations.
-
-### Step 3: Candidate-JD alignment
-
-Requirements are matched against:
-
-* skills
-* work experience
-* projects
-* education
-* other signals
-
-### Step 4: Scoring and evidence generation
-
-Each score dimension is backed by evidence spans.
-
-### Step 5: Actionable output generation
-
-The system produces:
-
-* fit summary
-* strong matches
-* weak matches
-* missing signals
-* resume bullet improvements
-* interview prep focus areas
-
-### Current M3 flow
-
-The Milestone 3 backend uses a single orchestrator service:
-
-1. parse resume text into a bounded parse response
-2. parse JD text into a bounded parse response
-3. match parsed schemas deterministically
-4. compute generation gating from parser confidence, evidence quality, and blockers
-5. render rewrite or interview-prep outputs from the shared grounded context
-
-This keeps the critical path deterministic and reviewable without introducing a framework-heavy agent graph.
-
----
-
-## 7. Recommended Tech Stack
-
-### Core Application
-
-* Python
-* FastAPI
-* Pydantic
-* Uvicorn
-
-### Parsing
-
-* PyMuPDF / pdfplumber
-* python-docx
-* BeautifulSoup (if JD URLs are supported)
-
-### NLP / ML
-
-* sentence-transformers
-* scikit-learn
-* optional transformers
-* optional spaCy for NER / phrase extraction
-
-### Storage
-
-* local JSON for v1
-* SQLite or Postgres later
-* vector store optional in v1, useful in v2
-
-### Frontend
-
-* Streamlit for fast prototype
-  or
-* Next.js + FastAPI for portfolio-grade build
-
-### Evaluation / Experimentation
-
-* pandas
-* pytest
-* custom evaluation JSONL datasets
-* optional MLflow / Weights & Biases later
-
----
-
-## 8. Suggested Folder Structure
-
-```text
-project-root/
-├─ app/
-│  ├─ api/
-│  ├─ core/
-│  ├─ schemas/
-│  ├─ services/
-│  └─ utils/
-├─ docs/
-│  ├─ ARCHITECTURE.md
-│  ├─ CODE_REVIEW.md
-│  ├─ ROADMAP.md
-│  └─ DECISIONS.md
-├─ data/
-│  ├─ samples/
-│  ├─ eval/
-│  └─ outputs/
-├─ tests/
-├─ scripts/
-├─ notebooks/
-├─ README.md
-├─ requirements.txt
-└─ pyproject.toml
-```
-
-More detailed application split:
-
-```text
-app/
-├─ api/
-│  └─ routes/
-├─ schemas/
-│  ├─ resume.py
-│  ├─ jd.py
-│  └─ match_result.py
-├─ services/
-│  ├─ parse_service.py
-│  ├─ extraction_service.py
-│  ├─ matching_service.py
-│  ├─ orchestration_service.py
-│  └─ generation/
-│     ├─ context.py
-│     ├─ generation_guardrails.py
-│     ├─ grounding.py
-│     ├─ rewrite_service.py
-│     └─ interview_prep_service.py
-├─ core/
-│  ├─ config.py
-│  └─ logging.py
-└─ utils/
-   └─ text_cleaning.py
-```
-
----
-
-## 9. API Surface (Proposed)
-
-### `POST /parse/resume`
-
-Parse and structure a resume.
-
-### `POST /parse/jd`
-
-Parse and structure a JD.
-
-### `POST /match`
-
-Return score, evidence, and gaps.
-
-### `POST /rewrite`
-
-Generate bounded JD-aligned resume improvement guidance through the single orchestrator flow.
-
-### `POST /interview-prep`
-
-Generate grounded interview preparation guidance through the single orchestrator flow.
-
-### `POST /compare/resumes`
-
-Rank multiple resumes against a shared JD using the same deterministic parse and match path.
-
-### `GET /health`
-
-Health check.
-
----
-
-## 10. Scoring Strategy
-
-The overall score should not be a black box.
-
-### Example weighted dimensions
-
-* skill match: 30%
-* experience relevance: 30%
-* project relevance: 20%
-* domain alignment: 10%
-* education / credentials: 10%
-
-### Important rule
-
-A high overall score must still show critical blockers, for example:
-
-* required skill missing
-* years of experience gap
-* domain mismatch
-* no evidence for claimed skill
-
-### Output style
-
-Instead of only giving:
-
-* “82/100”
-
-Return:
-
-* score
-* explanation
-* confidence
-* blocker flags
-* evidence spans
-
----
-
-## 11. Evaluation Plan
-
-### Offline evaluation dataset
-
-Current checked-in baseline:
-
-* 10 match benchmark cases
-* 8 extraction benchmark cases
-* annotated fit labels, blocker flags, required/preferred matches, and top gaps
-* checked-in baseline JSON/Markdown artifacts under `data/eval/reports/baseline/`
-
-### Metrics
-
-* extraction accuracy
-* skill match precision/recall
-* score consistency
-* explanation usefulness
-* rewrite quality
-* hallucination rate
-
-### Manual review questions
-
-* Is each criticism grounded?
-* Is each suggestion actionable?
-* Does the score roughly match human judgment?
-* Are important missing requirements surfaced early?
-
----
-
-## 12. Risks
-
-### Product Risks
-
-* oversimplified scoring
-* misleading confidence
-* ATS-style keyword gaming
-
-### Technical Risks
-
-* poor PDF parsing
-* brittle skill extraction
-* semantic overmatching
-* hallucinated rewrite outputs
-
-### Mitigations
-
-* span-based evidence
-* deterministic pre-processing
-* rule-based checks around LLM outputs
-* evaluation set before feature expansion
-
----
-
-## 13. Roadmap
-
-### Phase 1: Foundation
-
-* project skeleton
-* parsing
-* schemas
-* basic matching
-* JSON outputs
-
-### Phase 2: Usable MVP
-
-* API endpoints
-* scoring explanation
-* resume rewrite
-* simple UI
-
-### Phase 3: Strong Portfolio Version
-
-* evaluation benchmark
-* richer evidence tracing
-* multiple resume version support
-* company / role adaptation
-* analytics dashboard
-
-### Phase 4: Advanced Agent Features
-
-* learning plan generation
-* interview simulation alignment
-* cross-JD comparison
-* profile memory and recommendation loop
-
----
-
-## 14. Key Design Decisions
-
-1. Build a pipeline first, not a prompt soup.
-2. Keep extraction and scoring separable.
-3. Prefer explainability over flashy output.
-4. Use LLMs where they add leverage, not where rules are enough.
-5. Make every recommendation traceable to source evidence.
-
+- retrieval or vector stores
+- semantic matching
+- JD URL scraping or ingestion
+- frontend delivery
+- background job systems
+- autonomous agent loops
+- opaque scoring or prompt-only behavior

@@ -19,19 +19,21 @@ def build_generation_gate(
     jd_low = context.jd_parse.parser_confidence.level == "low"
     blockers = context.match_result.blocker_flags
     missing_skill_gap_count = sum(
-        gap.gap_type in {"missing_skill", "domain_gap"}
-        and gap.requirement_priority == "required"
+        gap.gap_type in {"missing_skill", "domain_gap"} and gap.requirement_priority == "required"
         for gap in context.match_result.gaps
     )
     missing_evidence_gap_count = sum(
         gap.gap_type == "missing_evidence" for gap in context.match_result.gaps
     )
-    severe_blockers = any(
-        (
-            blockers.seniority_mismatch,
-            blockers.unsupported_claims,
+    severe_blockers = (
+        any(
+            (
+                blockers.seniority_mismatch,
+                blockers.unsupported_claims,
+            )
         )
-    ) or missing_skill_gap_count >= 2
+        or missing_skill_gap_count >= 2
+    )
     limited_by_blockers = any(
         (
             blockers.missing_required_skills,

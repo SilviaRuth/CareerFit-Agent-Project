@@ -49,18 +49,10 @@ def render_interview_prep_response(context: GroundedFlowContext) -> InterviewPre
     talking_points = _build_talking_points(context, context.gating.generation_mode)
     weak_area_preparation = _build_weak_area_preparation(context)
     evidence_used = dedupe_evidence(
-        [
-            span for item in focus_areas for span in item.evidence_used
-        ]
-        + [
-            span for item in questions for span in item.evidence_used
-        ]
-        + [
-            span for item in talking_points for span in item.evidence_used
-        ]
-        + [
-            span for item in weak_area_preparation for span in item.evidence_used
-        ]
+        [span for item in focus_areas for span in item.evidence_used]
+        + [span for item in questions for span in item.evidence_used]
+        + [span for item in talking_points for span in item.evidence_used]
+        + [span for item in weak_area_preparation for span in item.evidence_used]
     )
 
     summary = _build_interview_summary(
@@ -91,7 +83,10 @@ def _build_focus_areas(context: GroundedFlowContext) -> list[InterviewFocusArea]
             (
                 match
                 for match in top_supported_matches(context)
-                if any(label in responsibility.lower() for label in match.requirement_label.lower().split())
+                if any(
+                    label in responsibility.lower()
+                    for label in match.requirement_label.lower().split()
+                )
             ),
             None,
         )
@@ -100,13 +95,19 @@ def _build_focus_areas(context: GroundedFlowContext) -> list[InterviewFocusArea]
             InterviewFocusArea(
                 priority=priority,
                 focus_area=responsibility,
-                reason="JD responsibilities usually drive behavioral and technical interview questions.",
+                reason=(
+                    "JD responsibilities usually drive behavioral "
+                    "and technical interview questions."
+                ),
                 related_requirement_id=related_match.requirement_id if related_match else None,
                 evidence_used=dedupe_evidence(evidence),
                 caution=(
                     None
                     if related_match
-                    else "Prepare an honest response if your resume evidence for this responsibility is sparse."
+                    else (
+                        "Prepare an honest response if your resume evidence "
+                        "for this responsibility is sparse."
+                    )
                 ),
             )
         )
@@ -117,7 +118,10 @@ def _build_focus_areas(context: GroundedFlowContext) -> list[InterviewFocusArea]
             InterviewFocusArea(
                 priority=priority,
                 focus_area=match.requirement_label,
-                reason="This required area is already supported by resume evidence and is likely to be probed in depth.",
+                reason=(
+                    "This required area is already supported by resume evidence "
+                    "and is likely to be probed in depth."
+                ),
                 related_requirement_id=match.requirement_id,
                 evidence_used=dedupe_evidence(match.resume_evidence + match.jd_evidence),
                 caution=None,
@@ -130,7 +134,10 @@ def _build_focus_areas(context: GroundedFlowContext) -> list[InterviewFocusArea]
             InterviewFocusArea(
                 priority=priority,
                 focus_area=gap.requirement_label,
-                reason="This gap or weak area is likely to come up as a risk area during interviews.",
+                reason=(
+                    "This gap or weak area is likely to come up as "
+                    "a risk area during interviews."
+                ),
                 related_requirement_id=gap.requirement_id,
                 evidence_used=dedupe_evidence(gap.resume_evidence + gap.jd_evidence),
                 caution="Prepare a truthful explanation instead of overstating direct experience.",
@@ -150,8 +157,14 @@ def _build_interview_questions(context: GroundedFlowContext) -> list[InterviewQu
         questions.append(
             InterviewQuestion(
                 priority=priority,
-                question=f"Can you walk through a concrete example of your {match.requirement_label} work and the outcome?",
-                rationale="This question is grounded in a required or preferred area the JD values and your resume already supports.",
+                question=(
+                    "Can you walk through a concrete example of your "
+                    f"{match.requirement_label} work and the outcome?"
+                ),
+                rationale=(
+                    "This question is grounded in a required or preferred area "
+                    "the JD values and your resume already supports."
+                ),
                 related_requirement_id=match.requirement_id,
                 support_level="strong",
                 evidence_used=dedupe_evidence(match.resume_evidence + match.jd_evidence),
@@ -164,8 +177,14 @@ def _build_interview_questions(context: GroundedFlowContext) -> list[InterviewQu
         questions.append(
             InterviewQuestion(
                 priority=priority,
-                question=f"How would you address the team's expectations around {gap.requirement_label} given your current background?",
-                rationale="This question prepares you for likely scrutiny around an explicit gap or weak signal in the fit analysis.",
+                question=(
+                    "How would you address the team's expectations around "
+                    f"{gap.requirement_label} given your current background?"
+                ),
+                rationale=(
+                    "This question prepares you for likely scrutiny around "
+                    "an explicit gap or weak signal in the fit analysis."
+                ),
                 related_requirement_id=gap.requirement_id,
                 support_level="weak" if gap.resume_evidence else "missing",
                 evidence_used=dedupe_evidence(gap.resume_evidence + gap.jd_evidence),
@@ -187,18 +206,25 @@ def _build_talking_points(
 
     talking_points: list[TalkingPoint] = []
     for match in top_supported_matches(context, required_only=False)[:4]:
-        resume_span = next((span for span in match.resume_evidence if span.source_document == "resume"), None)
+        resume_span = next(
+            (span for span in match.resume_evidence if span.source_document == "resume"), None
+        )
         if resume_span is None:
             continue
         talking_points.append(
             TalkingPoint(
                 topic=match.requirement_label,
                 talking_point=(
-                    f"Use the verified example '{extract_bullet_text(resume_span)}' to explain your {match.requirement_label} experience."
+                    "Use the verified example "
+                    f"'{extract_bullet_text(resume_span)}' "
+                    f"to explain your {match.requirement_label} experience."
                 ),
                 support_level="strong",
                 evidence_used=dedupe_evidence(match.resume_evidence + match.jd_evidence),
-                caution="Keep the story anchored to the documented evidence and do not add unsupported impact metrics.",
+                caution=(
+                    "Keep the story anchored to the documented evidence "
+                    "and do not add unsupported impact metrics."
+                ),
             )
         )
     return talking_points[:4]
@@ -215,7 +241,9 @@ def _build_weak_area_preparation(
                 requirement_label=gap.requirement_label,
                 gap_type=gap.gap_type,
                 honest_framing=_honest_framing_for_gap(gap.requirement_label, gap.gap_type),
-                preparation_steps=_prep_steps_for_gap(gap.requirement_label, gap.gap_type, bool(gap.resume_evidence)),
+                preparation_steps=_prep_steps_for_gap(
+                    gap.requirement_label, gap.gap_type, bool(gap.resume_evidence)
+                ),
                 evidence_used=dedupe_evidence(gap.resume_evidence + gap.jd_evidence),
             )
         )
@@ -230,7 +258,9 @@ def _build_interview_summary(
     """Build the top-line interview prep summary."""
     if generation_mode == "minimal":
         return (
-            "Interview prep is intentionally conservative because the grounded flow was downgraded to minimal mode; focus on verified resume examples and honest gap framing."
+            "Interview prep is intentionally conservative because the grounded "
+            "flow was downgraded to minimal mode; focus on verified resume "
+            "examples and honest gap framing."
         )
 
     top_focus = [item.focus_area for item in focus_areas[:2]]
@@ -238,10 +268,12 @@ def _build_interview_summary(
         return (
             "Expect the interview to center on "
             + " and ".join(top_focus)
-            + ", with weaker areas handled through truthful preparation rather than invented stories."
+            + ", with weaker areas handled through truthful preparation "
+            "rather than invented stories."
         )
     return (
-        "Use the JD responsibilities and explicit match gaps as the main preparation frame, and keep every answer anchored to existing evidence."
+        "Use the JD responsibilities and explicit match gaps as the main "
+        "preparation frame, and keep every answer anchored to existing evidence."
     )
 
 
@@ -261,18 +293,28 @@ def _honest_framing_for_gap(requirement_label: str, gap_type: str) -> str:
     """Create truthful interview framing for a weak area."""
     if gap_type == "missing_skill":
         return (
-            f"State clearly that you do not yet have direct {requirement_label} experience, then connect adjacent evidence without claiming hands-on ownership."
+            "State clearly that you do not yet have direct "
+            f"{requirement_label} experience, then connect adjacent evidence "
+            "without claiming hands-on ownership."
         )
     if gap_type == "missing_evidence":
         return (
-            f"Explain the related work you do have, but note that the resume does not yet show strong direct evidence for {requirement_label}."
+            "Explain the related work you do have, but note that the resume "
+            f"does not yet show strong direct evidence for {requirement_label}."
         )
     if gap_type == "seniority_mismatch":
-        return "Be explicit about your current scope and years of experience instead of trying to sound more senior than the evidence supports."
+        return (
+            "Be explicit about your current scope and years of experience "
+            "instead of trying to sound more senior than the evidence supports."
+        )
     if gap_type == "education_gap":
-        return "State your actual education truthfully and avoid implying a stronger degree match than the resume supports."
+        return (
+            "State your actual education truthfully and avoid implying a "
+            "stronger degree match than the resume supports."
+        )
     return (
-        f"Acknowledge that direct {requirement_label} background is limited and explain any adjacent experience without overstating domain depth."
+        f"Acknowledge that direct {requirement_label} background is limited "
+        "and explain any adjacent experience without overstating domain depth."
     )
 
 
@@ -284,16 +326,30 @@ def _prep_steps_for_gap(
     """Provide small truthful prep steps for weak areas."""
     steps = ["Prepare a concise, honest statement about your current level of experience."]
     if has_adjacent_evidence:
-        steps.append("Bring one adjacent example from your actual resume that shows transferable work.")
+        steps.append(
+            "Bring one adjacent example from your actual resume that shows transferable work."
+        )
     else:
         steps.append("Do not create a substitute story if no grounded example exists.")
 
     if gap_type == "missing_skill":
-        steps.append(f"Explain what you have done that is adjacent to {requirement_label} and where the gap still remains.")
+        steps.append(
+            "Explain what you have done that is adjacent to "
+            f"{requirement_label} and where the gap still remains."
+        )
     elif gap_type == "missing_evidence":
-        steps.append(f"Review the resume wording around {requirement_label} so you can clarify what is real and what is only loosely implied.")
+        steps.append(
+            "Review the resume wording around "
+            f"{requirement_label} so you can clarify what is real and what is "
+            "only loosely implied."
+        )
     elif gap_type == "seniority_mismatch":
-        steps.append("Frame your scope accurately and emphasize growth readiness rather than higher seniority.")
+        steps.append(
+            "Frame your scope accurately and emphasize growth readiness "
+            "rather than higher seniority."
+        )
     else:
-        steps.append("Keep the explanation factual and avoid upgrading the gap into a claimed strength.")
+        steps.append(
+            "Keep the explanation factual and avoid upgrading the gap into a claimed strength."
+        )
     return steps

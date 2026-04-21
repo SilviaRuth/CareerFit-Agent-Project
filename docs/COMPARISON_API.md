@@ -1,6 +1,6 @@
 # Comparison API Guide
 
-This guide documents the M4 multi-resume comparison workflow.
+This guide documents the Milestone 4 multi-resume comparison workflow.
 
 ## Purpose
 
@@ -11,6 +11,7 @@ The comparison flow is intended for:
 - comparing resume variants for the same candidate
 - comparing a small candidate slate against one role
 - reviewing blocker and evidence differences side by side
+- making role/company adaptation emphasis reviewable for each ranked resume
 
 It is not a semantic ranking system or a retrieval-backed recommender.
 
@@ -29,7 +30,7 @@ Response:
 - JD parser confidence
 - ranked resume comparison entries
 - score deltas from the best result
-- blocker flags, top gaps, strengths, and evidence summary for each ranked resume
+- blocker flags, top gaps, strengths, evidence summary, and adaptation summary for each ranked resume
 
 ## Example
 
@@ -70,6 +71,7 @@ Response:
       "strengths": [],
       "top_gaps": [],
       "evidence_summary": {},
+      "adaptation_summary": {},
       "score_delta_from_best": 0
     }
   ]
@@ -85,3 +87,14 @@ The comparison service keeps the ranking deterministic and reviewable:
 - unsupported-claim warnings break ties after the score
 
 This ranking is intentionally simple and should stay aligned with the rule-based matcher unless a later decision record changes it.
+
+## Offline Comparison Coverage
+
+The comparison API is also exercised offline through:
+
+```powershell
+.venv\Scripts\Activate.ps1
+python -m app.evaluation.comparison_runner
+```
+
+That runner uses representative scenarios from `data/eval/comparison_manifest.json` to lock ranking order, fit labels, and low-confidence resume ordering.

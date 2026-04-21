@@ -1,0 +1,30 @@
+{
+  "pair_id": "strong_vs_accountant",
+  "expected_fit_label": "poor",
+  "required_skill_matches": [],
+  "preferred_skill_matches": [
+    "bachelor's degree in accounting or finance"
+  ],
+  "top_gaps": [
+    {
+      "requirement_label": "proficiency in accounting tools (e.g., quickbooks, excel)",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "knowledge of accounting principles and regulations (gaap)",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    },
+    {
+      "requirement_label": "attention to detail and organizational ability",
+      "requirement_priority": "required",
+      "gap_type": "missing_skill"
+    }
+  ],
+  "blocker_flags": {
+    "missing_required_skills": true,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

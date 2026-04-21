@@ -1,0 +1,61 @@
+{
+  "scenarios": [
+    {
+      "scenario_id": "backend_variants",
+      "jd_sample": "strong_fit_jd.txt",
+      "resumes": [
+        {
+          "resume_id": "targeted",
+          "sample_name": "alex_targeted_resume.txt"
+        },
+        {
+          "resume_id": "general",
+          "sample_name": "alex_general_resume.txt"
+        },
+        {
+          "resume_id": "claimy",
+          "sample_name": "alex_claimy_resume.txt"
+        }
+      ],
+      "expected_eval": "backend_variants_comparison_expected.json"
+    },
+    {
+      "scenario_id": "responsibility_variants",
+      "jd_sample": "responsibility_heavy_jd.txt",
+      "resumes": [
+        {
+          "resume_id": "targeted",
+          "sample_name": "alex_targeted_resume.txt"
+        },
+        {
+          "resume_id": "general",
+          "sample_name": "alex_general_resume.txt"
+        },
+        {
+          "resume_id": "strong",
+          "sample_name": "strong_fit_resume.txt"
+        }
+      ],
+      "expected_eval": "responsibility_variants_comparison_expected.json"
+    },
+    {
+      "scenario_id": "low_confidence_slate",
+      "jd_sample": "strong_fit_jd.txt",
+      "resumes": [
+        {
+          "resume_id": "strong",
+          "sample_name": "strong_fit_resume.txt"
+        },
+        {
+          "resume_id": "partial",
+          "sample_name": "partial_fit_resume.txt"
+        },
+        {
+          "resume_id": "low_confidence",
+          "sample_name": "low_confidence_resume.txt"
+        }
+      ],
+      "expected_eval": "low_confidence_slate_comparison_expected.json"
+    }
+  ]
+}

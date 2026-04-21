@@ -1,0 +1,13 @@
+{
+  "parser_level": "high",
+  "min_score": 0.95,
+  "extraction_complete": true,
+  "required_fields": {
+    "candidate_name": "Candidate 10554236",
+    "summary": "Financial Accountant specializing in financial planning, reporting and analysis within the Department of Defense.",
+    "skills_count": 12,
+    "experience_count": 9,
+    "education_count": 3
+  },
+  "unsupported_sections": []
+}

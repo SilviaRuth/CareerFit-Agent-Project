@@ -22,6 +22,11 @@ from app.schemas.match import (
     RequirementMatch,
 )
 from app.schemas.resume import ResumeSchema
+from app.services.adaptation_service import (
+    build_adaptation_summary,
+    order_strength_matches,
+    sort_gaps_for_adaptation,
+)
 from app.services.extraction_service import extract_jd_schema, extract_resume_schema
 
 
@@ -79,11 +84,18 @@ def match_schemas(resume_schema: ResumeSchema, jd_schema: JDSchema) -> MatchResu
     )
     overall_score = _weighted_overall_score(dimension_scores)
 
-    all_gaps = required_gaps + preferred_gaps
+    adaptation_summary = build_adaptation_summary(
+        jd_schema=jd_schema,
+        required_matches=required_matches,
+        preferred_matches=preferred_matches,
+        gaps=required_gaps + preferred_gaps,
+    )
+    all_gaps = sort_gaps_for_adaptation(required_gaps + preferred_gaps, adaptation_summary)
     strengths = [
         f"Matched {match.requirement_priority} {match.requirement_label} with resume evidence."
-        for match in required_matches + preferred_matches
-        if match.status == "matched"
+        for match in order_strength_matches(
+            required_matches + preferred_matches, adaptation_summary
+        )
     ][:3]
 
     explanations = [
@@ -103,6 +115,8 @@ def match_schemas(resume_schema: ResumeSchema, jd_schema: JDSchema) -> MatchResu
             f"unsupported_claims={blocker_flags.unsupported_claims}."
         ),
     ]
+    if adaptation_summary.explanation:
+        explanations.append(adaptation_summary.explanation)
 
     all_evidence = _dedupe_spans(
         span
@@ -132,6 +146,7 @@ def match_schemas(resume_schema: ResumeSchema, jd_schema: JDSchema) -> MatchResu
             preferred_matches=preferred_matches,
             gaps=all_gaps,
         ),
+        adaptation_summary=adaptation_summary,
     )
 
 
@@ -341,8 +356,7 @@ def _evaluate_capability_requirement(
             requirement_priority=requirement.priority,
             gap_type="missing_evidence",
             explanation=(
-                f"Resume mentions {requirement.label}, but the evidence is weak "
-                "or unsupported."
+                f"Resume mentions {requirement.label}, but the evidence is weak or unsupported."
             ),
             resume_evidence=weak_evidence,
             jd_evidence=[requirement.evidence_span],
@@ -559,17 +573,11 @@ def _build_evidence_summary(
     resume_section_counts: dict[str, int] = {}
     jd_section_counts: dict[str, int] = {}
     for span in evidence_spans:
-        target = (
-            resume_section_counts
-            if span.source_document == "resume"
-            else jd_section_counts
-        )
+        target = resume_section_counts if span.source_document == "resume" else jd_section_counts
         target[span.section] = target.get(span.section, 0) + 1
     return EvidenceSummary(
         total_evidence_spans=len(evidence_spans),
-        resume_evidence_spans=sum(
-            1 for span in evidence_spans if span.source_document == "resume"
-        ),
+        resume_evidence_spans=sum(1 for span in evidence_spans if span.source_document == "resume"),
         jd_evidence_spans=sum(
             1 for span in evidence_spans if span.source_document == "job_description"
         ),

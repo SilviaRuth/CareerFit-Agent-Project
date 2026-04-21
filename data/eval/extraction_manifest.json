@@ -47,6 +47,36 @@
       "document_type": "job_description",
       "sample_name": "dataset/jd_cleaned/information_technology/information_technology_01_software_engineer.txt",
       "expected_eval": "cleaned_dataset_jd_parse_expected.json"
+    },
+    {
+      "case_id": "accountant_resume",
+      "document_type": "resume",
+      "sample_name": "dataset/resume_cleaned/accountant/accountant_10554236.txt",
+      "expected_eval": "accountant_resume_parse_expected.json"
+    },
+    {
+      "case_id": "healthcare_resume",
+      "document_type": "resume",
+      "sample_name": "dataset/resume_cleaned/healthcare/healthcare_10062724.txt",
+      "expected_eval": "healthcare_resume_parse_expected.json"
+    },
+    {
+      "case_id": "accountant_jd",
+      "document_type": "job_description",
+      "sample_name": "dataset/jd_cleaned/accountant/accountant_01_accountant.txt",
+      "expected_eval": "accountant_jd_parse_expected.json"
+    },
+    {
+      "case_id": "healthcare_jd",
+      "document_type": "job_description",
+      "sample_name": "dataset/jd_cleaned/healthcare/healthcare_01_registered_nurse.txt",
+      "expected_eval": "healthcare_jd_parse_expected.json"
+    },
+    {
+      "case_id": "responsibility_heavy_jd",
+      "document_type": "job_description",
+      "sample_name": "responsibility_heavy_jd.txt",
+      "expected_eval": "responsibility_heavy_jd_parse_expected.json"
     }
   ]
 }

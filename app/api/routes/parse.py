@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Request, status
 
+from app.core.config import MAX_INGESTION_FILE_BYTES
 from app.schemas.parse import JDParseResponse, ParseTextRequest, ResumeParseResponse
 from app.services.parse_service import (
     parse_jd_file,
@@ -66,7 +67,7 @@ async def _read_parse_request(request: Request) -> dict[str, str | bytes | None]
     if upload is not None:
         filename = getattr(upload, "filename", None) or "upload.txt"
         media_type = getattr(upload, "content_type", None)
-        content = await upload.read()
+        content = await _read_upload_content(upload)
         return {
             "kind": "file",
             "text": None,
@@ -92,3 +93,24 @@ async def _read_parse_request(request: Request) -> dict[str, str | bytes | None]
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="Provide either JSON text input or a multipart `file` upload.",
     )
+
+
+async def _read_upload_content(upload) -> bytes:
+    """Read upload content incrementally so oversized files fail early."""
+    chunks: list[bytes] = []
+    total_size = 0
+    while True:
+        chunk = await upload.read(64 * 1024)
+        if not chunk:
+            break
+        total_size += len(chunk)
+        if total_size > MAX_INGESTION_FILE_BYTES:
+            raise HTTPException(
+                status_code=status.HTTP_413_CONTENT_TOO_LARGE,
+                detail=(
+                    "Uploaded file is too large for bounded parsing. "
+                    f"Limit is {MAX_INGESTION_FILE_BYTES} bytes."
+                ),
+            )
+        chunks.append(chunk)
+    return b"".join(chunks)

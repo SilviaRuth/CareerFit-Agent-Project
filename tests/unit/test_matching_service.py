@@ -87,3 +87,29 @@ def test_m1_fixture_regression_stays_stable_for_strong_fit_score_shape() -> None
     assert result.dimension_scores.projects == 43
     assert result.dimension_scores.domain_fit == 100
     assert result.dimension_scores.education == 100
+
+
+def test_m4_role_adaptation_prioritizes_backend_platform_requirements() -> None:
+    result = match_resume_to_jd(
+        load_sample("strong_fit_resume.txt"),
+        load_sample("responsibility_heavy_jd.txt"),
+    )
+
+    assert result.adaptation_summary.role_focus == "backend_platform"
+    assert "platform_reliability" in result.adaptation_summary.company_signals
+    assert result.adaptation_summary.emphasized_requirements == ["aws", "fastapi", "python"]
+    assert result.adaptation_summary.prioritized_strengths == ["aws", "fastapi", "python"]
+    assert result.strengths[0] == "Matched required aws with resume evidence."
+
+
+def test_m4_evidence_summary_keeps_reviewable_section_counts() -> None:
+    result = match_resume_to_jd(
+        load_sample("strong_fit_resume.txt"),
+        load_sample("strong_fit_jd.txt"),
+    )
+
+    assert result.evidence_summary.resume_section_counts["experience"] >= 1
+    assert result.evidence_summary.resume_section_counts["projects"] >= 1
+    assert result.evidence_summary.resume_section_counts["education"] >= 1
+    assert result.evidence_summary.jd_section_counts["required"] >= 1
+    assert result.evidence_summary.jd_section_counts["preferred"] >= 1

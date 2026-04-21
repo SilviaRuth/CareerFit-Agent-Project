@@ -59,6 +59,8 @@ class BenchmarkReport(BaseModel):
     """Structured output for a benchmark run."""
 
     manifest_path: str
+    report_label: str | None = None
+    generated_at: str | None = None
     metrics: BenchmarkMetrics
     cases: list[BenchmarkCaseReport]
 
@@ -68,6 +70,8 @@ def run_benchmark(
     *,
     samples_dir: Path | None = None,
     eval_dir: Path | None = None,
+    report_label: str | None = None,
+    generated_at: str | None = None,
 ) -> BenchmarkReport:
     """Execute the fixture-backed benchmark and return a structured report."""
     manifest_path = manifest_path or DEFAULT_MANIFEST_PATH
@@ -125,6 +129,8 @@ def run_benchmark(
     )
     return BenchmarkReport(
         manifest_path=str(manifest_path.relative_to(REPO_ROOT)),
+        report_label=report_label,
+        generated_at=generated_at,
         metrics=metrics,
         cases=case_reports,
     )

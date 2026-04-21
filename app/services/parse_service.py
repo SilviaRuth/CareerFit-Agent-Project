@@ -175,7 +175,10 @@ def _build_parser_confidence(
             score -= 0.12
             factors.append("missing_experience")
         extraction_complete = bool(
-            schema.candidate_name.strip() and schema.summary.strip() and schema.skills and schema.experience_items
+            schema.candidate_name.strip()
+            and schema.summary.strip()
+            and schema.skills
+            and schema.experience_items
         )
     else:
         if not schema.job_title.strip():

@@ -1,0 +1,19 @@
+{
+  "pair_id": "strong_vs_responsibility_heavy",
+  "expected_fit_label": "partial",
+  "required_skill_matches": [
+    "python",
+    "fastapi",
+    "aws"
+  ],
+  "preferred_skill_matches": [
+    "docker",
+    "postgresql"
+  ],
+  "top_gaps": [],
+  "blocker_flags": {
+    "missing_required_skills": false,
+    "seniority_mismatch": false,
+    "unsupported_claims": false
+  }
+}

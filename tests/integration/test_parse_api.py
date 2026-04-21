@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi.testclient import TestClient
 
+from app.api.routes import parse as parse_route
 from app.main import app
 from tests.conftest import build_docx_bytes, build_pdf_bytes, load_sample
 
@@ -66,3 +67,28 @@ def test_parse_jd_endpoint_accepts_pdf_upload() -> None:
     assert payload["source_name"] == "jd.pdf"
     assert payload["schema"]["job_title"] == "Senior Backend Engineer"
     assert payload["schema"]["required_requirements"]
+
+
+def test_parse_resume_endpoint_returns_400_for_invalid_pdf_upload() -> None:
+    client = TestClient(app)
+
+    response = client.post(
+        "/parse/resume",
+        files={"file": ("broken.pdf", b"not a real pdf", "application/pdf")},
+    )
+
+    assert response.status_code == 400
+    assert "could not be parsed" in response.json()["detail"]
+
+
+def test_parse_resume_endpoint_returns_413_for_oversized_upload(monkeypatch) -> None:
+    client = TestClient(app)
+    monkeypatch.setattr(parse_route, "MAX_INGESTION_FILE_BYTES", 16)
+
+    response = client.post(
+        "/parse/resume",
+        files={"file": ("resume.txt", b"x" * 32, "text/plain")},
+    )
+
+    assert response.status_code == 413
+    assert "too large" in response.json()["detail"]

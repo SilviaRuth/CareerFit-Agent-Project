@@ -1,4 +1,4 @@
-# AGENTS.md
+# AGENT.md
 
 ## Project
 CareerFit Agent
@@ -40,15 +40,18 @@ This project is an AI system for a recruiting / career workflow. Its primary job
 1. parse a job description into structured requirements
 2. parse a resume into a structured candidate profile
 3. normalize skills and evidence
-4. compare candidate-job fit
-5. explain strengths, gaps, and risks
-6. generate actionable recommendations
+4. compute deterministic fit analysis
+5. explain strengths, gaps, and blockers
+6. generate bounded rewrite and interview-prep guidance from grounded evidence
+7. support offline regression review through checked-in fixtures and reports
 
-Outputs must be:
+Outputs should stay:
+
 - structured
 - explainable
 - evidence-linked where possible
 - safe and advisory rather than overly authoritative
+- reviewable without hidden reasoning steps
 
 Do not implement shallow keyword matching as the only logic unless explicitly requested for a baseline.
 
@@ -122,42 +125,33 @@ Examples of framework changes that require justification:
 - introducing a database migration system too early
 - adding frontend frameworks before backend MVP is stable
 
----
+## Repository Shape
 
-## Repository shape
+Current important paths:
 
-Expected structure:
-
-- `app/api/` — FastAPI routes
-- `app/agents/` — orchestration / agent logic
-- `app/services/` — business logic modules
-- `app/retrieval/` — retrieval/indexing logic
-- `app/schemas/` — Pydantic models
-- `app/prompts/` — prompt templates and prompt builders
-- `app/evaluation/` — offline evaluation logic
-- `app/utils/` — small reusable helpers
-- `data/` — sample inputs, taxonomy, knowledge sources
+- `app/api/routes/`: FastAPI transport layer
+- `app/core/`: static config and core constants
+- `app/schemas/`: Pydantic models and API contracts
+- `app/services/`: parsing, matching, orchestration, comparison, and adaptation logic
+- `app/services/generation/`: grounded rendering and generation guardrails
+- `app/services/ingestion/`: bounded text, PDF, and DOCX ingestion
+- `app/evaluation/`: offline benchmark and artifact helpers
+- `data/samples/`: reviewable input fixtures
+- `data/eval/`: expected outputs, manifests, and checked-in reports
+- `tests/unit/` and `tests/integration/`: regression coverage
 - `tests/` — unit/integration tests
 - `docs/` — project docs and design notes
 
 Do not collapse everything into a single script.
 
----
+## Coding Preferences
 
-## Coding rules
-
-### General
-- Use explicit, readable Python.
-- Add type hints to public functions and non-trivial internal functions.
-- Prefer small functions over very large functions.
-- Use descriptive names.
-- Avoid deep nesting where possible.
-- Do not introduce unnecessary abstraction layers.
-
-### Error handling
+- Use explicit Python with type hints on public and non-trivial internal functions.
+- Prefer small functions and narrow modules.
+- Avoid adding abstractions just for style.
 - Fail clearly on invalid inputs.
-- Raise meaningful exceptions or return validated error objects where appropriate.
-- Do not silently swallow parsing failures.
+- Do not swallow parsing failures.
+- Preserve deterministic behavior on the parse and match critical path.
 
 ### Logging
 - Add structured logs for non-trivial workflow steps.
@@ -189,47 +183,41 @@ Important:
 
 ## Matching logic rules
 
-This project must not behave like a black-box score generator.
+Matching should remain explainable and evidence-backed.
 
-Matching outputs should usually include:
+Typical output includes:
+
 - overall score
-- required skill match
-- preferred skill match
-- strong matches
-- partial matches
-- missing skills
+- dimension scores
+- required and preferred matches
 - strengths
-- risks
+- gaps
+- blocker flags
 - explanations
-- evidence references where available
+- evidence spans
+- additive adaptation metadata when relevant
 
-Do not output only a single score unless explicitly asked for a baseline or simplified view.
+Important distinctions must stay visible:
 
-Where possible:
-- separate “missing skill” from “skill likely present but weakly evidenced”
-- distinguish exact match from related/transferable match
-- preserve explanation traces
+- missing skill vs missing evidence
+- required vs preferred requirements
+- score vs blocker severity
 
----
 
-## Recommendation rules
 
-Recommendations must be actionable.
 
-Preferred recommendation categories:
-- resume improvements
-- learning priorities
-- project suggestions
-- interview focus areas
 
-Do not generate vague advice like:
-- “improve your resume”
-- “learn more skills”
-- “prepare for the interview”
 
-Prefer specific guidance tied to the JD-resume comparison.
 
----
+
+## Parsing And Generation Expectations
+
+- Supported ingestion inputs are text, `.txt`, `.pdf`, and `.docx`.
+- File handling must stay bounded and safe.
+- Parse responses must surface warnings, unsupported segments, and parser confidence.
+- Rewrite and interview-prep outputs must not invent experience, seniority, metrics, or missing
+  tools.
+- Any richer generated output must remain grounded in evidence already present in the resume or JD.
 
 ## Retrieval rules
 
@@ -243,9 +231,7 @@ If retrieval / RAG is implemented:
 Do not add retrieval just for buzzwords.
 Use retrieval only where it materially improves grounding, consistency, or recommendation quality.
 
----
-
-## Evaluation rules
+## Evaluation Expectations
 
 Evaluation is a first-class concern in this repository.
 
@@ -254,17 +240,25 @@ Any important new logic should be testable and, where practical, evaluable offli
 Prefer adding:
 - unit tests for deterministic logic
 - small gold examples for extraction/matching
-- evaluation scripts for scoring consistency
+- evaluation scripts for scoring consistency and comparison stability
 - regression tests for bug fixes
 
 When adding evaluation:
 - keep datasets small and understandable first
 - prefer human-readable fixtures
 - document assumptions
+- refresh checked-in baseline artifacts only when the behavior change is intentional
 
 Do not rely only on subjective eyeballing.
 
----
+The current M4 evaluation layer covers:
+
+- match benchmarks
+- extraction benchmarks
+- multi-resume comparison scenarios
+- baseline reports
+- snapshot-capable artifact output
+
 
 ## Testing expectations
 
@@ -283,8 +277,6 @@ Preferred test layout:
 - `tests/integration/` for module interactions
 
 Do not merge logic changes without reasonable test coverage unless explicitly instructed.
-
----
 
 ## Safe handling of resume / JD content
 
@@ -372,34 +364,17 @@ Bad:
 - framework sprawl
 - “agentic” complexity without product need
 
----
+## Review Checklist
 
-## Review checklist for agents
+Before calling work complete, verify:
 
-Before finishing a task, verify:
-
-### Correctness
-- Does the implementation satisfy the requested behavior?
-
-### Scope
-- Did the change stay within the intended files and responsibility boundaries?
-
-### Schemas
-- Are structured outputs validated?
-
-### Testing
-- Are there sufficient tests for the new logic?
-
-### Explainability
-- Can a human understand why the system produced this result?
-
-### Maintainability
-- Is the code readable and appropriately modular?
-
-### Safety
-- Does the output avoid overclaiming or unsafe handling of personal data?
-
----
+- correctness
+- schema alignment
+- evidence traceability
+- thin route boundaries
+- adequate tests
+- docs updated if public behavior changed
+- no hidden architectural drift toward retrieval or multi-agent complexity
 
 ## Default task preferences
 
@@ -409,37 +384,6 @@ If asked to choose, prefer:
 - schema stability before optimization
 - reviewable code before clever code
 - useful evaluation before fancy demos
-
----
-
-## If asked to review code
-
-When reviewing code in this repository, focus on:
-1. correctness
-2. schema alignment
-3. explainability
-4. maintainability
-5. missing tests
-6. hidden coupling
-7. fragile assumptions
-8. failure modes
-
-Do not recommend large rewrites unless the current design is clearly broken.
-
----
-
-## If asked to design prompts
-
-Prompt design in this project should:
-- aim for structured outputs
-- minimize ambiguity
-- reduce hallucinated extraction
-- preserve evidence and uncertainty
-- remain compatible with schema validation
-
-Prefer prompt builders or reusable prompt templates over inline prompt strings spread across the codebase.
-
----
 
 ## If asked to implement agent behavior
 

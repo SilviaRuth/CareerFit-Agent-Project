@@ -5,9 +5,12 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from io import BytesIO
 from pathlib import Path
+from zipfile import BadZipFile
 
 from docx import Document
+from docx.opc.exceptions import PackageNotFoundError
 from pypdf import PdfReader
+from pypdf.errors import PdfReadError, PdfStreamError
 
 from app.core.config import SUPPORTED_INGESTION_EXTENSIONS
 from app.schemas.parse import ParserDiagnostic
@@ -52,17 +55,27 @@ def ingest_file(content: bytes, filename: str, media_type: str | None = None) ->
     extension = Path(filename).suffix.lower()
     if extension not in SUPPORTED_INGESTION_EXTENSIONS:
         supported = ", ".join(sorted(SUPPORTED_INGESTION_EXTENSIONS))
-        raise ValueError(f"Unsupported file type '{extension or '<none>'}'. Expected one of {supported}.")
+        raise ValueError(
+            f"Unsupported file type '{extension or '<none>'}'. Expected one of {supported}."
+        )
 
     warnings: list[ParserDiagnostic] = []
     if extension == ".txt":
         raw_text, decode_warnings = _read_txt(content)
         warnings.extend(decode_warnings)
     elif extension == ".pdf":
-        raw_text, decode_warnings = _read_pdf(content)
+        try:
+            raw_text, decode_warnings = _read_pdf(content)
+        except (PdfReadError, PdfStreamError, ValueError) as exc:
+            raise ValueError("Uploaded PDF could not be parsed as a supported text PDF.") from exc
         warnings.extend(decode_warnings)
     else:
-        raw_text, decode_warnings = _read_docx(content)
+        try:
+            raw_text, decode_warnings = _read_docx(content)
+        except (BadZipFile, PackageNotFoundError, ValueError) as exc:
+            raise ValueError(
+                "Uploaded DOCX could not be parsed as a supported Word document."
+            ) from exc
         warnings.extend(decode_warnings)
 
     if not raw_text.strip():
@@ -143,7 +156,9 @@ def _read_docx(content: bytes) -> tuple[str, list[ParserDiagnostic]]:
     """Extract plain paragraph text from a DOCX document."""
     warnings: list[ParserDiagnostic] = []
     document = Document(BytesIO(content))
-    paragraphs = [paragraph.text.strip() for paragraph in document.paragraphs if paragraph.text.strip()]
+    paragraphs = [
+        paragraph.text.strip() for paragraph in document.paragraphs if paragraph.text.strip()
+    ]
 
     table_cell_count = sum(len(row.cells) for table in document.tables for row in table.rows)
     if table_cell_count:

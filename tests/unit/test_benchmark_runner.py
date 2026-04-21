@@ -8,7 +8,7 @@ from app.evaluation.benchmark_runner import run_benchmark
 def test_benchmark_runner_matches_current_gold_fixture_expectations() -> None:
     report = run_benchmark()
 
-    assert report.metrics.case_count == 10
+    assert report.metrics.case_count == 15
     assert report.metrics.fit_label_accuracy == 1.0
     assert report.metrics.blocker_flag_accuracy == 1.0
     assert report.metrics.required_match_recall == 1.0
@@ -33,3 +33,13 @@ def test_benchmark_runner_matches_current_gold_fixture_expectations() -> None:
     assert messy_jd_case.overall_score == 92
     assert dataset_case.predicted_fit_label == "poor"
     assert dataset_case.overall_score == 46
+
+    responsibility_case = next(
+        case for case in report.cases if case.pair_id == "strong_vs_responsibility_heavy"
+    )
+    accountant_case = next(case for case in report.cases if case.pair_id == "accountant_vs_backend")
+
+    assert responsibility_case.predicted_fit_label == "partial"
+    assert responsibility_case.overall_score == 78
+    assert accountant_case.predicted_fit_label == "poor"
+    assert accountant_case.overall_score == 30

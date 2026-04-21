@@ -6,7 +6,6 @@ import re
 
 from app.schemas.parse import ParserDiagnostic
 
-
 UNICODE_REPLACEMENTS = str.maketrans(
     {
         "\u00a0": " ",

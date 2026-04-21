@@ -1,0 +1,13 @@
+{
+  "parser_level": "high",
+  "min_score": 0.95,
+  "extraction_complete": true,
+  "required_fields": {
+    "job_title": "Accountant",
+    "company": "Sample Accountant Company",
+    "required_count": 4,
+    "preferred_count": 0,
+    "education_count": 1
+  },
+  "unsupported_sections": []
+}

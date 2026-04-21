@@ -1,0 +1,12 @@
+{
+  "expected_order": [
+    "targeted",
+    "strong",
+    "general"
+  ],
+  "expected_fit_labels": {
+    "targeted": "strong",
+    "strong": "partial",
+    "general": "poor"
+  }
+}

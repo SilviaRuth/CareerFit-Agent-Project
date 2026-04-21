@@ -1,6 +1,6 @@
 # CareerFit Agent
 
-Schema-first backend for explainable resume-to-JD parsing, matching, and grounded guidance.
+Schema-first backend for explainable resume-to-JD parsing, matching, grounded guidance, and Milestone 4 evaluation.
 
 ## Current Scope
 
@@ -10,13 +10,14 @@ Schema-first backend for explainable resume-to-JD parsing, matching, and grounde
 - Evidence-linked JSON outputs
 - Grounded rewrite and interview-prep guidance built on parse plus match results
 - Single-orchestrator backend flow for grounded generation
+- Milestone 4 evaluation coverage, multi-resume comparison, adaptation summaries, and reviewable report snapshots
 
 ## Milestone Status
 
 - Milestone 1: deterministic `/match` flow
 - Milestone 2: parsing and ingestion via `/parse/resume` and `/parse/jd`
 - Milestone 3: grounded `/rewrite` and `/interview-prep` via a single orchestrator service
-- Milestone 4: offline benchmark coverage, extraction evaluation, multi-resume comparison, and baseline report artifacts
+- Milestone 4: expanded offline benchmark coverage, extraction evaluation, deterministic company/role adaptation summaries, multi-resume comparison, and reviewable report snapshots
 
 ## Orchestration Pattern
 
@@ -41,6 +42,12 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+On this machine, the most reliable command path is the repo venv interpreter:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
 ## Run The App
 
 ```powershell
@@ -57,6 +64,8 @@ The API exposes:
 - `POST /rewrite`
 - `POST /interview-prep`
 - `POST /compare/resumes`
+
+`/match` and `/compare/resumes` include an additive `adaptation_summary` so role/company emphasis is reviewable without changing the core scoring weights.
 
 ## Parsing Docs
 
@@ -75,8 +84,7 @@ The parsing guide covers:
 ## Run Tests
 
 ```powershell
-.venv\Scripts\Activate.ps1
-python -m pytest -q
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
 ## Inspect Fixtures
@@ -84,15 +92,22 @@ python -m pytest -q
 - Sample resumes and JDs: `data/samples/`
 - Expected outcomes: `data/eval/`
 
-These fixtures cover deterministic matching, messy parsing inputs, low-confidence parsing, and grounded generation flows.
+These fixtures cover deterministic matching, messy parsing inputs, low-confidence parsing, grounded generation flows, and representative multi-resume ranking scenarios.
 
-## Run Offline Benchmark
+## Run Offline Evaluation
 
 ```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.benchmark_runner
-python -m app.evaluation.extraction_runner
-python -m app.evaluation.artifact_writer
+.\.venv\Scripts\python.exe -m app.evaluation.benchmark_runner
+.\.venv\Scripts\python.exe -m app.evaluation.extraction_runner
+.\.venv\Scripts\python.exe -m app.evaluation.comparison_runner
+.\.venv\Scripts\python.exe -m app.evaluation.artifact_writer
+.\.venv\Scripts\python.exe -m app.evaluation.artifact_writer --snapshot-label m4-review
 ```
 
-The evaluation runners use `data/eval/benchmark_manifest.json` and `data/eval/extraction_manifest.json`. The artifact writer refreshes the checked-in baseline reports under `data/eval/reports/baseline/`.
+The evaluation runners use:
+
+- `data/eval/benchmark_manifest.json`
+- `data/eval/extraction_manifest.json`
+- `data/eval/comparison_manifest.json`
+
+The artifact writer refreshes the checked-in baseline reports under `data/eval/reports/baseline/` and can write comparable snapshot reports under `data/eval/reports/snapshots/`.

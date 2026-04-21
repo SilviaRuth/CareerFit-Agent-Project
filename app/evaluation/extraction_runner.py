@@ -53,6 +53,8 @@ class ExtractionReport(BaseModel):
     """Structured extraction benchmark output."""
 
     manifest_path: str
+    report_label: str | None = None
+    generated_at: str | None = None
     metrics: ExtractionMetrics
     cases: list[ExtractionCaseReport]
 
@@ -62,6 +64,8 @@ def run_extraction_benchmark(
     *,
     samples_dir: Path | None = None,
     eval_dir: Path | None = None,
+    report_label: str | None = None,
+    generated_at: str | None = None,
 ) -> ExtractionReport:
     """Run the parse benchmark across the extraction fixture manifest."""
     manifest_path = manifest_path or DEFAULT_MANIFEST_PATH
@@ -80,9 +84,7 @@ def run_extraction_benchmark(
         expected = _load_json(eval_dir / case.expected_eval)
         text = _resolve_text_path(case.sample_name, samples_dir).read_text(encoding="utf-8")
         response = (
-            parse_resume_text(text)
-            if case.document_type == "resume"
-            else parse_jd_text(text)
+            parse_resume_text(text) if case.document_type == "resume" else parse_jd_text(text)
         )
 
         report = _build_case_report(case, expected, response)
@@ -106,6 +108,8 @@ def run_extraction_benchmark(
     )
     return ExtractionReport(
         manifest_path=str(manifest_path.relative_to(REPO_ROOT)),
+        report_label=report_label,
+        generated_at=generated_at,
         metrics=metrics,
         cases=reports,
     )

@@ -1,0 +1,12 @@
+{
+  "expected_order": [
+    "targeted",
+    "claimy",
+    "general"
+  ],
+  "expected_fit_labels": {
+    "targeted": "strong",
+    "claimy": "partial",
+    "general": "poor"
+  }
+}

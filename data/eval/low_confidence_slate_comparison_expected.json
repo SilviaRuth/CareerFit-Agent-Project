@@ -1,0 +1,15 @@
+{
+  "expected_order": [
+    "strong",
+    "partial",
+    "low_confidence"
+  ],
+  "expected_fit_labels": {
+    "strong": "strong",
+    "partial": "poor",
+    "low_confidence": "poor"
+  },
+  "low_confidence_resume_ids": [
+    "low_confidence"
+  ]
+}

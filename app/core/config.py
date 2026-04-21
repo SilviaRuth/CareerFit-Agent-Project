@@ -90,10 +90,10 @@ DOCUMENT_SECTION_ORDER: Final[dict[str, tuple[str, ...]]] = {
 SUPPORTED_INGESTION_EXTENSIONS: Final[dict[str, str]] = {
     ".txt": "text/plain",
     ".pdf": "application/pdf",
-    ".docx": (
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ),
+    ".docx": ("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
 }
+
+MAX_INGESTION_FILE_BYTES: Final[int] = 5 * 1024 * 1024
 
 MATCH_WEIGHTS: Final[dict[str, int]] = {
     "skills": 30,

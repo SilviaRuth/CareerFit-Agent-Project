@@ -26,7 +26,9 @@ def test_interview_prep_uses_honest_framing_for_weak_areas() -> None:
     )
 
     assert response.weak_area_preparation
-    fastapi_prep = next(item for item in response.weak_area_preparation if item.requirement_label == "fastapi")
+    fastapi_prep = next(
+        item for item in response.weak_area_preparation if item.requirement_label == "fastapi"
+    )
     assert "does not yet show strong direct evidence" in fastapi_prep.honest_framing.lower()
 
 

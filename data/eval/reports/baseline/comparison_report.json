@@ -1,0 +1,100 @@
+{
+  "manifest_path": "data\\eval\\comparison_manifest.json",
+  "report_label": "baseline",
+  "generated_at": "2026-04-17T16:01:14+00:00",
+  "metrics": {
+    "scenario_count": 3,
+    "ranking_accuracy": 1.0,
+    "fit_label_accuracy": 1.0,
+    "low_confidence_order_accuracy": 1.0
+  },
+  "cases": [
+    {
+      "scenario_id": "backend_variants",
+      "top_resume_id": "targeted",
+      "top_fit_label": "strong",
+      "role_focus": "backend_platform",
+      "actual_order": [
+        "targeted",
+        "claimy",
+        "general"
+      ],
+      "expected_order": [
+        "targeted",
+        "claimy",
+        "general"
+      ],
+      "ranking_correct": true,
+      "fit_label_accuracy": 1.0,
+      "low_confidence_order_correct": true,
+      "parser_levels": {
+        "targeted": "high",
+        "claimy": "high",
+        "general": "high"
+      },
+      "fit_labels": {
+        "targeted": "strong",
+        "claimy": "partial",
+        "general": "poor"
+      }
+    },
+    {
+      "scenario_id": "responsibility_variants",
+      "top_resume_id": "targeted",
+      "top_fit_label": "strong",
+      "role_focus": "backend_platform",
+      "actual_order": [
+        "targeted",
+        "strong",
+        "general"
+      ],
+      "expected_order": [
+        "targeted",
+        "strong",
+        "general"
+      ],
+      "ranking_correct": true,
+      "fit_label_accuracy": 1.0,
+      "low_confidence_order_correct": true,
+      "parser_levels": {
+        "targeted": "high",
+        "strong": "high",
+        "general": "high"
+      },
+      "fit_labels": {
+        "targeted": "strong",
+        "strong": "partial",
+        "general": "poor"
+      }
+    },
+    {
+      "scenario_id": "low_confidence_slate",
+      "top_resume_id": "strong",
+      "top_fit_label": "strong",
+      "role_focus": "backend_platform",
+      "actual_order": [
+        "strong",
+        "partial",
+        "low_confidence"
+      ],
+      "expected_order": [
+        "strong",
+        "partial",
+        "low_confidence"
+      ],
+      "ranking_correct": true,
+      "fit_label_accuracy": 1.0,
+      "low_confidence_order_correct": true,
+      "parser_levels": {
+        "strong": "high",
+        "partial": "high",
+        "low_confidence": "low"
+      },
+      "fit_labels": {
+        "strong": "strong",
+        "partial": "poor",
+        "low_confidence": "poor"
+      }
+    }
+  ]
+}

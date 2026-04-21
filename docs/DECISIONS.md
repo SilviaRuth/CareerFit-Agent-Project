@@ -70,6 +70,9 @@ Current repo status beyond the original MVP boundary:
 - bounded file parsing for `.txt`, `.pdf`, and `.docx`
 - dedicated parse endpoints
 - single-orchestrator grounded generation via `/rewrite` and `/interview-prep`
+- offline benchmark, extraction, and comparison evaluation runners
+- deterministic `adaptation_summary` output shaping for `/match` and `/compare/resumes`
+- checked-in baseline plus snapshot-capable report artifacts
 
 Still intentionally out of scope by default:
 

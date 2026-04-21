@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.schemas.generation import RewriteAction, RewrittenBullet, RewriteResponse
+from app.schemas.generation import RewriteAction, RewriteResponse, RewrittenBullet
 from app.services.generation.context import GroundedFlowContext
 from app.services.generation.grounding import (
     dedupe_evidence,
@@ -45,16 +45,8 @@ def render_rewrite_response(context: GroundedFlowContext) -> RewriteResponse:
     )
     cautions = _build_rewrite_cautions(context, context.gating.generation_mode)
     evidence_used = dedupe_evidence(
-        [
-            span
-            for action in prioritized_actions
-            for span in action.evidence_used
-        ]
-        + [
-            span
-            for bullet in rewritten_bullets
-            for span in bullet.evidence_used
-        ]
+        [span for action in prioritized_actions for span in action.evidence_used]
+        + [span for bullet in rewritten_bullets for span in bullet.evidence_used]
     )
     if not evidence_used:
         evidence_used = context.evidence_registry[:5]
@@ -89,7 +81,8 @@ def _build_prioritized_actions(
         recommendation, caution = _rewrite_guidance_for_gap(gap)
         if generation_mode == "minimal" and gap.gap_type != "missing_skill":
             recommendation = (
-                "Keep this gap explicit and avoid a detailed rewrite until parsing quality improves."
+                "Keep this gap explicit and avoid a detailed rewrite "
+                "until parsing quality improves."
             )
 
         actions.append(
@@ -114,10 +107,12 @@ def _build_prioritized_actions(
                     target_requirement_id=match.requirement_id,
                     target_requirement_label=match.requirement_label,
                     explanation=(
-                        f"This requirement is already matched; keep it visible and easy to verify in the resume."
+                        "This requirement is already matched; keep it visible "
+                        "and easy to verify in the resume."
                     ),
                     recommendation=(
-                        f"Keep {match.requirement_label} close to the relevant experience bullets and summary so reviewers can verify it quickly."
+                        f"Keep {match.requirement_label} close to the relevant "
+                        "experience bullets and summary so reviewers can verify it quickly."
                     ),
                     evidence_used=dedupe_evidence(match.resume_evidence + match.jd_evidence),
                     caution="Do not add stronger claims than the current evidence supports.",
@@ -157,12 +152,14 @@ def _build_rewritten_summary(
     )
     capability_phrase = ", ".join(capability_labels[:3])
     domain_phrase = ""
-    if context.match_result.dimension_scores.domain_fit > 0 and context.jd_parse.parsed_schema.domain_hint:
-        domain_phrase = f" for {context.jd_parse.parsed_schema.domain_hint.replace('_', ' ')} workflows"
-    return (
-        f"Backend engineer with {years_text} delivering {capability_phrase}"
-        f"{domain_phrase}."
-    )
+    if (
+        context.match_result.dimension_scores.domain_fit > 0
+        and context.jd_parse.parsed_schema.domain_hint
+    ):
+        domain_phrase = (
+            f" for {context.jd_parse.parsed_schema.domain_hint.replace('_', ' ')} workflows"
+        )
+    return f"Backend engineer with {years_text} delivering {capability_phrase}{domain_phrase}."
 
 
 def _build_rewritten_bullets(
@@ -175,10 +172,13 @@ def _build_rewritten_bullets(
 
     if generation_mode == "minimal":
         unsupported_requests.append(
-            "Detailed rewritten bullets were withheld because grounded generation was downgraded to minimal mode."
+            "Detailed rewritten bullets were withheld because grounded "
+            "generation was downgraded to minimal mode."
         )
         unsupported_requests.extend(
-            f"No grounded rewrite was generated for {gap.requirement_label} because the resume does not contain supporting evidence."
+            "No grounded rewrite was generated for "
+            f"{gap.requirement_label} because the resume does not contain "
+            "supporting evidence."
             for gap in sort_gaps(context.match_result.gaps)
             if gap.gap_type == "missing_skill"
         )
@@ -186,7 +186,9 @@ def _build_rewritten_bullets(
 
     for match in top_supported_matches(context)[:3]:
         resume_evidence = [
-            span for span in match.resume_evidence if span.section in {"experience", "projects", "summary"}
+            span
+            for span in match.resume_evidence
+            if span.section in {"experience", "projects", "summary"}
         ]
         if not resume_evidence:
             continue
@@ -202,7 +204,10 @@ def _build_rewritten_bullets(
                 original_text=original_text,
                 suggested_text=suggested_text,
                 evidence_used=dedupe_evidence(match.resume_evidence + match.jd_evidence),
-                caution="This suggestion stays inside existing evidence and does not add new claims.",
+                caution=(
+                    "This suggestion stays inside existing evidence "
+                    "and does not add new claims."
+                ),
             )
         )
 
@@ -210,12 +215,15 @@ def _build_rewritten_bullets(
         if gap.gap_type != "missing_skill":
             continue
         unsupported_requests.append(
-            f"No grounded rewrite was generated for {gap.requirement_label} because the resume does not contain supporting evidence."
+            "No grounded rewrite was generated for "
+            f"{gap.requirement_label} because the resume does not contain "
+            "supporting evidence."
         )
 
     if not bullets and not unsupported_requests:
         unsupported_requests.append(
-            "The current evidence supports only higher-level rewrite guidance, not bullet-level revisions."
+            "The current evidence supports only higher-level rewrite guidance, "
+            "not bullet-level revisions."
         )
 
     return bullets[:3], unsupported_requests[:5]
@@ -230,14 +238,20 @@ def _build_rewrite_cautions(
     blockers = context.match_result.blocker_flags
     if generation_mode == "minimal":
         cautions.append(
-            "Rewrite output is intentionally narrow because parser quality or blocker risk makes richer generation unsafe."
+            "Rewrite output is intentionally narrow because parser quality "
+            "or blocker risk makes richer generation unsafe."
         )
     if blockers.unsupported_claims:
         cautions.append("Unsupported summary claims should be reduced, not amplified.")
     if blockers.seniority_mismatch:
-        cautions.append("Do not rewrite the resume to imply a higher seniority level than the evidence shows.")
+        cautions.append(
+            "Do not rewrite the resume to imply a higher seniority level than the evidence shows."
+        )
     if blockers.missing_required_skills:
-        cautions.append("Do not add missing required tools or domains unless you have direct supporting evidence.")
+        cautions.append(
+            "Do not add missing required tools or domains unless you have "
+            "direct supporting evidence."
+        )
     return cautions
 
 
@@ -249,7 +263,9 @@ def _build_rewrite_summary_text(
     """Summarize the rewrite plan in one bounded sentence."""
     if generation_mode == "minimal":
         return (
-            "Rewrite guidance is limited because the grounded flow was downgraded to minimal mode; focus on truthful gap framing and preserve only verifiable evidence."
+            "Rewrite guidance is limited because the grounded flow was "
+            "downgraded to minimal mode; focus on truthful gap framing "
+            "and preserve only verifiable evidence."
         )
 
     if prioritized_actions:
@@ -266,7 +282,8 @@ def _build_rewrite_summary_text(
             )
 
     return (
-        "The current resume already aligns well; keep matched evidence explicit and avoid inflating unsupported claims."
+        "The current resume already aligns well; keep matched evidence "
+        "explicit and avoid inflating unsupported claims."
     )
 
 
@@ -287,31 +304,41 @@ def _rewrite_guidance_for_gap(gap) -> tuple[str, str | None]:
     """Return truthful rewrite guidance for each gap type."""
     if gap.gap_type == "missing_skill":
         return (
-            f"Keep {gap.requirement_label} as an explicit gap. Do not add it to the resume unless you have direct project or work evidence to support it.",
+            f"Keep {gap.requirement_label} as an explicit gap. Do not add it "
+            "to the resume unless you have direct project or work evidence to "
+            "support it.",
             "Avoid inventing tools, project scope, or domain background.",
         )
     if gap.gap_type == "missing_evidence":
         if gap.resume_evidence:
             return (
-                f"Clarify the existing resume material that points toward {gap.requirement_label}, and name that requirement more explicitly only where the evidence already supports it.",
-                "Use the current evidence as-is; do not upgrade weak mentions into stronger claims.",
+                "Clarify the existing resume material that points toward "
+                f"{gap.requirement_label}, and name that requirement more "
+                "explicitly only where the evidence already supports it.",
+                "Use the current evidence as-is; do not upgrade weak mentions "
+                "into stronger claims.",
             )
         return (
-            f"No grounded rewrite is available for {gap.requirement_label} because the resume does not contain supporting evidence.",
+            "No grounded rewrite is available for "
+            f"{gap.requirement_label} because the resume does not contain "
+            "supporting evidence.",
             "Leave this out of rewritten copy until stronger evidence exists.",
         )
     if gap.gap_type == "seniority_mismatch":
         return (
-            "Keep the current years of experience explicit and emphasize proven scope instead of rewriting the resume to sound more senior.",
+            "Keep the current years of experience explicit and emphasize "
+            "proven scope instead of rewriting the resume to sound more senior.",
             "Do not claim a senior title or senior-level ownership without evidence.",
         )
     if gap.gap_type == "education_gap":
         return (
-            "State the actual degree truthfully and avoid implying a computer science credential the resume does not support.",
+            "State the actual degree truthfully and avoid implying a "
+            "computer science credential the resume does not support.",
             "Do not rewrite education into a stronger degree than the evidence shows.",
         )
     return (
-        f"Treat {gap.requirement_label} as a truthful domain or background gap and highlight only adjacent experience that is already in the resume.",
+        f"Treat {gap.requirement_label} as a truthful domain or background gap "
+        "and highlight only adjacent experience that is already in the resume.",
         "Do not imply direct domain exposure if the resume does not show it.",
     )
 

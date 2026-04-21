@@ -59,6 +59,36 @@
       "resume_sample": "strong_fit_resume.txt",
       "jd_sample": "dataset/jd_cleaned/information_technology/information_technology_01_software_engineer.txt",
       "expected_eval": "strong_vs_it_jd_expected.json"
+    },
+    {
+      "pair_id": "strong_vs_responsibility_heavy",
+      "resume_sample": "strong_fit_resume.txt",
+      "jd_sample": "responsibility_heavy_jd.txt",
+      "expected_eval": "strong_vs_responsibility_heavy_expected.json"
+    },
+    {
+      "pair_id": "accountant_vs_backend",
+      "resume_sample": "dataset/resume_cleaned/accountant/accountant_10554236.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "accountant_vs_backend_expected.json"
+    },
+    {
+      "pair_id": "strong_vs_accountant",
+      "resume_sample": "strong_fit_resume.txt",
+      "jd_sample": "dataset/jd_cleaned/accountant/accountant_01_accountant.txt",
+      "expected_eval": "strong_vs_accountant_expected.json"
+    },
+    {
+      "pair_id": "healthcare_vs_nurse",
+      "resume_sample": "dataset/resume_cleaned/healthcare/healthcare_10062724.txt",
+      "jd_sample": "dataset/jd_cleaned/healthcare/healthcare_01_registered_nurse.txt",
+      "expected_eval": "healthcare_vs_nurse_expected.json"
+    },
+    {
+      "pair_id": "accountant_vs_accountant",
+      "resume_sample": "dataset/resume_cleaned/accountant/accountant_10554236.txt",
+      "jd_sample": "dataset/jd_cleaned/accountant/accountant_01_accountant.txt",
+      "expected_eval": "accountant_vs_accountant_expected.json"
     }
   ]
 }

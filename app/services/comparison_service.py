@@ -42,6 +42,7 @@ def compare_resumes_to_jd(
                 strengths=match_result.strengths[:3],
                 top_gaps=match_result.gaps[:3],
                 evidence_summary=match_result.evidence_summary,
+                adaptation_summary=match_result.adaptation_summary,
             )
         )
 
@@ -50,8 +51,10 @@ def compare_resumes_to_jd(
         key=lambda item: (
             item.blocker_flags.missing_required_skills,
             item.blocker_flags.seniority_mismatch,
+            item.parser_confidence.level == "low",
             -item.overall_score,
             item.blocker_flags.unsupported_claims,
+            -item.parser_confidence.score,
         ),
     )
 
