@@ -1,4 +1,4 @@
-"""Parsing endpoints for Milestone 2A ingestion and extraction."""
+"""Parsing endpoints for ingestion and extraction."""
 
 from __future__ import annotations
 

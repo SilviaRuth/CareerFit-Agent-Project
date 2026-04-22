@@ -10,6 +10,7 @@ from pathlib import Path
 from app.evaluation.benchmark_runner import run_benchmark
 from app.evaluation.comparison_runner import run_comparison_benchmark
 from app.evaluation.extraction_runner import run_extraction_benchmark
+from app.evaluation.recommendation_runner import run_recommendation_benchmark
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_REPORT_ROOT = REPO_ROOT / "data" / "eval" / "reports"
@@ -36,10 +37,15 @@ def write_evaluation_artifacts(
         report_label=snapshot_label,
         generated_at=generated_at,
     )
+    recommendation_report = run_recommendation_benchmark(
+        report_label=snapshot_label,
+        generated_at=generated_at,
+    )
 
     benchmark_path = output_dir / "benchmark_report.json"
     extraction_path = output_dir / "extraction_report.json"
     comparison_path = output_dir / "comparison_report.json"
+    recommendation_path = output_dir / "recommendation_report.json"
     manifest_path = output_dir / "artifact_manifest.json"
     summary_path = output_dir / "summary.md"
 
@@ -55,12 +61,17 @@ def write_evaluation_artifacts(
         comparison_report.model_dump_json(indent=2),
         encoding="utf-8",
     )
+    recommendation_path.write_text(
+        recommendation_report.model_dump_json(indent=2),
+        encoding="utf-8",
+    )
     comparison_to_baseline_path = _write_snapshot_comparison(
         output_dir=output_dir,
         snapshot_label=snapshot_label,
         benchmark_report=benchmark_report.model_dump(),
         extraction_report=extraction_report.model_dump(),
         comparison_report=comparison_report.model_dump(),
+        recommendation_report=recommendation_report.model_dump(),
     )
     manifest_payload = {
         "snapshot_label": snapshot_label,
@@ -69,11 +80,13 @@ def write_evaluation_artifacts(
             "benchmark_manifest_path": benchmark_report.manifest_path,
             "extraction_manifest_path": extraction_report.manifest_path,
             "comparison_manifest_path": comparison_report.manifest_path,
+            "recommendation_manifest_path": recommendation_report.manifest_path,
         },
         "report_files": [
             _display_path(benchmark_path),
             _display_path(extraction_path),
             _display_path(comparison_path),
+            _display_path(recommendation_path),
         ],
     }
     if comparison_to_baseline_path is not None:
@@ -111,11 +124,23 @@ def write_evaluation_artifacts(
             f"{comparison_report.metrics.low_confidence_order_accuracy}"
         ),
         "",
+        "## Recommendation Benchmark",
+        "",
+        f"- Cases: {recommendation_report.metrics.case_count}",
+        f"- Usefulness accuracy: {recommendation_report.metrics.usefulness_accuracy}",
+        f"- Grounding accuracy: {recommendation_report.metrics.grounding_accuracy}",
+        (
+            "- Blocker guardrail accuracy: "
+            f"{recommendation_report.metrics.blocker_guardrail_accuracy}"
+        ),
+        f"- Hallucination rate: {recommendation_report.metrics.hallucination_rate}",
+        "",
         "## Artifacts",
         "",
         f"- `{_display_path(benchmark_path)}`",
         f"- `{_display_path(extraction_path)}`",
         f"- `{_display_path(comparison_path)}`",
+        f"- `{_display_path(recommendation_path)}`",
         f"- `{_display_path(manifest_path)}`",
     ]
     if comparison_to_baseline_path is not None:
@@ -125,6 +150,7 @@ def write_evaluation_artifacts(
         benchmark_path,
         extraction_path,
         comparison_path,
+        recommendation_path,
         manifest_path,
         summary_path,
     ]
@@ -146,6 +172,7 @@ def _write_snapshot_comparison(
     benchmark_report: dict,
     extraction_report: dict,
     comparison_report: dict,
+    recommendation_report: dict,
 ) -> Path | None:
     if snapshot_label == "baseline":
         return None
@@ -154,16 +181,21 @@ def _write_snapshot_comparison(
     baseline_benchmark_path = baseline_dir / "benchmark_report.json"
     baseline_extraction_path = baseline_dir / "extraction_report.json"
     baseline_comparison_path = baseline_dir / "comparison_report.json"
+    baseline_recommendation_path = baseline_dir / "recommendation_report.json"
     if not (
         baseline_benchmark_path.exists()
         and baseline_extraction_path.exists()
         and baseline_comparison_path.exists()
+        and baseline_recommendation_path.exists()
     ):
         return None
 
     baseline_benchmark = json.loads(baseline_benchmark_path.read_text(encoding="utf-8"))
     baseline_extraction = json.loads(baseline_extraction_path.read_text(encoding="utf-8"))
     baseline_comparison = json.loads(baseline_comparison_path.read_text(encoding="utf-8"))
+    baseline_recommendation = json.loads(
+        baseline_recommendation_path.read_text(encoding="utf-8")
+    )
 
     diff_payload = {
         "snapshot_label": snapshot_label,
@@ -179,6 +211,10 @@ def _write_snapshot_comparison(
         "comparison_metric_delta": _metric_delta(
             baseline_comparison["metrics"],
             comparison_report["metrics"],
+        ),
+        "recommendation_metric_delta": _metric_delta(
+            baseline_recommendation["metrics"],
+            recommendation_report["metrics"],
         ),
     }
     diff_path = output_dir / "snapshot_comparison.json"

@@ -1,14 +1,16 @@
 {
   "snapshot_label": "baseline",
-  "generated_at": "2026-04-17T16:01:14+00:00",
+  "generated_at": "2026-04-21T16:20:16+00:00",
   "reports": {
     "benchmark_manifest_path": "data\\eval\\benchmark_manifest.json",
     "extraction_manifest_path": "data\\eval\\extraction_manifest.json",
-    "comparison_manifest_path": "data\\eval\\comparison_manifest.json"
+    "comparison_manifest_path": "data\\eval\\comparison_manifest.json",
+    "recommendation_manifest_path": "data\\eval\\recommendation_manifest.json"
   },
   "report_files": [
     "data\\eval\\reports\\baseline\\benchmark_report.json",
     "data\\eval\\reports\\baseline\\extraction_report.json",
-    "data\\eval\\reports\\baseline\\comparison_report.json"
+    "data\\eval\\reports\\baseline\\comparison_report.json",
+    "data\\eval\\reports\\baseline\\recommendation_report.json"
   ]
 }

@@ -1,1 +1,1 @@
-"""Document ingestion services for Milestone 2A."""
+"""Document ingestion services."""

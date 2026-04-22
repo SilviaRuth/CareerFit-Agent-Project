@@ -1,4 +1,4 @@
-"""Schemas for grounded generation workflows in Milestone 2B."""
+"""Schemas for grounded generation workflows."""
 
 from __future__ import annotations
 
@@ -139,6 +139,87 @@ class InterviewPrepResponse(BaseModel):
     interview_questions: list[InterviewQuestion] = Field(default_factory=list)
     recommended_talking_points: list[TalkingPoint] = Field(default_factory=list)
     weak_area_preparation: list[WeakAreaPreparation] = Field(default_factory=list)
+    evidence_used: list[EvidenceSpan] = Field(default_factory=list)
+    generation_warnings: list[GenerationWarning] = Field(default_factory=list)
+    gating: GenerationGate
+
+
+class InterviewSimulationRound(BaseModel):
+    """One mock interview exchange aligned to strengths, responsibilities, or weak areas."""
+
+    priority: int
+    round_type: Literal["responsibility_probe", "strength_probe", "gap_probe"]
+    prompt: str
+    intent: str
+    answer_strategy: str
+    evidence_used: list[EvidenceSpan] = Field(default_factory=list)
+    caution: str | None = None
+
+
+class InterviewSimulationResponse(BaseModel):
+    """Structured output for `POST /interview-sim`."""
+
+    summary: str
+    scenario_focus: list[str] = Field(default_factory=list)
+    simulation_rounds: list[InterviewSimulationRound] = Field(default_factory=list)
+    coach_notes: list[str] = Field(default_factory=list)
+    evidence_used: list[EvidenceSpan] = Field(default_factory=list)
+    generation_warnings: list[GenerationWarning] = Field(default_factory=list)
+    gating: GenerationGate
+
+
+class LearningPlanFocusArea(BaseModel):
+    """One grounded learning-plan focus area derived from explicit gaps or strengths."""
+
+    priority: int
+    focus_type: Literal["gap", "blocker", "strength_maintenance"]
+    target_requirement_id: str | None = None
+    target_requirement_label: str
+    gap_type: str | None = None
+    requirement_priority: Literal["required", "preferred"] | None = None
+    rationale: str
+    evidence_used: list[EvidenceSpan] = Field(default_factory=list)
+    caution: str | None = None
+
+
+class SupportingStrength(BaseModel):
+    """A supported capability the learning plan can build on safely."""
+
+    priority: int
+    label: str
+    explanation: str
+    evidence_used: list[EvidenceSpan] = Field(default_factory=list)
+
+
+class LearningPlanStep(BaseModel):
+    """One deterministic learning action tied to a gap, blocker, or supported strength."""
+
+    priority: int
+    time_horizon: Literal["now", "next", "later"]
+    step_type: Literal[
+        "close_required_gap",
+        "strengthen_evidence",
+        "address_blocker",
+        "build_adjacent_project",
+        "maintain_strength",
+    ]
+    target_requirement_id: str | None = None
+    target_requirement_label: str | None = None
+    action: str
+    reason: str
+    success_signal: str
+    evidence_used: list[EvidenceSpan] = Field(default_factory=list)
+    caution: str | None = None
+
+
+class LearningPlanResponse(BaseModel):
+    """Machine-reviewable output for `POST /learning-plan`."""
+
+    summary: str
+    focus_areas: list[LearningPlanFocusArea] = Field(default_factory=list)
+    plan_steps: list[LearningPlanStep] = Field(default_factory=list)
+    supporting_strengths: list[SupportingStrength] = Field(default_factory=list)
+    blocker_cautions: list[str] = Field(default_factory=list)
     evidence_used: list[EvidenceSpan] = Field(default_factory=list)
     generation_warnings: list[GenerationWarning] = Field(default_factory=list)
     gating: GenerationGate

@@ -1,4 +1,4 @@
-"""Schemas for Milestone 2A parsing and ingestion responses."""
+"""Schemas for parsing and ingestion responses."""
 
 from __future__ import annotations
 

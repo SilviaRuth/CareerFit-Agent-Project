@@ -96,7 +96,9 @@ Verify:
 Verify:
 
 - multi-resume ranking is deterministic
+- cross-JD ranking stays deterministic and keeps additive helper signals separate from the core score
 - low-confidence resumes are handled intentionally
+- profile-memory, retrieval, and semantic helper outputs stay explicit and auditable
 - manifests, expected outputs, and tests move together
 - baseline and snapshot artifacts are still reviewable
 

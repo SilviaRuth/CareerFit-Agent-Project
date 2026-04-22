@@ -1,100 +1,68 @@
 # Comparison API Guide
 
-This guide documents the Milestone 4 multi-resume comparison workflow.
+This guide documents the deterministic comparison workflows exposed by the backend.
 
 ## Purpose
 
-`POST /compare/resumes` ranks multiple resumes against one shared JD using the same deterministic parse and match pipeline as the rest of the backend.
+The repository now supports two bounded comparison paths:
 
-The comparison flow is intended for:
+- `POST /compare/resumes` ranks multiple resumes against one shared JD
+- `POST /compare/jobs` ranks multiple JDs against one shared candidate profile
 
-- comparing resume variants for the same candidate
-- comparing a small candidate slate against one role
-- reviewing blocker and evidence differences side by side
-- making role/company adaptation emphasis reviewable for each ranked resume
+Both flows stay aligned with the deterministic parse and match pipeline. They are reviewable ranking tools, not opaque recommenders.
 
-It is not a semantic ranking system or a retrieval-backed recommender.
+## `POST /compare/resumes`
 
-## Endpoint
-
-### `POST /compare/resumes`
+Use this when the role is fixed and the candidate slate changes.
 
 Input:
 
 - one shared `job_description_text`
 - one or more resume entries with `resume_id` and `resume_text`
 
-Response:
+Response highlights:
 
 - shared JD metadata
 - JD parser confidence
-- ranked resume comparison entries
-- score deltas from the best result
-- blocker flags, top gaps, strengths, evidence summary, and adaptation summary for each ranked resume
+- ranked resume entries
+- blocker flags, top gaps, strengths, evidence summary, and adaptation summary per resume
 
-## Example
+## `POST /compare/jobs`
 
-```json
-{
-  "resumes": [
-    {
-      "resume_id": "backend_v1",
-      "resume_text": "Alex Chen\n\nSummary\nBackend engineer..."
-    },
-    {
-      "resume_id": "backend_v2",
-      "resume_text": "Alex Chen\n\nSummary\nSenior backend engineer..."
-    }
-  ],
-  "job_description_text": "Senior Backend Engineer\nHealthStack\n\nRequired\n- Python..."
-}
-```
+Use this when the candidate is fixed and you want to compare multiple opportunities.
 
-## Response Shape
+Input:
 
-```json
-{
-  "summary": "Compared 2 resumes against Senior Backend Engineer at HealthStack.",
-  "compared_count": 2,
-  "job_title": "Senior Backend Engineer",
-  "company": "HealthStack",
-  "jd_parser_confidence": {},
-  "ranking": [
-    {
-      "rank": 1,
-      "resume_id": "backend_v2",
-      "overall_score": 89,
-      "fit_label": "strong",
-      "blocker_flags": {},
-      "dimension_scores": {},
-      "parser_confidence": {},
-      "strengths": [],
-      "top_gaps": [],
-      "evidence_summary": {},
-      "adaptation_summary": {},
-      "score_delta_from_best": 0
-    }
-  ]
-}
-```
+- either raw `resume_text` or a reusable `profile_memory`
+- one or more job description entries with `jd_id` and `job_description_text`
+- optional `semantic_mode` to expose additive semantic hints without changing the core score
+
+Response highlights:
+
+- reusable `candidate_profile`
+- ranked job entries
+- deterministic fit labels and blocker flags
+- top gaps and recommended next steps per role
+- bounded retrieval evidence for why the role ranked where it did
+- additive semantic hints kept separate from the deterministic score contract
 
 ## Ranking Rules
 
-The comparison service keeps the ranking deterministic and reviewable:
+Both comparison services keep ordering deterministic and reviewable:
 
-- fewer critical blockers rank ahead of more blocked resumes
+- fewer critical blockers rank ahead of more blocked results
 - higher overall score ranks ahead within the same blocker profile
-- unsupported-claim warnings break ties after the score
+- parser confidence, unsupported-claim risk, and additive helper signals break ties after the core score
 
-This ranking is intentionally simple and should stay aligned with the rule-based matcher unless a later decision record changes it.
+The extra M5 retrieval and semantic fields are additive only. They do not rewrite score meaning or suppress blocker visibility.
 
-## Offline Comparison Coverage
+## Offline Coverage
 
-The comparison API is also exercised offline through:
+`POST /compare/resumes` is locked by the M4 comparison benchmark:
 
 ```powershell
 .venv\Scripts\Activate.ps1
 python -m app.evaluation.comparison_runner
 ```
 
-That runner uses representative scenarios from `data/eval/comparison_manifest.json` to lock ranking order, fit labels, and low-confidence resume ordering.
+`POST /compare/jobs` is currently protected by integration and unit tests rather than a separate offline ranking manifest.

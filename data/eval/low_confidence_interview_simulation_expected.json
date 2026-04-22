@@ -1,0 +1,5 @@
+{
+  "expected_generation_mode": "minimal",
+  "minimum_recommendation_items": 2,
+  "expect_blocker_guardrail": true
+}

@@ -1,7 +1,7 @@
 {
   "manifest_path": "data\\eval\\benchmark_manifest.json",
   "report_label": "baseline",
-  "generated_at": "2026-04-17T16:01:14+00:00",
+  "generated_at": "2026-04-21T16:20:16+00:00",
   "metrics": {
     "case_count": 15,
     "fit_label_accuracy": 1.0,

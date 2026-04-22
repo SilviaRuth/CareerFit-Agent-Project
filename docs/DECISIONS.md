@@ -4,7 +4,7 @@
 
 These decisions are the default baseline for v1 planning as of 2026-04-16.
 
-Implementation note: the current repository has already moved beyond the original plain-text MVP. The active codebase now includes bounded PDF/DOCX ingestion plus grounded rewrite and interview-prep flows, while the locked defaults below still apply unless explicitly replaced.
+Implementation note: the current repository has already moved well beyond the original plain-text MVP. The active codebase now includes bounded PDF/DOCX ingestion, grounded generation, request-scoped candidate profile memory, cross-JD comparison, bounded retrieval helpers, additive semantic hints, and expanded evaluation, while the locked defaults below still apply unless explicitly replaced.
 
 ---
 
@@ -69,15 +69,17 @@ Current repo status beyond the original MVP boundary:
 
 - bounded file parsing for `.txt`, `.pdf`, and `.docx`
 - dedicated parse endpoints
-- single-orchestrator grounded generation via `/rewrite` and `/interview-prep`
-- offline benchmark, extraction, and comparison evaluation runners
+- single-orchestrator grounded generation via `/rewrite`, `/interview-prep`, `/interview-sim`, and `/learning-plan`
+- request-scoped `profile_memory` plus bounded retrieval and additive semantic helper endpoints
+- offline benchmark, extraction, comparison, and recommendation evaluation runners
 - deterministic `adaptation_summary` output shaping for `/match` and `/compare/resumes`
+- deterministic cross-JD comparison via `/compare/jobs`
 - checked-in baseline plus snapshot-capable report artifacts
 
 Still intentionally out of scope by default:
 
-- retrieval
-- semantic matching
+- vector-store-backed retrieval
+- opaque semantic score rewrites
 - multi-agent orchestration
 - frontend delivery
 

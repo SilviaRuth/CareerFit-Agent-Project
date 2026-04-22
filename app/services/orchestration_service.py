@@ -11,12 +11,18 @@ from __future__ import annotations
 from app.schemas.generation import (
     GroundedGenerationRequest,
     InterviewPrepResponse,
+    InterviewSimulationResponse,
+    LearningPlanResponse,
     RewriteResponse,
 )
 from app.services.generation.context import GroundedFlowContext
 from app.services.generation.generation_guardrails import build_generation_gate
 from app.services.generation.grounding import collect_context_evidence
 from app.services.generation.interview_prep_service import render_interview_prep_response
+from app.services.generation.interview_simulation_service import (
+    render_interview_simulation_response,
+)
+from app.services.generation.learning_plan_service import render_learning_plan_response
 from app.services.generation.rewrite_service import render_rewrite_response
 from app.services.matching_service import match_schemas
 from app.services.parse_service import parse_jd_text, parse_resume_text
@@ -65,3 +71,19 @@ def run_grounded_interview_prep_flow(
     """Run the orchestrated grounded interview-prep flow."""
     context = build_grounded_context(request)
     return render_interview_prep_response(context)
+
+
+def run_grounded_interview_simulation_flow(
+    request: GroundedGenerationRequest,
+) -> InterviewSimulationResponse:
+    """Run the orchestrated grounded interview-simulation flow."""
+    context = build_grounded_context(request)
+    return render_interview_simulation_response(context)
+
+
+def run_grounded_learning_plan_flow(
+    request: GroundedGenerationRequest,
+) -> LearningPlanResponse:
+    """Run the orchestrated grounded learning-plan flow."""
+    context = build_grounded_context(request)
+    return render_learning_plan_response(context)

@@ -6,6 +6,7 @@ from app.schemas.generation import GroundedGenerationRequest
 from app.services.orchestration_service import (
     build_grounded_context,
     run_grounded_interview_prep_flow,
+    run_grounded_learning_plan_flow,
     run_grounded_rewrite_flow,
 )
 from tests.conftest import load_sample
@@ -50,3 +51,17 @@ def test_orchestrator_gating_downgrades_for_low_parser_confidence() -> None:
     assert "low_parser_confidence" in context.gating.reasons
     assert context.generation_warnings
     assert context.evidence_registry
+
+
+def test_orchestrator_learning_plan_flow_handles_partial_fit() -> None:
+    response = run_grounded_learning_plan_flow(
+        GroundedGenerationRequest(
+            resume_text=load_sample("partial_fit_resume.txt"),
+            job_description_text=load_sample("partial_fit_jd.txt"),
+        )
+    )
+
+    assert response.focus_areas
+    assert response.plan_steps
+    assert response.supporting_strengths
+    assert any(item.target_requirement_label == "fastapi" for item in response.focus_areas)

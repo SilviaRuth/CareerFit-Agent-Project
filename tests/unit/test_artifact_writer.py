@@ -10,11 +10,12 @@ from app.evaluation.artifact_writer import write_evaluation_artifacts
 def test_artifact_writer_creates_reviewable_files(tmp_path: Path) -> None:
     paths = write_evaluation_artifacts(tmp_path)
 
-    assert len(paths) == 5
+    assert len(paths) == 6
     assert all(path.exists() for path in paths)
     assert (tmp_path / "benchmark_report.json").read_text(encoding="utf-8")
     assert (tmp_path / "extraction_report.json").read_text(encoding="utf-8")
     assert (tmp_path / "comparison_report.json").read_text(encoding="utf-8")
+    assert (tmp_path / "recommendation_report.json").read_text(encoding="utf-8")
     assert (tmp_path / "artifact_manifest.json").read_text(encoding="utf-8")
     assert "Evaluation Snapshot" in (tmp_path / "summary.md").read_text(encoding="utf-8")
 

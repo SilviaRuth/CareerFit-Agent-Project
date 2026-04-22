@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "case_id": "partial_learning_plan",
+      "workflow": "learning_plan",
+      "resume_sample": "partial_fit_resume.txt",
+      "jd_sample": "partial_fit_jd.txt",
+      "expected_eval": "partial_learning_plan_expected.json"
+    },
+    {
+      "case_id": "strong_interview_simulation",
+      "workflow": "interview_simulation",
+      "resume_sample": "strong_fit_resume.txt",
+      "jd_sample": "strong_fit_jd.txt",
+      "expected_eval": "strong_interview_simulation_expected.json"
+    },
+    {
+      "case_id": "low_confidence_interview_simulation",
+      "workflow": "interview_simulation",
+      "resume_sample": "low_confidence_resume.txt",
+      "jd_sample": "responsibility_heavy_jd.txt",
+      "expected_eval": "low_confidence_interview_simulation_expected.json"
+    }
+  ]
+}

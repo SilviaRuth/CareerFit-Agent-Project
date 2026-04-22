@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
-from app.api.routes.generation import interview_prep, rewrite_resume
+from app.api.routes.generation import interview_prep, interview_sim, learning_plan, rewrite_resume
 from app.schemas.generation import (
     GenerationGate,
     GroundedGenerationRequest,
     InterviewPrepResponse,
+    InterviewSimulationResponse,
+    LearningPlanResponse,
     RewriteResponse,
+    SupportingStrength,
 )
 
 
@@ -65,6 +68,73 @@ def test_interview_prep_route_delegates_to_orchestrator(monkeypatch) -> None:
     monkeypatch.setattr("app.api.routes.generation.run_grounded_interview_prep_flow", fake_flow)
 
     response = interview_prep(request)
+
+    assert response == expected
+    assert captured["request"] == request
+
+
+def test_learning_plan_route_delegates_to_orchestrator(monkeypatch) -> None:
+    request = GroundedGenerationRequest(
+        resume_text="resume",
+        job_description_text="jd",
+    )
+    captured: dict[str, GroundedGenerationRequest] = {}
+    expected = LearningPlanResponse(
+        summary="plan",
+        focus_areas=[],
+        plan_steps=[],
+        supporting_strengths=[
+            SupportingStrength(
+                priority=1,
+                label="python",
+                explanation="supported",
+                evidence_used=[],
+            )
+        ],
+        blocker_cautions=[],
+        evidence_used=[],
+        generation_warnings=[],
+        gating=_sample_gate(),
+    )
+
+    def fake_flow(incoming: GroundedGenerationRequest) -> LearningPlanResponse:
+        captured["request"] = incoming
+        return expected
+
+    monkeypatch.setattr("app.api.routes.generation.run_grounded_learning_plan_flow", fake_flow)
+
+    response = learning_plan(request)
+
+    assert response == expected
+    assert captured["request"] == request
+
+
+def test_interview_sim_route_delegates_to_orchestrator(monkeypatch) -> None:
+    request = GroundedGenerationRequest(
+        resume_text="resume",
+        job_description_text="jd",
+    )
+    captured: dict[str, GroundedGenerationRequest] = {}
+    expected = InterviewSimulationResponse(
+        summary="simulation",
+        scenario_focus=["focus"],
+        simulation_rounds=[],
+        coach_notes=[],
+        evidence_used=[],
+        generation_warnings=[],
+        gating=_sample_gate(),
+    )
+
+    def fake_flow(incoming: GroundedGenerationRequest) -> InterviewSimulationResponse:
+        captured["request"] = incoming
+        return expected
+
+    monkeypatch.setattr(
+        "app.api.routes.generation.run_grounded_interview_simulation_flow",
+        fake_flow,
+    )
+
+    response = interview_sim(request)
 
     assert response == expected
     assert captured["request"] == request

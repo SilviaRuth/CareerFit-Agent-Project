@@ -1,0 +1,47 @@
+{
+  "manifest_path": "data\\eval\\recommendation_manifest.json",
+  "report_label": "baseline",
+  "generated_at": "2026-04-21T16:20:16+00:00",
+  "metrics": {
+    "case_count": 3,
+    "usefulness_accuracy": 1.0,
+    "grounding_accuracy": 1.0,
+    "blocker_guardrail_accuracy": 1.0,
+    "hallucination_rate": 0.0
+  },
+  "cases": [
+    {
+      "case_id": "partial_learning_plan",
+      "workflow": "learning_plan",
+      "generation_mode": "minimal",
+      "useful": true,
+      "grounded": true,
+      "blocker_guardrail_ok": true,
+      "hallucination_rate": 0.0,
+      "recommendation_item_count": 3,
+      "missing_expectations": []
+    },
+    {
+      "case_id": "strong_interview_simulation",
+      "workflow": "interview_simulation",
+      "generation_mode": "full",
+      "useful": true,
+      "grounded": true,
+      "blocker_guardrail_ok": true,
+      "hallucination_rate": 0.0,
+      "recommendation_item_count": 2,
+      "missing_expectations": []
+    },
+    {
+      "case_id": "low_confidence_interview_simulation",
+      "workflow": "interview_simulation",
+      "generation_mode": "minimal",
+      "useful": true,
+      "grounded": true,
+      "blocker_guardrail_ok": true,
+      "hallucination_rate": 0.0,
+      "recommendation_item_count": 3,
+      "missing_expectations": []
+    }
+  ]
+}

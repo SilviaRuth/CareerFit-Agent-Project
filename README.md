@@ -1,6 +1,6 @@
 # CareerFit Agent
 
-Schema-first backend for explainable resume-to-JD parsing, matching, grounded guidance, and Milestone 4 evaluation.
+Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, and reviewable evaluation across Milestones 1 through 5.
 
 ## Current Scope
 
@@ -9,8 +9,11 @@ Schema-first backend for explainable resume-to-JD parsing, matching, grounded gu
 - Bounded file ingestion for `.txt`, `.pdf`, and `.docx`
 - Evidence-linked JSON outputs
 - Grounded rewrite and interview-prep guidance built on parse plus match results
+- Grounded interview simulation aligned to responsibilities, strengths, and weak areas
+- Grounded learning-plan guidance tied to explicit gaps, blockers, and supported strengths
 - Single-orchestrator backend flow for grounded generation
-- Milestone 4 evaluation coverage, multi-resume comparison, adaptation summaries, and reviewable report snapshots
+- Request-scoped candidate profile memory with bounded evidence retrieval and additive semantic hints
+- Milestone 4 plus Milestone 5 evaluation coverage, multi-resume comparison, cross-JD comparison, adaptation summaries, and reviewable report snapshots
 
 ## Milestone Status
 
@@ -18,6 +21,7 @@ Schema-first backend for explainable resume-to-JD parsing, matching, grounded gu
 - Milestone 2: parsing and ingestion via `/parse/resume` and `/parse/jd`
 - Milestone 3: grounded `/rewrite` and `/interview-prep` via a single orchestrator service
 - Milestone 4: expanded offline benchmark coverage, extraction evaluation, deterministic company/role adaptation summaries, multi-resume comparison, and reviewable report snapshots
+- Milestone 5: grounded `/learning-plan`, `/interview-sim`, request-scoped `/profile-memory`, `/compare/jobs`, bounded `/retrieve/evidence`, additive `/semantic/match`, and recommendation evaluation
 
 ## Orchestration Pattern
 
@@ -30,6 +34,8 @@ That layer coordinates:
 - matching
 - generation gating
 - bounded rewrite or interview-prep rendering
+- bounded interview-simulation rendering
+- bounded learning-plan rendering
 
 Generation modules are callable services, not autonomous agents. They stay subordinate to parse responses, match results, evidence spans, warnings, and gating metadata.
 
@@ -63,15 +69,23 @@ The API exposes:
 - `POST /parse/jd`
 - `POST /rewrite`
 - `POST /interview-prep`
+- `POST /interview-sim`
+- `POST /learning-plan`
 - `POST /compare/resumes`
+- `POST /profile-memory`
+- `POST /compare/jobs`
+- `POST /retrieve/evidence`
+- `POST /semantic/match`
 
 `/match` and `/compare/resumes` include an additive `adaptation_summary` so role/company emphasis is reviewable without changing the core scoring weights.
 
 ## Parsing Docs
 
 - Parsing and ingestion guide: [docs/PARSE_API.md](docs/PARSE_API.md)
+- Generation guide: [docs/GENERATION_API.md](docs/GENERATION_API.md)
 - Evaluation guide: [docs/EVALUATION.md](docs/EVALUATION.md)
 - Comparison guide: [docs/COMPARISON_API.md](docs/COMPARISON_API.md)
+- Career workflow guide: [docs/CAREER_API.md](docs/CAREER_API.md)
 
 The parsing guide covers:
 
@@ -100,8 +114,9 @@ These fixtures cover deterministic matching, messy parsing inputs, low-confidenc
 .\.venv\Scripts\python.exe -m app.evaluation.benchmark_runner
 .\.venv\Scripts\python.exe -m app.evaluation.extraction_runner
 .\.venv\Scripts\python.exe -m app.evaluation.comparison_runner
+.\.venv\Scripts\python.exe -m app.evaluation.recommendation_runner
 .\.venv\Scripts\python.exe -m app.evaluation.artifact_writer
-.\.venv\Scripts\python.exe -m app.evaluation.artifact_writer --snapshot-label m4-review
+.\.venv\Scripts\python.exe -m app.evaluation.artifact_writer --snapshot-label m5-review
 ```
 
 The evaluation runners use:
@@ -109,5 +124,6 @@ The evaluation runners use:
 - `data/eval/benchmark_manifest.json`
 - `data/eval/extraction_manifest.json`
 - `data/eval/comparison_manifest.json`
+- `data/eval/recommendation_manifest.json`
 
-The artifact writer refreshes the checked-in baseline reports under `data/eval/reports/baseline/` and can write comparable snapshot reports under `data/eval/reports/snapshots/`.
+The artifact writer refreshes the checked-in baseline reports under `data/eval/reports/baseline/` and can write comparable snapshot reports under `data/eval/reports/snapshots/`, now including `recommendation_report.json`.
