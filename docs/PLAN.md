@@ -14,7 +14,8 @@ The build order should be:
 3. ingestion and extraction hardening
 4. grounded generation workflows
 5. portfolio-grade depth and evaluation
-6. advanced agent-assisted features
+6. completed career-workflow helper layer
+7. Agent Standardization Foundation
 
 ## Developer Workflow Layer
 
@@ -136,7 +137,7 @@ Public interfaces added or expanded:
 Completion signal:
 - The project has clear benchmark coverage, regression protection, and a polished story for explainable matching quality.
 
-### Milestone 5: Advanced Agent Features
+### Milestone 5: Career Workflow Assistance (Completed)
 
 Goal: add higher-level career workflow assistance on top of a trustworthy core.
 
@@ -158,6 +159,24 @@ Public interfaces added or expanded:
 
 Completion signal:
 - The system supports multi-step career assistance without turning into opaque or hard-to-review agent sprawl.
+
+### Milestone 6: Agent Standardization Foundation
+
+Goal: prepare the existing deterministic services for clearer workflow tracing and future agent boundaries without changing API behavior or introducing autonomous agents.
+
+Core tasks:
+- Add shared workflow trace schemas before wiring trace output into public endpoints.
+- Keep current parse, match, generation, comparison, retrieval, and semantic behavior unchanged.
+- Extract small duplicated deterministic helpers where behavior is identical.
+- Document deferred helper extraction when behavior differs, especially tokenization used by scoring or adaptation paths.
+- Keep agent standardization additive until existing benchmark behavior is preserved by tests and offline runners.
+
+Public interfaces added or expanded:
+- no endpoint behavior changes in the foundation slice
+- additive internal schemas for future trace metadata
+
+Completion signal:
+- The repo has a low-risk foundation for future agent standardization with tests, CI, and benchmark behavior preserved.
 
 ## Test Plan
 
@@ -201,10 +220,15 @@ Milestone 5:
 - hallucination/unsupported-claim guardrail tests
 - cross-JD comparison and learning-plan acceptance tests
 
+Milestone 6:
+- workflow trace schema validation tests
+- no-regression tests for shared deterministic helpers
+- existing benchmark and comparison runner checks still pass
+
 ## Assumptions
 
 - Milestone 1 remains strictly backend-only with no frontend, no vector store, and no multi-agent orchestration.
 - Milestone 1 parsing is intentionally narrow and only expected to work on deterministic, sanitized fixture layouts.
 - The first coding PR stays inside the narrow boundary already locked in `ROADMAP.md`.
-- Later milestones may introduce UI, retrieval, and richer orchestration, but only after the deterministic backend core is stable and benchmarked.
+- Later milestones may introduce UI, richer orchestration, and multimodal support, but only after the deterministic backend core is stable and benchmarked.
 - All milestones keep the same project values: schema-first, explainable, evidence-linked, modular, and evaluation-driven.

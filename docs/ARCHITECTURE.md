@@ -24,6 +24,7 @@ The current backend does not implement vector stores, external profile persisten
 - M3: completed in the current codebase
 - M4: completed in the current codebase
 - M5: completed in the current codebase
+- M6: next planned milestone, Agent Standardization Foundation
 
 ## High-Level Flows
 

@@ -41,23 +41,21 @@ Generation modules are callable services, not autonomous agents. They stay subor
 
 ## Local Setup
 
-```powershell
+```bash
 python -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+source .venv/Scripts/activate
+pip install -r requirements.txt
 ```
 
 On this machine, the most reliable command path is the repo venv interpreter:
 
-```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+```bash
+./.venv/Scripts/python.exe -m pytest -q
 ```
 
 ## Run The App
 
-```powershell
-.venv\Scripts\Activate.ps1
+```bash
 uvicorn app.main:app --reload
 ```
 
@@ -97,9 +95,26 @@ The parsing guide covers:
 
 ## Run Tests
 
-```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+```bash
+./.venv/Scripts/python.exe -m pytest -q
 ```
+
+## Run Lint
+
+```bash
+./.venv/Scripts/python.exe -m ruff check app tests
+```
+
+## Docker
+
+Build and run the FastAPI backend image:
+
+```bash
+docker build -t careerfit-agent .
+docker run --rm -p 8000:8000 careerfit-agent
+```
+
+This image runs the current backend only. It does not add OCR, LLM, vector-store, or frontend dependencies.
 
 ## Inspect Fixtures
 
@@ -110,13 +125,13 @@ These fixtures cover deterministic matching, messy parsing inputs, low-confidenc
 
 ## Run Offline Evaluation
 
-```powershell
-.\.venv\Scripts\python.exe -m app.evaluation.benchmark_runner
-.\.venv\Scripts\python.exe -m app.evaluation.extraction_runner
-.\.venv\Scripts\python.exe -m app.evaluation.comparison_runner
-.\.venv\Scripts\python.exe -m app.evaluation.recommendation_runner
-.\.venv\Scripts\python.exe -m app.evaluation.artifact_writer
-.\.venv\Scripts\python.exe -m app.evaluation.artifact_writer --snapshot-label m5-review
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.benchmark_runner
+./.venv/Scripts/python.exe -m app.evaluation.extraction_runner
+./.venv/Scripts/python.exe -m app.evaluation.comparison_runner
+./.venv/Scripts/python.exe -m app.evaluation.recommendation_runner
+./.venv/Scripts/python.exe -m app.evaluation.artifact_writer
+./.venv/Scripts/python.exe -m app.evaluation.artifact_writer --snapshot-label m5-review
 ```
 
 The evaluation runners use:

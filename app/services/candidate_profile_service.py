@@ -135,7 +135,10 @@ def _build_memory_items(resume_parse: ResumeParseResponse) -> list[CandidateMemo
                 label="summary",
                 memory_type="summary",
                 support_level="weak",
-                note="Summary claims are preserved for audit but are not treated as strong evidence.",
+                note=(
+                    "Summary claims are preserved for audit but are not treated as strong "
+                    "evidence."
+                ),
                 evidence_used=summary_evidence,
             )
         )

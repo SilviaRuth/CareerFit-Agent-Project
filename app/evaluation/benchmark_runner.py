@@ -7,7 +7,9 @@ from pathlib import Path
 
 from pydantic import BaseModel, Field
 
+from app.evaluation.utils import safe_ratio
 from app.schemas.match import MatchResult
+from app.services.fit_label import derive_fit_label
 from app.services.matching_service import match_resume_to_jd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -118,14 +120,14 @@ def run_benchmark(
 
     metrics = BenchmarkMetrics(
         case_count=len(case_reports),
-        fit_label_accuracy=_safe_ratio(
+        fit_label_accuracy=safe_ratio(
             sum(report.fit_label_correct for report in case_reports),
             len(case_reports),
         ),
-        blocker_flag_accuracy=_safe_ratio(blocker_flags_correct, blocker_flags_total),
-        required_match_recall=_safe_ratio(expected_required_found, expected_required_total),
-        preferred_match_recall=_safe_ratio(expected_preferred_found, expected_preferred_total),
-        top_gap_coverage=_safe_ratio(expected_gaps_found, expected_gaps_total),
+        blocker_flag_accuracy=safe_ratio(blocker_flags_correct, blocker_flags_total),
+        required_match_recall=safe_ratio(expected_required_found, expected_required_total),
+        preferred_match_recall=safe_ratio(expected_preferred_found, expected_preferred_total),
+        top_gap_coverage=safe_ratio(expected_gaps_found, expected_gaps_total),
     )
     return BenchmarkReport(
         manifest_path=str(manifest_path.relative_to(REPO_ROOT)),
@@ -179,7 +181,7 @@ def _build_case_report(
     missing_required = sorted(set(expected["required_skill_matches"]) - matched_required)
     missing_preferred = sorted(set(expected["preferred_skill_matches"]) - matched_preferred)
     missing_gap_pairs = sorted(set(expected_gap_pairs) - actual_gap_pairs)
-    predicted_fit_label = _derive_fit_label(match_result)
+    predicted_fit_label = derive_fit_label(match_result)
 
     return BenchmarkCaseReport(
         pair_id=case.pair_id,
@@ -188,15 +190,15 @@ def _build_case_report(
         expected_fit_label=expected["expected_fit_label"],
         fit_label_correct=predicted_fit_label == expected["expected_fit_label"],
         blocker_flags_match=match_result.blocker_flags.model_dump() == expected["blocker_flags"],
-        required_match_recall=_safe_ratio(
+        required_match_recall=safe_ratio(
             len(expected["required_skill_matches"]) - len(missing_required),
             len(expected["required_skill_matches"]),
         ),
-        preferred_match_recall=_safe_ratio(
+        preferred_match_recall=safe_ratio(
             len(expected["preferred_skill_matches"]) - len(missing_preferred),
             len(expected["preferred_skill_matches"]),
         ),
-        top_gap_coverage=_safe_ratio(
+        top_gap_coverage=safe_ratio(
             len(expected_gap_pairs) - len(missing_gap_pairs),
             len(expected_gap_pairs),
         ),
@@ -206,25 +208,6 @@ def _build_case_report(
         missing_expected_preferred_matches=missing_preferred,
         missing_expected_top_gaps=missing_gap_pairs,
     )
-
-
-def _derive_fit_label(match_result: MatchResult) -> str:
-    """Map the current deterministic score shape into coarse benchmark labels."""
-    blockers = match_result.blocker_flags
-    if blockers.missing_required_skills or blockers.seniority_mismatch:
-        return "poor"
-    if match_result.overall_score >= 80 and not blockers.unsupported_claims:
-        return "strong"
-    if match_result.overall_score >= 40:
-        return "partial"
-    return "poor"
-
-
-def _safe_ratio(numerator: int, denominator: int) -> float:
-    if denominator == 0:
-        return 1.0
-    return round(numerator / denominator, 3)
-
 
 def main() -> None:
     """Run the benchmark and print a JSON report."""

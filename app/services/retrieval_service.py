@@ -2,26 +2,23 @@
 
 from __future__ import annotations
 
-import re
-
 from app.schemas.career import (
     EvidenceRetrievalRequest,
     EvidenceRetrievalResponse,
     RetrievedEvidenceItem,
 )
 from app.services.candidate_profile_service import resolve_candidate_profile
-
-TOKEN_RE = re.compile(r"[a-z0-9]+")
+from app.services.tokenization import tokenize_keywords
 
 
 def retrieve_candidate_evidence(request: EvidenceRetrievalRequest) -> EvidenceRetrievalResponse:
     """Retrieve the most relevant candidate evidence for a bounded query."""
     candidate_profile = resolve_candidate_profile(request)
-    query_tokens = _tokenize(request.query)
+    query_tokens = tokenize_keywords(request.query)
     ranked_items: list[RetrievedEvidenceItem] = []
 
     for memory_item in candidate_profile.memory_items:
-        item_tokens = _tokenize(" ".join([memory_item.label, memory_item.note]))
+        item_tokens = tokenize_keywords(" ".join([memory_item.label, memory_item.note]))
         overlap = sorted(query_tokens & item_tokens)
         if not overlap:
             continue
@@ -54,7 +51,3 @@ def retrieve_candidate_evidence(request: EvidenceRetrievalRequest) -> EvidenceRe
             "an external index."
         ),
     )
-
-
-def _tokenize(text: str) -> set[str]:
-    return {token for token in TOKEN_RE.findall(text.lower()) if len(token) > 1}

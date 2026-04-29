@@ -8,6 +8,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from app.evaluation.utils import safe_ratio
 from app.services.parse_service import parse_jd_text, parse_resume_text
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -99,12 +100,12 @@ def run_extraction_benchmark(
 
     metrics = ExtractionMetrics(
         case_count=len(reports),
-        confidence_accuracy=_safe_ratio(
+        confidence_accuracy=safe_ratio(
             sum(report.confidence_correct for report in reports),
             len(reports),
         ),
-        field_expectation_accuracy=_safe_ratio(field_correct, field_total),
-        unsupported_segment_coverage=_safe_ratio(unsupported_correct, unsupported_total),
+        field_expectation_accuracy=safe_ratio(field_correct, field_total),
+        unsupported_segment_coverage=safe_ratio(unsupported_correct, unsupported_total),
     )
     return ExtractionReport(
         manifest_path=str(manifest_path.relative_to(REPO_ROOT)),
@@ -160,11 +161,11 @@ def _build_case_report(case: ExtractionCase, expected: dict, response) -> Extrac
         parser_level=response.parser_confidence.level,
         extraction_complete=response.parser_confidence.extraction_complete,
         confidence_correct=confidence_correct,
-        field_expectation_accuracy=_safe_ratio(
+        field_expectation_accuracy=safe_ratio(
             len(expected["required_fields"]) - len(missing_fields),
             len(expected["required_fields"]),
         ),
-        unsupported_segment_coverage=_safe_ratio(
+        unsupported_segment_coverage=safe_ratio(
             len(expected["unsupported_sections"]) - len(missing_unsupported_sections),
             len(expected["unsupported_sections"]),
         ),
@@ -182,13 +183,6 @@ def _resolve_text_path(value: str, samples_dir: Path) -> Path:
     if explicit_path.exists():
         return explicit_path
     return samples_dir / value
-
-
-def _safe_ratio(numerator: int, denominator: int) -> float:
-    if denominator == 0:
-        return 1.0
-    return round(numerator / denominator, 3)
-
 
 def main() -> None:
     """Run the extraction benchmark and print a JSON report."""

@@ -11,6 +11,7 @@ from app.schemas.career import (
 )
 from app.schemas.match import MatchResult
 from app.services.candidate_profile_service import resolve_candidate_profile
+from app.services.fit_label import derive_fit_label
 from app.services.generation.context import GroundedFlowContext
 from app.services.generation.generation_guardrails import build_generation_gate
 from app.services.generation.grounding import collect_context_evidence
@@ -55,7 +56,7 @@ def compare_candidate_to_jobs(request: JobComparisonRequest) -> JobComparisonRes
             job_title=jd_parse.parsed_schema.job_title or "Unknown role",
             company=jd_parse.parsed_schema.company or "Unknown company",
             overall_score=match_result.overall_score,
-            fit_label=_derive_fit_label(match_result),
+            fit_label=derive_fit_label(match_result),
             blocker_flags=match_result.blocker_flags,
             parser_confidence=jd_parse.parser_confidence,
             strengths=match_result.strengths[:3],
@@ -149,14 +150,3 @@ def _top_requirement_labels(match_result: MatchResult) -> list[str]:
     ][:2]
     labels.extend(gap.requirement_label for gap in match_result.gaps[:2])
     return labels[:4]
-
-
-def _derive_fit_label(match_result: MatchResult) -> str:
-    blockers = match_result.blocker_flags
-    if blockers.missing_required_skills or blockers.seniority_mismatch:
-        return "poor"
-    if match_result.overall_score >= 80 and not blockers.unsupported_claims:
-        return "strong"
-    if match_result.overall_score >= 40:
-        return "partial"
-    return "poor"

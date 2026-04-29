@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-import re
-
 from app.core.config import CAPABILITY_PATTERNS
 from app.schemas.career import SemanticMatchRequest, SemanticMatchResponse, SemanticMatchSignal
 from app.services.candidate_profile_service import resolve_candidate_profile
-
-TOKEN_RE = re.compile(r"[a-z0-9]+")
+from app.services.tokenization import tokenize_keywords
 
 
 def semantic_match_labels(request: SemanticMatchRequest) -> SemanticMatchResponse:
@@ -38,19 +35,19 @@ def semantic_match_labels(request: SemanticMatchRequest) -> SemanticMatchRespons
                     matched_label=matched_label,
                     confidence="high",
                     reason=(
-                        "The query and candidate evidence collapse to the same canonical capability "
-                        "alias."
+                        "The query and candidate evidence collapse to the same canonical "
+                        "capability alias."
                     ),
                     evidence_used=memory_item.evidence_used,
                 )
             )
             continue
 
-        query_tokens = _tokenize(query_label)
+        query_tokens = tokenize_keywords(query_label)
         best_label = ""
         best_overlap: set[str] = set()
         for label in candidate_items:
-            overlap = query_tokens & _tokenize(label)
+            overlap = query_tokens & tokenize_keywords(label)
             if len(overlap) > len(best_overlap):
                 best_overlap = overlap
                 best_label = label
@@ -71,7 +68,10 @@ def semantic_match_labels(request: SemanticMatchRequest) -> SemanticMatchRespons
                 )
             )
 
-    signals = sorted(signals, key=lambda item: (_confidence_rank(item.confidence), item.query_label))
+    signals = sorted(
+        signals,
+        key=lambda item: (_confidence_rank(item.confidence), item.query_label),
+    )
     return SemanticMatchResponse(
         mode="heuristic",
         signals=signals[: request.top_k],
@@ -90,11 +90,6 @@ def _canonicalize(label: str) -> str | None:
         if any(pattern in lowered or lowered in pattern for pattern in patterns):
             return canonical
     return None
-
-
-def _tokenize(text: str) -> set[str]:
-    return {token for token in TOKEN_RE.findall(text.lower()) if len(token) > 1}
-
 
 def _confidence_rank(value: str) -> int:
     return {"high": 0, "medium": 1, "low": 2}.get(value, 3)

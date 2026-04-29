@@ -7,6 +7,7 @@ from app.schemas.comparison import (
     MultiResumeComparisonResponse,
     ResumeComparisonResult,
 )
+from app.services.fit_label import derive_fit_label
 from app.services.matching_service import match_schemas
 from app.services.parse_service import parse_jd_text, parse_resume_text
 
@@ -35,7 +36,7 @@ def compare_resumes_to_jd(
                 rank=0,
                 resume_id=resume_input.resume_id,
                 overall_score=match_result.overall_score,
-                fit_label=_derive_fit_label(match_result),
+                fit_label=derive_fit_label(match_result),
                 blocker_flags=match_result.blocker_flags,
                 dimension_scores=match_result.dimension_scores,
                 parser_confidence=resume_parse.parser_confidence,
@@ -84,15 +85,3 @@ def compare_resumes_to_jd(
         jd_parser_confidence=jd_parse.parser_confidence,
         ranking=finalized_ranking,
     )
-
-
-def _derive_fit_label(match_result) -> str:
-    """Map the deterministic result into a coarse comparison label."""
-    blockers = match_result.blocker_flags
-    if blockers.missing_required_skills or blockers.seniority_mismatch:
-        return "poor"
-    if match_result.overall_score >= 80 and not blockers.unsupported_claims:
-        return "strong"
-    if match_result.overall_score >= 40:
-        return "partial"
-    return "poor"

@@ -8,6 +8,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from app.evaluation.utils import safe_ratio
 from app.schemas.generation import InterviewSimulationResponse, LearningPlanResponse
 from app.services.generation.interview_simulation_service import (
     generate_interview_simulation_from_text,
@@ -93,15 +94,17 @@ def run_recommendation_benchmark(
         useful_count += int(report.useful)
         grounded_count += int(report.grounded)
         guardrail_count += int(report.blocker_guardrail_ok)
-        total_ungrounded_items += round(report.hallucination_rate * report.recommendation_item_count)
+        total_ungrounded_items += round(
+            report.hallucination_rate * report.recommendation_item_count
+        )
         total_items += report.recommendation_item_count
 
     metrics = RecommendationMetrics(
         case_count=len(case_reports),
-        usefulness_accuracy=_safe_ratio(useful_count, len(case_reports)),
-        grounding_accuracy=_safe_ratio(grounded_count, len(case_reports)),
-        blocker_guardrail_accuracy=_safe_ratio(guardrail_count, len(case_reports)),
-        hallucination_rate=_safe_ratio(total_ungrounded_items, total_items),
+        usefulness_accuracy=safe_ratio(useful_count, len(case_reports)),
+        grounding_accuracy=safe_ratio(grounded_count, len(case_reports)),
+        blocker_guardrail_accuracy=safe_ratio(guardrail_count, len(case_reports)),
+        hallucination_rate=safe_ratio(total_ungrounded_items, total_items),
     )
     return RecommendationReport(
         manifest_path=str(manifest_path.relative_to(REPO_ROOT)),
@@ -165,7 +168,9 @@ def _build_case_report(
         case_id=case.case_id,
         workflow=case.workflow,
         generation_mode=response.gating.generation_mode,
-        useful=not any(item.startswith("minimum_recommendation_items") for item in missing_expectations),
+        useful=not any(
+            item.startswith("minimum_recommendation_items") for item in missing_expectations
+        ),
         grounded=grounded,
         blocker_guardrail_ok=guardrail_ok,
         hallucination_rate=hallucination_rate,
@@ -188,13 +193,6 @@ def _has_guardrail(response: LearningPlanResponse | InterviewSimulationResponse)
     return any(round_item.caution for round_item in response.simulation_rounds) or any(
         "blocker" in note.lower() for note in response.coach_notes
     )
-
-
-def _safe_ratio(numerator: int, denominator: int) -> float:
-    if denominator == 0:
-        return 1.0
-    return round(numerator / denominator, 3)
-
 
 def main() -> None:
     """Run the recommendation benchmark and print a JSON report."""

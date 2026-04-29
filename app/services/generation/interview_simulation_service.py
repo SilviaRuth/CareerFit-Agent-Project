@@ -70,7 +70,10 @@ def _build_simulation_rounds(
             (
                 match
                 for match in top_supported_matches(context, required_only=False)
-                if any(token in responsibility.lower() for token in match.requirement_label.lower().split())
+                if any(
+                    token in responsibility.lower()
+                    for token in match.requirement_label.lower().split()
+                )
             ),
             None,
         )
@@ -84,7 +87,10 @@ def _build_simulation_rounds(
                 priority=priority,
                 round_type="responsibility_probe",
                 prompt=f"Walk through a concrete example of how you handled: {responsibility}",
-                intent="Test whether the candidate can ground a JD responsibility in resume evidence.",
+                intent=(
+                    "Test whether the candidate can ground a JD responsibility in resume "
+                    "evidence."
+                ),
                 answer_strategy=(
                     "Anchor the answer to one documented example, explain the scope clearly, and "
                     "avoid inflating ownership beyond the resume."
@@ -93,7 +99,10 @@ def _build_simulation_rounds(
                 caution=(
                     None
                     if evidence
-                    else "Acknowledge limited direct evidence instead of improvising a stronger story."
+                    else (
+                        "Acknowledge limited direct evidence instead of improvising a "
+                        "stronger story."
+                    )
                 ),
             )
         )
@@ -114,7 +123,10 @@ def _build_simulation_rounds(
                     "scope and outcome without inventing new claims."
                 ),
                 evidence_used=dedupe_evidence(match.resume_evidence + match.jd_evidence),
-                caution="Keep the answer tied to documented evidence, not retrospective embellishment.",
+                caution=(
+                    "Keep the answer tied to documented evidence, not retrospective "
+                    "embellishment."
+                ),
             )
         )
         priority += 1
@@ -128,7 +140,10 @@ def _build_simulation_rounds(
                     f"How would you discuss your current gap around {gap.requirement_label} in an "
                     "interview?"
                 ),
-                intent="Practice truthful framing for weak evidence, missing skills, or blocker gaps.",
+                intent=(
+                    "Practice truthful framing for weak evidence, missing skills, or "
+                    "blocker gaps."
+                ),
                 answer_strategy=(
                     "State the current limitation directly, mention any adjacent evidence, and "
                     "describe the next concrete step without claiming direct experience."
@@ -147,15 +162,20 @@ def _build_simulation_rounds(
 def _build_coach_notes(context: GroundedFlowContext) -> list[str]:
     notes = [
         "Use resume evidence before general opinions or hypothetical claims.",
-        "If a question lands on a real gap, answer honestly and keep the improvement plan concrete.",
+        (
+            "If a question lands on a real gap, answer honestly and keep the improvement "
+            "plan concrete."
+        ),
     ]
     if context.match_result.blocker_flags.unsupported_claims:
         notes.append(
-            "Unsupported summary claims are already a blocker, so practice removing them from verbal answers too."
+            "Unsupported summary claims are already a blocker, so practice removing them "
+            "from verbal answers too."
         )
     if context.match_result.blocker_flags.seniority_mismatch:
         notes.append(
-            "Keep scope and ownership calibrated to the current resume instead of trying to sound more senior."
+            "Keep scope and ownership calibrated to the current resume instead of trying "
+            "to sound more senior."
         )
     return notes
 
@@ -168,7 +188,7 @@ def _build_summary(generation_mode: str, rounds: list[InterviewSimulationRound])
         )
     if rounds:
         return (
-            "Interview simulation prioritizes JD responsibilities first, then drills into supported "
-            "strengths and explicit weak areas."
+            "Interview simulation prioritizes JD responsibilities first, then drills into "
+            "supported strengths and explicit weak areas."
         )
     return "Interview simulation could not build enough grounded prompts from the current inputs."

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, Field
 
+from app.evaluation.utils import safe_ratio
 from app.schemas.comparison import MultiResumeComparisonRequest, ResumeComparisonInput
 from app.services.comparison_service import compare_resumes_to_jd
 
@@ -112,11 +113,11 @@ def run_comparison_benchmark(
 
     metrics = ComparisonMetrics(
         scenario_count=len(reports),
-        ranking_accuracy=_safe_ratio(
+        ranking_accuracy=safe_ratio(
             sum(report.ranking_correct for report in reports), len(reports)
         ),
-        fit_label_accuracy=_safe_ratio(fit_label_correct, fit_label_checks),
-        low_confidence_order_accuracy=_safe_ratio(
+        fit_label_accuracy=safe_ratio(fit_label_correct, fit_label_checks),
+        low_confidence_order_accuracy=safe_ratio(
             sum(report.low_confidence_order_correct for report in reports),
             len(reports),
         ),
@@ -137,7 +138,7 @@ def _build_scenario_report(
     parser_levels = {entry.resume_id: entry.parser_confidence.level for entry in response.ranking}
     fit_labels = {entry.resume_id: entry.fit_label for entry in response.ranking}
     expected_fit_labels = expected["expected_fit_labels"]
-    fit_label_accuracy = _safe_ratio(
+    fit_label_accuracy = safe_ratio(
         sum(fit_labels.get(resume_id) == label for resume_id, label in expected_fit_labels.items()),
         len(expected_fit_labels),
     )
@@ -178,13 +179,6 @@ def _resolve_text_path(value: str, samples_dir: Path) -> Path:
     if explicit_path.exists():
         return explicit_path
     return samples_dir / value
-
-
-def _safe_ratio(numerator: int, denominator: int) -> float:
-    if denominator == 0:
-        return 1.0
-    return round(numerator / denominator, 3)
-
 
 def main() -> None:
     """Run the comparison benchmark and print a JSON report."""
