@@ -1,0 +1,18 @@
+{
+  "cases": [
+    {
+      "case_id": "scanned_pdf_resume_needs_ocr",
+      "document_type": "resume",
+      "sample_name": "data/samples/scanned_resume_placeholder.pdf",
+      "media_type": "application/pdf",
+      "expected_eval": "scanned_pdf_resume_ingestion_expected.json"
+    },
+    {
+      "case_id": "image_resume_needs_ocr",
+      "document_type": "resume",
+      "sample_name": "data/samples/scanned_resume_image.png",
+      "media_type": "image/png",
+      "expected_eval": "image_resume_ingestion_expected.json"
+    }
+  ]
+}

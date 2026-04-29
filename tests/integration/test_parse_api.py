@@ -69,6 +69,26 @@ def test_parse_jd_endpoint_accepts_pdf_upload() -> None:
     assert payload["schema"]["required_requirements"]
 
 
+def test_parse_resume_endpoint_returns_needs_ocr_for_image_upload() -> None:
+    client = TestClient(app)
+
+    response = client.post(
+        "/parse/resume",
+        files={"file": ("resume.png", b"placeholder", "image/png")},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    warning_codes = {warning["warning_code"] for warning in payload["warnings"]}
+    unsupported_reasons = {segment["reason"] for segment in payload["unsupported_segments"]}
+    assert payload["source_type"] == "file"
+    assert payload["source_name"] == "resume.png"
+    assert payload["raw_text"] == ""
+    assert "image_requires_ocr" in warning_codes
+    assert "image_requires_ocr" in unsupported_reasons
+    assert payload["parser_confidence"]["level"] == "low"
+
+
 def test_parse_resume_endpoint_returns_400_for_invalid_pdf_upload() -> None:
     client = TestClient(app)
 

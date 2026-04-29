@@ -24,7 +24,7 @@ class ParserDiagnostic(BaseModel):
     message: str
     section: str | None = None
     severity: Literal["info", "warning", "error"] = "warning"
-    source: Literal["ingestion", "normalization", "extraction"]
+    source: Literal["ingestion", "normalization", "extraction", "ocr"]
 
 
 class ParserConfidence(BaseModel):
@@ -42,7 +42,7 @@ class UnsupportedSegment(BaseModel):
     text: str
     section: str | None = None
     reason: str
-    source: Literal["ingestion", "extraction"]
+    source: Literal["ingestion", "extraction", "ocr"]
 
 
 class ParseResponseBase(BaseModel):

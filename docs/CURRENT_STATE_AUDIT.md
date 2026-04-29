@@ -2,7 +2,7 @@
 
 Audit date: 2026-04-28
 
-Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. Public endpoint behavior and baseline artifacts were not changed.
+Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. Baseline artifacts were not regenerated.
 
 Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-04-29 with `.\.venv\Scripts\python.exe -m pytest -q`: 83 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
 
@@ -66,6 +66,7 @@ Routes are mostly thin. For example, `app/api/routes/match.py:match_resume_to_jo
 - `data/eval/extraction_manifest.json`: 13 extraction benchmark cases.
 - `data/eval/comparison_manifest.json`: 3 multi-resume comparison scenarios.
 - `data/eval/recommendation_manifest.json`: 3 recommendation acceptance cases.
+- `data/eval/multimodal_manifest.json`: 2 multimodal ingestion-quality cases for needs-OCR behavior.
 - `app/evaluation/benchmark_runner.py`: match metrics.
 - `app/evaluation/extraction_runner.py`: extraction metrics.
 - `app/evaluation/comparison_runner.py`: multi-resume ranking metrics.
@@ -99,7 +100,7 @@ Runtime assumptions:
 - `app/api/routes/parse.py:_read_parse_request()` accepts JSON text, multipart `file`, or multipart `text`.
 - `_read_upload_content()` reads upload chunks in 64 KB increments and raises HTTP 413 when the 5 MB limit is exceeded.
 
-Current limitation: image inputs and scanned PDFs are not supported. `_read_pdf()` uses `pypdf.PdfReader.extract_text()` without OCR or layout reconstruction.
+Current limitation: image inputs and scanned PDFs now produce explicit needs-OCR diagnostics, low parser confidence, and unsupported segment reasons. They still do not run OCR or produce extracted text. `_read_pdf()` uses `pypdf.PdfReader.extract_text()` without OCR or layout reconstruction.
 
 ### Text parsing or normalization
 
@@ -288,13 +289,14 @@ For the next platform stage, it is not yet strong enough. It does not cover:
 - partial workflow failures
 - frontend task-status behavior
 
-### Evaluation gaps before multimodal support
+### Evaluation gaps after M7 multimodal foundation
 
-Before adding OCR/image support:
+Before adding OCR runtime support:
 
 - Add golden PDF/DOCX fixtures that include tables, two-column layouts, and extraction failures.
-- Add scanned-PDF/image fixtures with expected OCR confidence and "unsupported/needs OCR" behavior.
-- Add multimodal ingestion metrics: text extraction coverage, OCR confidence threshold behavior, page-level warning coverage, normalized schema completeness.
+- M7 added scanned-PDF/image fixtures with expected "unsupported/needs OCR" behavior.
+- M7 added multimodal ingestion metrics for needs-OCR detection, diagnostic coverage, unsupported-reason coverage, and low-confidence guardrails.
+- Still add text extraction coverage, OCR confidence threshold behavior, page-level warning coverage, and normalized schema completeness once OCR exists.
 - Add failure-case tests for corrupt image files, password/encrypted PDFs, very large files, and files with no text.
 - Add report fields that separate parser quality from matcher quality. A bad OCR parse should not look like a matcher regression.
 
@@ -333,8 +335,8 @@ Current test suite is healthy for existing features: 83 passed on 2026-04-29 aft
 
 Gaps before the next milestone:
 
-- No image/OCR ingestion tests.
-- No scanned-PDF tests.
+- Image and scanned-PDF needs-OCR tests now exist for the M7 foundation.
+- No real OCR-runtime tests.
 - No async task/progress tests.
 - Workflow trace and document schema validation tests exist in `tests/unit/test_workflow_document_schemas.py`.
 - No tests for agent registry or agent lifecycle because those abstractions do not exist.
@@ -354,7 +356,7 @@ Gaps before the next milestone:
 ### Error-handling gaps
 
 - Parse upload size handling is good, but there is no malware scanning, MIME validation beyond filename/media metadata, or page-count limit for PDFs.
-- OCR/image input is unsupported, so image uploads currently have no normalized failure path beyond unsupported extension.
+- OCR/image input has an explicit needs-OCR failure path, but no real OCR runtime or image text extraction.
 - No global exception handler or standardized API error envelope exists.
 - No timeout/cancellation/progress model exists for future long-running multimodal or agent workflows.
 
@@ -454,10 +456,11 @@ Implemented:
 - `.docx` paragraph extraction via `python-docx`
 - parser warnings and confidence metadata
 - bounded upload size
+- image extension detection with explicit `image_requires_ocr`
+- scanned-PDF detection with explicit `pdf_scanned_needs_ocr`
 
 Not implemented:
 
-- images
 - OCR
 - scanned PDF OCR
 - page-level layout extraction

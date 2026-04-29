@@ -33,3 +33,28 @@ Prepare ingestion for scanned PDFs, images, and richer document diagnostics whil
 - Multimodal document contracts are ready.
 - Unsupported and needs-OCR cases are explicit.
 - Evaluation can tell whether failures come from ingestion/OCR quality or matching logic.
+
+## Implementation Status
+
+Implemented in the M7 foundation slice:
+
+- Fixture-first coverage for scanned PDF and image needs-OCR cases:
+  - `data/samples/scanned_resume_placeholder.pdf`
+  - `data/samples/scanned_resume_image.png`
+  - `data/eval/multimodal_manifest.json`
+- Extended internal document contracts with page-level diagnostics, segment modality, OCR status, and `requires_ocr` fields.
+- Added deterministic image detection for `.png`, `.jpg`, `.jpeg`, `.tif`, and `.tiff` uploads.
+- Added scanned-PDF detection for PDFs where no page yields embedded text.
+- Added explicit unsupported segment reasons:
+  - `image_requires_ocr`
+  - `scanned_pdf_requires_ocr`
+- Added OCR adapter interfaces in `app/services/ingestion/ocr.py` without adding an OCR runtime dependency.
+- Added `app/evaluation/multimodal_runner.py` so document-quality failures are reported separately from matching benchmarks.
+
+Still deferred:
+
+- Real OCR provider selection and runtime dependency.
+- OCR confidence calibration on real scanned corpora.
+- Layout/table reconstruction.
+- Background processing for long OCR jobs.
+- Baseline artifact refresh.

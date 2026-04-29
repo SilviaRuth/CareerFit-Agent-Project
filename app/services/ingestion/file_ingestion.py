@@ -12,7 +12,7 @@ from docx.opc.exceptions import PackageNotFoundError
 from pypdf import PdfReader
 from pypdf.errors import PdfReadError, PdfStreamError
 
-from app.core.config import SUPPORTED_INGESTION_EXTENSIONS
+from app.core.config import IMAGE_INGESTION_EXTENSIONS, SUPPORTED_INGESTION_EXTENSIONS
 from app.schemas.parse import ParserDiagnostic
 
 
@@ -69,6 +69,9 @@ def ingest_file(content: bytes, filename: str, media_type: str | None = None) ->
         except (PdfReadError, PdfStreamError, ValueError) as exc:
             raise ValueError("Uploaded PDF could not be parsed as a supported text PDF.") from exc
         warnings.extend(decode_warnings)
+    elif extension in IMAGE_INGESTION_EXTENSIONS:
+        raw_text, decode_warnings = _read_image(content, filename=filename)
+        warnings.extend(decode_warnings)
     else:
         try:
             raw_text, decode_warnings = _read_docx(content)
@@ -122,16 +125,46 @@ def _read_pdf(content: bytes) -> tuple[str, list[ParserDiagnostic]]:
     warnings: list[ParserDiagnostic] = []
     reader = PdfReader(BytesIO(content))
     lines: list[str] = []
+    page_count = len(reader.pages)
+    pages_without_text = 0
 
     for page_index, page in enumerate(reader.pages, start=1):
         page_text = page.extract_text() or ""
         if page_text.strip():
             lines.append(page_text.strip())
             continue
+        pages_without_text += 1
         warnings.append(
             ParserDiagnostic(
                 warning_code="pdf_page_without_text",
                 message=f"PDF page {page_index} did not yield extractable text.",
+                section=None,
+                severity="warning",
+                source="ingestion",
+            )
+        )
+
+    if page_count and pages_without_text == page_count:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="pdf_scanned_needs_ocr",
+                message=(
+                    "PDF produced no extractable text across all pages; OCR is required "
+                    "before this file can be parsed as a resume or job description."
+                ),
+                section=None,
+                severity="error",
+                source="ingestion",
+            )
+        )
+    elif pages_without_text:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="pdf_partial_text_needs_review",
+                message=(
+                    "PDF contained a mix of extractable text and pages with no text; "
+                    "review page-level coverage before trusting downstream matching."
+                ),
                 section=None,
                 severity="warning",
                 source="ingestion",
@@ -150,6 +183,33 @@ def _read_pdf(content: bytes) -> tuple[str, list[ParserDiagnostic]]:
         )
 
     return "\n\n".join(lines), warnings
+
+
+def _read_image(content: bytes, filename: str) -> tuple[str, list[ParserDiagnostic]]:
+    """Detect image inputs and return an explicit needs-OCR outcome."""
+    warnings = [
+        ParserDiagnostic(
+            warning_code="image_requires_ocr",
+            message=(
+                f"Image input '{filename}' cannot be parsed by the deterministic text reader; "
+                "OCR must run first and report confidence before extraction."
+            ),
+            section=None,
+            severity="error",
+            source="ingestion",
+        )
+    ]
+    if not content:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="empty_image_upload",
+                message="Image upload was empty.",
+                section=None,
+                severity="error",
+                source="ingestion",
+            )
+        )
+    return "", warnings
 
 
 def _read_docx(content: bytes) -> tuple[str, list[ParserDiagnostic]]:

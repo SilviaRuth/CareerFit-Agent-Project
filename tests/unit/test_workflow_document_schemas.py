@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.document import DocumentInput, DocumentSegment, NormalizedDocument
+from app.schemas.document import DocumentInput, DocumentPage, DocumentSegment, NormalizedDocument
 from app.schemas.parse import ParserConfidence, ParserDiagnostic
 from app.schemas.workflow import WorkflowResult, WorkflowStatus, WorkflowStepTrace, WorkflowTrace
 
@@ -145,9 +145,11 @@ def test_document_schemas_accept_initial_multimodal_contract_fields() -> None:
     segment = DocumentSegment(
         segment_id="segment-1",
         source_type="text",
+        modality="text",
         filename="resume.txt",
         media_type="text/plain",
         text="Python backend engineer",
+        page_number=1,
         start_char=0,
         end_char=23,
         diagnostics=[diagnostic],
@@ -156,18 +158,82 @@ def test_document_schemas_accept_initial_multimodal_contract_fields() -> None:
     )
     document = NormalizedDocument(
         source_type="text",
+        modality="text",
         filename="resume.txt",
         media_type="text/plain",
+        page_count=1,
         text="Python backend engineer",
+        pages=[
+            DocumentPage(
+                page_number=1,
+                text="Python backend engineer",
+                has_extractable_text=True,
+                diagnostics=[diagnostic],
+                confidence=confidence,
+            )
+        ],
         segments=[segment],
+        ocr_status="not_required",
         diagnostics=[diagnostic],
         confidence=confidence,
         warnings=["review formatting"],
     )
 
     assert document.source_type == "text"
+    assert document.pages[0].has_extractable_text is True
+    assert document.segments[0].page_number == 1
     assert document.segments[0].confidence is not None
     assert document.diagnostics[0].source == "normalization"
+
+
+def test_document_schemas_represent_image_needs_ocr_without_text() -> None:
+    diagnostic = ParserDiagnostic(
+        warning_code="image_requires_ocr",
+        message="Image needs OCR before extraction.",
+        source="ingestion",
+        severity="error",
+    )
+    document = NormalizedDocument(
+        source_type="image",
+        modality="image",
+        filename="resume.png",
+        media_type="image/png",
+        page_count=1,
+        text="",
+        pages=[
+            DocumentPage(
+                page_number=1,
+                text="",
+                has_extractable_text=False,
+                requires_ocr=True,
+                diagnostics=[diagnostic],
+            )
+        ],
+        segments=[
+            DocumentSegment(
+                segment_id="image-1",
+                source_type="image",
+                modality="image",
+                segment_type="image",
+                text="",
+                filename="resume.png",
+                media_type="image/png",
+                page_number=1,
+                requires_ocr=True,
+                ocr_status="required",
+                unsupported_reason="image_requires_ocr",
+                diagnostics=[diagnostic],
+            )
+        ],
+        ocr_status="required",
+        requires_ocr=True,
+        diagnostics=[diagnostic],
+    )
+
+    payload = document.model_dump(mode="json")
+    assert payload["requires_ocr"] is True
+    assert payload["pages"][0]["requires_ocr"] is True
+    assert payload["segments"][0]["unsupported_reason"] == "image_requires_ocr"
 
 
 def test_document_input_rejects_unknown_source_type() -> None:

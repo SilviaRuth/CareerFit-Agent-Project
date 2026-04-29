@@ -93,7 +93,7 @@ Routes should only validate transport concerns and delegate business logic.
 Responsibilities:
 
 - define additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowStatus`, and `WorkflowResult` contracts for future trace/result metadata
-- define additive `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` contracts for future multimodal normalization
+- define additive `DocumentInput`, `DocumentPage`, `DocumentSegment`, and `NormalizedDocument` contracts for multimodal normalization diagnostics
 - keep these contracts internal until a later milestone explicitly documents public API exposure
 - avoid changing parse, match, generation, comparison, retrieval, semantic helper, or benchmark behavior
 
@@ -107,6 +107,7 @@ Responsibilities:
 Responsibilities:
 
 - bounded file ingestion
+- image/scanned-PDF needs-OCR detection without hidden OCR fallback
 - normalization diagnostics
 - section detection
 - schema extraction

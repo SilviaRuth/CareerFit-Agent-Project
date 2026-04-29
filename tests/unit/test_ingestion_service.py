@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from app.services.ingestion.file_ingestion import ingest_file
-from tests.conftest import build_docx_bytes, build_pdf_bytes
+from tests.conftest import SAMPLES_DIR, build_docx_bytes, build_pdf_bytes
 
 
 def test_ingest_docx_file_extracts_paragraph_text() -> None:
@@ -44,6 +44,28 @@ def test_ingest_pdf_file_extracts_text_without_ocr() -> None:
     assert result.media_type == "application/pdf"
     assert "Platform Backend Engineer" in result.raw_text
     assert "Strong Python experience" in result.raw_text
+
+
+def test_ingest_scanned_pdf_fixture_reports_needs_ocr() -> None:
+    content = (SAMPLES_DIR / "scanned_resume_placeholder.pdf").read_bytes()
+
+    result = ingest_file(content, filename="scanned_resume_placeholder.pdf")
+
+    warning_codes = {warning.warning_code for warning in result.warnings}
+    assert result.raw_text == ""
+    assert result.media_type == "application/pdf"
+    assert {"pdf_page_without_text", "pdf_scanned_needs_ocr", "empty_extracted_text"}.issubset(
+        warning_codes
+    )
+
+
+def test_ingest_image_file_reports_needs_ocr_without_hidden_fallback() -> None:
+    result = ingest_file(b"placeholder", filename="resume.png", media_type="image/png")
+
+    warning_codes = {warning.warning_code for warning in result.warnings}
+    assert result.raw_text == ""
+    assert result.media_type == "image/png"
+    assert {"image_requires_ocr", "empty_extracted_text"}.issubset(warning_codes)
 
 
 def test_ingest_invalid_pdf_file_raises_bounded_value_error() -> None:

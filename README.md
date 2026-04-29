@@ -1,12 +1,12 @@
 # CareerFit Agent
 
-Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, additive workflow/document contracts, and reviewable evaluation across Milestones 1 through 6 foundation work.
+Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, multimodal ingestion diagnostics, additive workflow/document contracts, and reviewable evaluation across Milestones 1 through 7 foundation work.
 
 ## Current Scope
 
 - Backend only
 - Deterministic parsing, extraction, and rule-based matching
-- Bounded file ingestion for `.txt`, `.pdf`, and `.docx`
+- Bounded file ingestion for `.txt`, `.pdf`, `.docx`, and explicit needs-OCR image/scanned-PDF diagnostics
 - Evidence-linked JSON outputs
 - Grounded rewrite and interview-prep guidance built on parse plus match results
 - Grounded interview simulation aligned to responsibilities, strengths, and weak areas
@@ -23,6 +23,7 @@ Schema-first backend for explainable resume-to-JD parsing, deterministic matchin
 - Milestone 4: expanded offline benchmark coverage, extraction evaluation, deterministic company/role adaptation summaries, multi-resume comparison, and reviewable report snapshots
 - Milestone 5: grounded `/learning-plan`, `/interview-sim`, request-scoped `/profile-memory`, `/compare/jobs`, bounded `/retrieve/evidence`, additive `/semantic/match`, and recommendation evaluation
 - Milestone 6 foundation: additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowResult`, `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` schemas without public endpoint behavior changes
+- Milestone 7 foundation: scanned-PDF/image needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and separate document-quality evaluation
 
 ## Orchestration Pattern
 

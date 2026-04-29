@@ -11,6 +11,7 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 - required/preferred match recall
 - top-gap coverage
 - extraction confidence and field-presence stability
+- multimodal ingestion diagnostics and needs-OCR guardrails
 - multi-resume ranking stability
 - recommendation usefulness and hallucination rate
 - snapshot-friendly regression review
@@ -19,6 +20,7 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 
 - 15 match benchmark cases
 - 13 extraction benchmark cases
+- 2 multimodal ingestion-quality cases
 - 3 multi-resume comparison scenarios
 - 3 recommendation acceptance cases
 - baseline and snapshot-capable report artifacts
@@ -34,6 +36,20 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 ```bash
 ./.venv/Scripts/python.exe -m app.evaluation.extraction_runner
 ```
+
+## Run The Multimodal Ingestion Benchmark
+
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.multimodal_runner
+```
+
+The multimodal benchmark is separate from the checked-in baseline artifact
+bundle. It verifies document-quality behavior before OCR is added:
+
+- needs-OCR detection accuracy
+- diagnostic coverage
+- unsupported-reason coverage
+- low-confidence guardrail accuracy
 
 ## Run The Comparison Benchmark
 
@@ -80,6 +96,11 @@ When adding new benchmark cases:
 2. add the expected outcome JSON under `data/eval/`
 3. add the case to the relevant manifest
 4. add or update tests if the case represents a bug fix or newly supported behavior
+
+For multimodal ingestion cases, use `data/eval/multimodal_manifest.json` plus
+small reviewable fixtures under `data/samples/`. Expected outputs should focus on
+warning codes, unsupported reasons, parser confidence, and extraction-complete
+status so document quality stays separate from match quality.
 
 Keep fixtures human-readable and small enough to review comfortably.
 

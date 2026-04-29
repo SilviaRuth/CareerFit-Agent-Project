@@ -1,0 +1,5 @@
+M7 placeholder image fixture.
+
+This is intentionally not decoded by the runtime. The M7 foundation only detects
+image uploads by supported image extension and returns an explicit needs-OCR
+diagnostic instead of attempting hidden OCR.

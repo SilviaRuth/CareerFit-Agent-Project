@@ -1,0 +1,13 @@
+{
+  "expected_warning_codes": [
+    "image_requires_ocr",
+    "empty_extracted_text"
+  ],
+  "expected_unsupported_reasons": [
+    "image_requires_ocr"
+  ],
+  "parser_level": "low",
+  "extraction_complete": false,
+  "needs_ocr": true,
+  "max_parser_score": 0.25
+}

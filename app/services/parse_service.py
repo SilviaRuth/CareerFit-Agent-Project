@@ -84,10 +84,13 @@ def _build_resume_response(
     )
     extraction_result = analyze_resume_text(cleaned_text, pre_normalized=True)
     warnings = ingestion_warnings + normalization_warnings + extraction_result.warnings
+    unsupported_segments = _build_ingestion_unsupported_segments(
+        ingestion_warnings
+    ) + extraction_result.unsupported_segments
     parser_confidence = _build_parser_confidence(
         extraction_result.schema,
         warnings,
-        extraction_result.unsupported_segments,
+        unsupported_segments,
         document_type="resume",
     )
     return ResumeParseResponse(
@@ -99,7 +102,7 @@ def _build_resume_response(
         parsed_schema=extraction_result.schema,
         warnings=warnings,
         parser_confidence=parser_confidence,
-        unsupported_segments=extraction_result.unsupported_segments,
+        unsupported_segments=unsupported_segments,
     )
 
 
@@ -117,10 +120,13 @@ def _build_jd_response(
     )
     extraction_result = analyze_jd_text(cleaned_text, pre_normalized=True)
     warnings = ingestion_warnings + normalization_warnings + extraction_result.warnings
+    unsupported_segments = _build_ingestion_unsupported_segments(
+        ingestion_warnings
+    ) + extraction_result.unsupported_segments
     parser_confidence = _build_parser_confidence(
         extraction_result.schema,
         warnings,
-        extraction_result.unsupported_segments,
+        unsupported_segments,
         document_type="job_description",
     )
     return JDParseResponse(
@@ -132,8 +138,32 @@ def _build_jd_response(
         parsed_schema=extraction_result.schema,
         warnings=warnings,
         parser_confidence=parser_confidence,
-        unsupported_segments=extraction_result.unsupported_segments,
+        unsupported_segments=unsupported_segments,
     )
+
+
+def _build_ingestion_unsupported_segments(
+    warnings: list[ParserDiagnostic],
+) -> list[UnsupportedSegment]:
+    """Expose unsupported multimodal inputs separately from extraction failures."""
+    unsupported_codes = {
+        "image_requires_ocr": "image_requires_ocr",
+        "pdf_scanned_needs_ocr": "scanned_pdf_requires_ocr",
+    }
+    segments: list[UnsupportedSegment] = []
+    for warning in warnings:
+        reason = unsupported_codes.get(warning.warning_code)
+        if reason is None:
+            continue
+        segments.append(
+            UnsupportedSegment(
+                text="",
+                section=None,
+                reason=reason,
+                source="ingestion",
+            )
+        )
+    return segments
 
 
 def _build_parser_confidence(

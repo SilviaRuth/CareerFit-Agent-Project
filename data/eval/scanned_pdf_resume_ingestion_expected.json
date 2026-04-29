@@ -1,0 +1,14 @@
+{
+  "expected_warning_codes": [
+    "pdf_page_without_text",
+    "pdf_scanned_needs_ocr",
+    "empty_extracted_text"
+  ],
+  "expected_unsupported_reasons": [
+    "scanned_pdf_requires_ocr"
+  ],
+  "parser_level": "low",
+  "extraction_complete": false,
+  "needs_ocr": true,
+  "max_parser_score": 0.25
+}

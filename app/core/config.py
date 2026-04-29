@@ -91,7 +91,14 @@ SUPPORTED_INGESTION_EXTENSIONS: Final[dict[str, str]] = {
     ".txt": "text/plain",
     ".pdf": "application/pdf",
     ".docx": ("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".tif": "image/tiff",
+    ".tiff": "image/tiff",
 }
+
+IMAGE_INGESTION_EXTENSIONS: Final[set[str]] = {".png", ".jpg", ".jpeg", ".tif", ".tiff"}
 
 MAX_INGESTION_FILE_BYTES: Final[int] = 5 * 1024 * 1024
 

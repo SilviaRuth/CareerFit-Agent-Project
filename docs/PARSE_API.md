@@ -37,14 +37,23 @@ Supported file types:
 - `.txt`
 - `.pdf`
 - `.docx`
+- `.png`
+- `.jpg` / `.jpeg`
+- `.tif` / `.tiff`
 
 Non-goals and current limits:
 
-- no OCR
+- no OCR runtime dependency
 - no scanned image parsing
 - no layout-aware table extraction
 - no URL scraping
 - no freeform generation
+
+Image files are accepted only so the API can return an explicit needs-OCR parse
+response. They do not produce clean text until a future OCR adapter is configured.
+Scanned PDFs follow the same trust model: if no page yields embedded text, the
+response includes a scanned-PDF diagnostic and low parser confidence instead of
+pretending extraction succeeded.
 
 ## Text Example
 
@@ -163,6 +172,9 @@ Common warning codes include:
 
 - `txt_decode_fallback`
 - `pdf_page_without_text`
+- `pdf_scanned_needs_ocr`
+- `pdf_partial_text_needs_review`
+- `image_requires_ocr`
 - `docx_tables_ignored`
 - `unicode_punctuation_normalized`
 - `bullet_format_normalized`
@@ -206,3 +218,13 @@ The parse layer does not:
 - invent missing sections
 - upgrade weak evidence into stronger claims
 - claim OCR support where none exists
+
+## Multimodal Diagnostics
+
+M7 adds explicit document-quality diagnostics before adding any OCR dependency.
+The expected behavior is:
+
+- image uploads return `image_requires_ocr`, empty `raw_text`, low parser confidence, and an unsupported segment with reason `image_requires_ocr`
+- scanned PDFs return `pdf_scanned_needs_ocr`, page-level no-text warnings, empty `raw_text`, low parser confidence, and an unsupported segment with reason `scanned_pdf_requires_ocr`
+- mixed PDFs with some text and some no-text pages return `pdf_partial_text_needs_review`
+- downstream matching and recommendation logic should treat these as ingestion quality failures, not matcher failures
