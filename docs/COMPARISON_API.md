@@ -60,9 +60,8 @@ The extra M5 retrieval and semantic fields are additive only. They do not rewrit
 
 `POST /compare/resumes` is locked by the M4 comparison benchmark:
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.comparison_runner
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.comparison_runner
 ```
 
 `POST /compare/jobs` is currently protected by integration and unit tests rather than a separate offline ranking manifest.

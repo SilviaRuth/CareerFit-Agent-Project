@@ -78,9 +78,8 @@ Response highlights:
 
 Milestone 5 recommendation quality is checked offline through:
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.recommendation_runner
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.recommendation_runner
 ```
 
 That benchmark tracks:

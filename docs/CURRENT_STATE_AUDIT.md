@@ -2,7 +2,9 @@
 
 Audit date: 2026-04-28
 
-Scope: repository inspection only. No production code was changed. Verification performed with `.\.venv\Scripts\python.exe -m pytest -q`: 73 tests passed.
+Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. Public endpoint behavior and baseline artifacts were not changed.
+
+Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-04-29 with `.\.venv\Scripts\python.exe -m pytest -q`: 83 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
 
 ## 1. Repository Overview
 
@@ -11,13 +13,13 @@ Scope: repository inspection only. No production code was changed. Verification 
 - `app/`: FastAPI backend package.
   - `app/main.py`: application factory and router registration.
   - `app/api/routes/`: HTTP route layer for health, parsing, matching, generation, comparison, and career workflows.
-  - `app/schemas/`: explicit Pydantic contracts for resume, JD, parsing, matching, generation, comparison, and career helper outputs.
+  - `app/schemas/`: explicit Pydantic contracts for resume, JD, parsing, matching, generation, comparison, career helper outputs, additive workflow trace metadata, and document normalization.
   - `app/services/`: deterministic business logic for ingestion, normalization, extraction, matching, generation rendering, comparison, retrieval, semantic hints, and candidate profile memory.
   - `app/services/ingestion/`: bounded file ingestion for `.txt`, `.pdf`, and `.docx`.
   - `app/services/generation/`: deterministic grounded generation renderers and guardrails.
   - `app/evaluation/`: offline benchmark runners and artifact writer.
   - `app/core/config.py`: static config for section headers, ingestion limits, match weights, and capability keywords.
-- `tests/`: 22 unit test files and 5 integration test files.
+- `tests/`: 24 unit test files and 5 integration test files.
 - `data/samples/`: small canonical sample resumes and job descriptions.
 - `data/eval/`: expected outputs, benchmark manifests, comparison manifests, recommendation manifests, and baseline reports.
 - `data/eval/reports/baseline/`: checked-in `benchmark_report.json`, `extraction_report.json`, `comparison_report.json`, `recommendation_report.json`, `artifact_manifest.json`, and `summary.md`.
@@ -84,8 +86,8 @@ Runtime assumptions:
 - No vector store.
 - No LLM provider SDK.
 - No environment-variable configuration currently detected.
-- No Dockerfile or compose file currently present.
-- No `.github/workflows/` CI configuration currently present.
+- A minimal backend `Dockerfile` is present for the current FastAPI app.
+- `.github/workflows/ci.yml` runs Ruff and pytest on Python 3.11.
 - Upload limit is static in `app/core/config.py:MAX_INGESTION_FILE_BYTES` at 5 MB.
 
 ## 2. Current Feature Inventory
@@ -327,16 +329,16 @@ The adaptation tokenization path is intentionally deferred because it preserves 
 
 ### Missing tests
 
-Current test suite is healthy for existing features: 73 passed in this audit.
+Current test suite is healthy for existing features: 83 passed on 2026-04-29 after the M6 foundation update.
 
 Gaps before the next milestone:
 
 - No image/OCR ingestion tests.
 - No scanned-PDF tests.
 - No async task/progress tests.
-- No workflow trace tests.
+- Workflow trace and document schema validation tests exist in `tests/unit/test_workflow_document_schemas.py`.
 - No tests for agent registry or agent lifecycle because those abstractions do not exist.
-- No Docker/CI tests because Docker and CI config do not exist.
+- Docker and CI config exist, but Docker image build coverage is not yet part of the local verification checklist.
 - Limited benchmark size for recommendation cases: only 3 cases.
 
 ### Hidden assumptions
@@ -359,7 +361,7 @@ Gaps before the next milestone:
 ### Naming or structure issues
 
 - The repository name and docs still use "CareerFit Agent", but the implemented architecture is explicitly not agentic yet.
-- `docs/CAREER_API.md` uses PowerShell examples, while `README.md` uses Bash-style examples. This is documentation inconsistency, not runtime breakage.
+- API and evaluation docs now use the same Bash-style repo venv interpreter examples as `README.md`.
 - `docs/ROADMAP.md` is historical and can be misread as current scope unless readers notice the note.
 - `app/services/generation/` contains deterministic renderers; "generation" may later become ambiguous once LLM-backed generation is introduced.
 
@@ -405,14 +407,13 @@ Agents should align to explicit input/output contracts rather than files:
 
 ### Suggested input and output schemas
 
-New schemas worth adding before real agents:
+Schemas to preserve or add before real agents:
 
-- `WorkflowRequest`: workflow id, input documents, options, trace settings.
-- `WorkflowTrace`: ordered steps, agent/service name, input schema version, output schema version, duration, warnings, and error status.
-- `AgentResult[T]`: typed output, confidence, evidence used, warnings, recoverable errors.
-- `DocumentInput`: source type, filename, media type, raw bytes/text reference, and user-provided metadata.
-- `NormalizedDocument`: text, pages/segments, parser/OCR diagnostics, source spans, and confidence.
-- `AgentRunStatus`: queued/running/succeeded/failed/cancelled for future frontend polling.
+- Implemented: `WorkflowTrace` with ordered steps, service name, schema versions, duration, warnings, and error status.
+- Implemented: `WorkflowResult` with status, output metadata, optional trace, confidence, evidence references, warnings, and recoverable errors.
+- Implemented: `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` for source metadata, normalized text, segments, diagnostics, confidence, and warnings.
+- Pending: `WorkflowRequest` with workflow id, input documents, options, and trace settings.
+- Pending: `AgentRunStatus` with queued/running/succeeded/failed/cancelled states for future frontend polling.
 
 ### Modules that should remain deterministic utilities
 
@@ -434,7 +435,7 @@ Not yet for the current codebase. There are no LLM calls, no autonomous agent lo
 
 Recommended sequence:
 
-1. Add workflow trace schemas and shared result envelopes first.
+1. Preserve the implemented workflow trace schemas and add a shared result envelope only when it can stay additive.
 2. Extract shared utilities for fit-label derivation, tokenization, and benchmark ratio handling.
 3. Add a small `BaseAgent` only when at least two real agent implementations need common lifecycle behavior.
 4. Add `AgentRegistry` only when workflows need runtime selection between multiple interchangeable agents.
@@ -614,9 +615,9 @@ Before LLM/multimodal work:
 
 ### Docker readiness
 
-Not ready. No Dockerfile or compose file exists.
+Partially ready. A minimal backend `Dockerfile` exists and runs `uvicorn app.main:app` on port 8000.
 
-Before adding heavy multimodal dependencies, add a minimal Dockerfile for the current backend. OCR should wait until Docker/system-library handling is settled.
+Before adding heavy multimodal dependencies, keep the Dockerfile focused on the current backend. OCR should wait until Docker/system-library handling is intentionally designed and tested.
 
 ### Local run instructions
 
@@ -628,23 +629,24 @@ README local setup is usable and currently Bash-style:
 - run tests with `./.venv/Scripts/python.exe -m pytest -q`
 - run app with `uvicorn app.main:app --reload`
 
-Documentation mismatch: `docs/EVALUATION.md` and `docs/CAREER_API.md` still show PowerShell activation examples. This should be cleaned before the next documentation pass.
+Documentation cleanup: `docs/EVALUATION.md` and `docs/CAREER_API.md` now use the same Bash-style repo venv interpreter examples as `README.md`.
 
 ### CI/test readiness
 
-The local test suite is healthy: 73 passed.
+The local test suite is healthy: 83 passed on 2026-04-29.
 
-CI is not ready:
+CI is partially ready:
 
-- no `.github/workflows/`
-- no automated pytest/ruff gate
+- `.github/workflows/ci.yml` installs `.[dev]`
+- CI runs `python -m ruff check app tests`
+- CI runs `python -m pytest -q`
 - no artifact comparison check
 - no Docker build check
 
 ### Deployment blockers
 
-- No Dockerfile.
-- No CI.
+- Dockerfile exists but lacks a CI build gate.
+- CI exists for Ruff and pytest but does not yet verify Docker or evaluation artifacts.
 - No runtime/dev dependency split.
 - No production server guidance.
 - No API versioning strategy.
@@ -653,15 +655,15 @@ CI is not ready:
 
 ## 10. Recommended Next Milestone
 
-Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `docs/CAREER_API.md`, and implemented endpoints already mark Milestone 5 as completed. The next development milestone is M6: Agent Standardization Foundation.
+Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `docs/CAREER_API.md`, and implemented endpoints already mark Milestone 5 as completed. The active foundation milestone is M6: Agent Standardization Foundation.
 
-### Must-fix before M6 work
+### Must-preserve during M6 foundation work
 
 1. Keep planning docs aligned so "M5 completed" does not conflict with M6 agent-standardization work.
-2. Keep `docs/CURRENT_STATE_AUDIT.md` in the repo as the starting point for the next milestone planning.
+2. Keep `docs/CURRENT_STATE_AUDIT.md` in the repo as the starting point for milestone cleanup.
 3. Keep fit-label logic centralized in `app/services/fit_label.py`.
-4. Use the shared workflow trace schemas before adding agents or frontend workflow status.
-5. Use the shared multimodal document schemas before adding image/OCR support.
+4. Keep the shared workflow trace schemas internal until public workflow status is explicitly scoped.
+5. Keep the shared multimodal document schemas internal until image/OCR support is explicitly scoped.
 6. Keep CI running pytest and ruff.
 7. Keep the minimal Dockerfile free of OCR dependencies until OCR support is intentionally added.
 8. Add multimodal evaluation plan and fixtures before implementing OCR.

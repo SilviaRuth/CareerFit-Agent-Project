@@ -1,6 +1,6 @@
 # CareerFit Agent
 
-Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, and reviewable evaluation across Milestones 1 through 5.
+Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, additive workflow/document contracts, and reviewable evaluation across Milestones 1 through 6 foundation work.
 
 ## Current Scope
 
@@ -22,6 +22,7 @@ Schema-first backend for explainable resume-to-JD parsing, deterministic matchin
 - Milestone 3: grounded `/rewrite` and `/interview-prep` via a single orchestrator service
 - Milestone 4: expanded offline benchmark coverage, extraction evaluation, deterministic company/role adaptation summaries, multi-resume comparison, and reviewable report snapshots
 - Milestone 5: grounded `/learning-plan`, `/interview-sim`, request-scoped `/profile-memory`, `/compare/jobs`, bounded `/retrieve/evidence`, additive `/semantic/match`, and recommendation evaluation
+- Milestone 6 foundation: additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowResult`, `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` schemas without public endpoint behavior changes
 
 ## Orchestration Pattern
 

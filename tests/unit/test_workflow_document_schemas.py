@@ -7,7 +7,7 @@ from pydantic import ValidationError
 
 from app.schemas.document import DocumentInput, DocumentSegment, NormalizedDocument
 from app.schemas.parse import ParserConfidence, ParserDiagnostic
-from app.schemas.workflow import WorkflowStatus, WorkflowStepTrace, WorkflowTrace
+from app.schemas.workflow import WorkflowResult, WorkflowStatus, WorkflowStepTrace, WorkflowTrace
 
 
 def test_workflow_trace_accepts_ordered_step_models() -> None:
@@ -36,6 +36,97 @@ def test_workflow_step_rejects_unknown_status_and_negative_duration() -> None:
         WorkflowStepTrace.model_validate(
             {"step_name": "parse", "status": "done", "duration_ms": -1}
         )
+
+
+def test_workflow_result_wraps_internal_output_and_trace() -> None:
+    trace = WorkflowTrace(
+        trace_id="trace-2",
+        workflow_name="learning_plan",
+        status=WorkflowStatus.SUCCEEDED,
+        steps=[
+            WorkflowStepTrace(
+                step_name="render_plan",
+                service_name="learning_plan_service",
+                status=WorkflowStatus.SUCCEEDED,
+            )
+        ],
+    )
+
+    result = WorkflowResult(
+        workflow_name="learning_plan",
+        status=WorkflowStatus.SUCCEEDED,
+        output_schema_version="v1",
+        output={"summary": "Focus on backend evidence gaps."},
+        trace=trace,
+        confidence_score=0.91,
+        evidence_refs=["resume:skills:python"],
+        warnings=["internal contract only"],
+    )
+
+    assert result.output["summary"] == "Focus on backend evidence gaps."
+    assert result.trace is not None
+    assert result.trace.steps[0].service_name == "learning_plan_service"
+    assert result.recoverable_errors == []
+
+
+def test_workflow_result_rejects_unknown_status_and_invalid_confidence() -> None:
+    with pytest.raises(ValidationError):
+        WorkflowResult.model_validate(
+            {
+                "workflow_name": "match",
+                "status": "done",
+                "confidence_score": 1.2,
+            }
+        )
+
+
+def test_workflow_and_document_schemas_serialize_to_json_ready_dicts() -> None:
+    trace = WorkflowTrace(
+        trace_id="trace-serialize",
+        workflow_name="match",
+        status=WorkflowStatus.SUCCEEDED,
+        steps=[
+            WorkflowStepTrace(
+                step_name="score",
+                service_name="matching_service",
+                status=WorkflowStatus.SUCCEEDED,
+                duration_ms=8,
+            )
+        ],
+    )
+    result = WorkflowResult(
+        workflow_name="match",
+        status=WorkflowStatus.SUCCEEDED,
+        output_schema_version="v1",
+        output={"fit_label": "strong"},
+        trace=trace,
+        confidence_score=0.99,
+        evidence_refs=["resume:experience:backend"],
+    )
+    document = NormalizedDocument(
+        source_type="text",
+        filename="resume.txt",
+        media_type="text/plain",
+        text="Backend engineer",
+        segments=[
+            DocumentSegment(
+                segment_id="segment-serialize",
+                source_type="text",
+                text="Backend engineer",
+                start_char=0,
+                end_char=16,
+            )
+        ],
+    )
+
+    result_payload = result.model_dump(mode="json")
+    document_payload = document.model_dump(mode="json")
+
+    assert result_payload["status"] == "succeeded"
+    assert result_payload["trace"]["steps"][0]["status"] == "succeeded"
+    assert result_payload["output"]["fit_label"] == "strong"
+    assert document_payload["source_type"] == "text"
+    assert document_payload["segments"][0]["segment_id"] == "segment-serialize"
 
 
 def test_document_schemas_accept_initial_multimodal_contract_fields() -> None:

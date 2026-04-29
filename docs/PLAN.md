@@ -16,6 +16,10 @@ The build order should be:
 5. portfolio-grade depth and evaluation
 6. completed career-workflow helper layer
 7. Agent Standardization Foundation
+8. Multimodal Ingestion Foundation
+9. Workflow Trace and Frontend Readiness
+10. LLM-Assisted Generation With Guardrails
+11. Deployment and Portfolio Release
 
 ## Developer Workflow Layer
 
@@ -177,6 +181,54 @@ Public interfaces added or expanded:
 
 Completion signal:
 - The repo has a low-risk foundation for future agent standardization with tests, CI, and benchmark behavior preserved.
+
+## Future Milestone Map
+
+Future milestone details live under `docs/milestones/`. This section is the short sequencing map for avoiding scope overlap.
+
+### M7: Multimodal Ingestion Foundation
+
+Goal: make the ingestion layer ready for scanned PDFs and images through explicit document contracts, diagnostics, fixtures, and evaluation expectations.
+
+Boundary:
+- focus on document normalization, unsupported/needs-OCR outcomes, OCR adapter shape, and multimodal evaluation design
+- do not add LLM generation, frontend workflow UI, or opaque OCR-to-match shortcuts
+
+Primary doc:
+- `docs/milestones/M7_MULTIMODAL_INGESTION.md`
+
+### M8: Workflow Trace and Frontend Readiness
+
+Goal: expose workflow status, trace, and frontend-friendly contracts without changing deterministic matching behavior.
+
+Boundary:
+- focus on trace IDs, step status, API response consistency, async/status contracts if needed, and dashboard-ready examples
+- do not build a large frontend or introduce LLM/OCR feature expansion
+
+Primary doc:
+- `docs/milestones/M8_WORKFLOW_TRACE_AND_FRONTEND_READINESS.md`
+
+### M9: LLM-Assisted Generation With Guardrails
+
+Goal: introduce optional LLM-assisted generation only after deterministic facts, evidence, and guardrail checks are stable.
+
+Boundary:
+- focus on adapter boundaries, schema validation, evidence-grounded prompts, hallucination checks, and opt-in behavior
+- do not replace deterministic extraction, matching, scoring, blocker flags, or benchmark accountability
+
+Primary doc:
+- `docs/milestones/M9_LLM_ASSISTED_GENERATION.md`
+
+### M10: Deployment and Portfolio Release
+
+Goal: package the system as a shippable backend portfolio project with stable docs, CI, Docker, evaluation story, and release guidance.
+
+Boundary:
+- focus on deployment readiness, dependency split, release docs, demo path, and portfolio narrative
+- do not add major new product features or shift benchmark targets without explicit rationale
+
+Primary doc:
+- `docs/milestones/M10_DEPLOYMENT_AND_PORTFOLIO_RELEASE.md`
 
 ## Test Plan
 

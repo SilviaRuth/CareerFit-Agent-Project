@@ -94,6 +94,84 @@ Do not introduce multi-agent orchestration unless the task explicitly calls for 
 
 Avoid hidden magic. Favor explicit logic, readable flows, and reviewable outputs.
 
+## Milestone Discipline
+
+Use `docs/PLAN.md` and the files under `docs/milestones/` as the source of truth for future milestone boundaries. Do not create a duplicate root `AGENTS.md`; this file remains the AI/Codex contributor guide.
+
+Milestone work must stay inside the named milestone unless the user explicitly expands scope. If a task seems to belong to a later milestone, document it as deferred instead of implementing it early.
+
+### M6: Agent Standardization Foundation
+
+Allowed:
+- define shared workflow trace, document, and agent-result contracts
+- standardize deterministic service boundaries without changing endpoint behavior
+- extract small duplicated helpers when behavior is identical
+- improve docs, CI, Docker, and review checklists for future agent work
+
+Not allowed:
+- no autonomous multi-agent orchestration
+- no LLM provider dependency
+- no OCR or multimodal parsing behavior
+- no frontend dashboard
+- no score-contract or blocker-semantics rewrite
+
+### M7: Multimodal Ingestion Foundation
+
+Allowed:
+- add first-class document normalization and diagnostic models for multimodal inputs
+- add scanned-PDF/image detection and explicit unsupported or needs-OCR outcomes
+- add OCR adapter interfaces and fixtures before choosing heavy OCR dependencies
+- expand ingestion tests and evaluation metrics for document quality
+
+Not allowed:
+- no LLM generation changes
+- no frontend workflow UI
+- no persistent storage
+- no hidden fallback that turns bad OCR text into normal high-confidence parsing
+- no benchmark baseline refresh unless the milestone explicitly calls for it
+
+### M8: Workflow Trace and Frontend Readiness
+
+Allowed:
+- expose workflow trace IDs, step status, and frontend-friendly response shapes
+- add async/status contracts if workflows become long-running
+- add API docs and view-model examples for dashboard use
+- add frontend readiness tests or contract fixtures
+
+Not allowed:
+- no production frontend build unless explicitly requested
+- no LLM behavior
+- no OCR engine work beyond consuming M7 document contracts
+- no change to deterministic score meaning
+
+### M9: LLM-Assisted Generation With Guardrails
+
+Allowed:
+- introduce LLM-assisted generation behind explicit adapters and feature boundaries
+- validate LLM outputs against schemas and evidence
+- keep deterministic parsing, matching, scoring, blockers, and retrieval as source-of-truth inputs
+- add hallucination, grounding, and guardrail evaluation before release claims
+
+Not allowed:
+- no prompt-only replacement for deterministic logic
+- no unsupported candidate claims
+- no hidden model calls in tests or default local workflows
+- no autonomous tool loops without traceability and review gates
+
+### M10: Deployment and Portfolio Release
+
+Allowed:
+- harden Docker, CI, runtime config, docs, and demo workflows
+- prepare release notes, portfolio narrative, and deployment instructions
+- add production-readiness checks, dependency split, and operational guidance
+- polish API examples and evaluation summaries
+
+Not allowed:
+- no large new feature surface
+- no new OCR, LLM, or frontend architecture expansion
+- no baseline metric changes without explicit release rationale
+- no scope creep that delays making the existing system demonstrably shippable
+
 ## Tech Stack Expectations
 
 Default assumptions unless a task says otherwise:

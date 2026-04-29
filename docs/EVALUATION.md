@@ -25,30 +25,26 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 
 ## Run The Match Benchmark
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.benchmark_runner
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.benchmark_runner
 ```
 
 ## Run The Extraction Benchmark
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.extraction_runner
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.extraction_runner
 ```
 
 ## Run The Comparison Benchmark
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.comparison_runner
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.comparison_runner
 ```
 
 ## Run The Recommendation Benchmark
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.recommendation_runner
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.recommendation_runner
 ```
 
 The recommendation benchmark checks grounded M5 outputs for:
@@ -60,10 +56,9 @@ The recommendation benchmark checks grounded M5 outputs for:
 
 ## Refresh Reviewable Artifacts
 
-```powershell
-.venv\Scripts\Activate.ps1
-python -m app.evaluation.artifact_writer
-python -m app.evaluation.artifact_writer --snapshot-label m5-review
+```bash
+./.venv/Scripts/python.exe -m app.evaluation.artifact_writer
+./.venv/Scripts/python.exe -m app.evaluation.artifact_writer --snapshot-label m5-review
 ```
 
 Each artifact set includes:

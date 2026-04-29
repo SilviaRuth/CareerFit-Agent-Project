@@ -13,6 +13,7 @@ The current architecture supports:
 - multi-resume comparison against one shared JD
 - cross-JD comparison against one shared candidate profile
 - request-scoped candidate profile memory with bounded evidence retrieval and additive semantic hints
+- additive workflow trace and document contracts for future agent-style workflows without endpoint behavior changes
 - offline benchmark and report generation for Milestones 4 and 5
 
 The current backend does not implement vector stores, external profile persistence, JD URL ingestion, or multi-agent orchestration.
@@ -24,7 +25,7 @@ The current backend does not implement vector stores, external profile persisten
 - M3: completed in the current codebase
 - M4: completed in the current codebase
 - M5: completed in the current codebase
-- M6: next planned milestone, Agent Standardization Foundation
+- M6: foundation in progress, Agent Standardization Foundation
 
 ## High-Level Flows
 
@@ -83,6 +84,18 @@ Public endpoints:
 - `POST /compare/jobs`
 
 Routes should only validate transport concerns and delegate business logic.
+
+### Shared workflow and document contracts
+
+- `app/schemas/workflow.py`
+- `app/schemas/document.py`
+
+Responsibilities:
+
+- define additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowStatus`, and `WorkflowResult` contracts for future trace/result metadata
+- define additive `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` contracts for future multimodal normalization
+- keep these contracts internal until a later milestone explicitly documents public API exposure
+- avoid changing parse, match, generation, comparison, retrieval, semantic helper, or benchmark behavior
 
 ### Parsing and ingestion
 
@@ -205,3 +218,9 @@ This evaluation bundle is part of the architecture, not an optional afterthought
 - background job systems
 - autonomous agent loops
 - opaque scoring or prompt-only behavior
+
+## Forward Architecture Direction
+
+Future milestones should extend this architecture in layers: M6 standardizes service and trace contracts, M7 strengthens document ingestion for multimodal inputs, M8 exposes workflow status for frontend readiness, M9 adds optional LLM-assisted generation behind guardrails, and M10 hardens deployment and portfolio release materials.
+
+The deterministic parser, matcher, blocker flags, evidence model, and benchmark reports remain the source of truth unless a later milestone explicitly changes that contract.

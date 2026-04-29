@@ -1,6 +1,6 @@
 # ROADMAP.md
 
-Historical note: this document records the original Milestone 1 boundary. The active milestone breakdown now lives in `docs/PLAN.md`, and the current repo has already moved beyond this initial scope into Milestones 2 and 3.
+Historical note: this document records the original Milestone 1 boundary. The active milestone breakdown now lives in `docs/PLAN.md`, and detailed future milestone scopes live under `docs/milestones/`. The current repo has already moved beyond this initial scope into later completed milestones.
 
 ## Goal
 
