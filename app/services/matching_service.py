@@ -41,11 +41,19 @@ class CapabilityEvidence:
     project_strong: list[EvidenceSpan] = field(default_factory=list)
 
 
-def match_resume_to_jd(resume_text: str, job_description_text: str) -> MatchResult:
+def match_resume_to_jd(
+    resume_text: str,
+    job_description_text: str,
+    *,
+    include_trace: bool = True,
+) -> MatchResult:
     """Run the deterministic parse -> extract -> match Milestone 1 pipeline."""
     resume_schema = extract_resume_schema(resume_text)
     jd_schema = extract_jd_schema(job_description_text)
-    return attach_match_trace(match_schemas(resume_schema, jd_schema))
+    result = match_schemas(resume_schema, jd_schema)
+    if not include_trace:
+        return result
+    return attach_match_trace(result)
 
 
 def match_schemas(resume_schema: ResumeSchema, jd_schema: JDSchema) -> MatchResult:

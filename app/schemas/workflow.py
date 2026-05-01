@@ -15,9 +15,6 @@ class WorkflowStatus(str, Enum):
     PARTIAL = "partial"
     FAILED = "failed"
     SKIPPED = "skipped"
-    PENDING = "pending"
-    RUNNING = "running"
-    SUCCEEDED = "succeeded"
 
 
 class WorkflowStepTrace(BaseModel):

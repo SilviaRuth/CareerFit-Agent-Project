@@ -37,5 +37,5 @@ def test_compare_resumes_endpoint_returns_ranked_output() -> None:
         "parse_resume",
         "score_match",
         "compute_blockers",
-        "rank_jobs",
+        "rank_resumes",
     ]

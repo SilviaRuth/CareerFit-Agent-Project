@@ -220,7 +220,7 @@ for one candidate against multiple roles.
   "workflow_trace": {
     "steps": [
       {
-        "step_name": "rank_jobs",
+        "step_name": "rank_resumes",
         "status": "completed",
         "metadata": {
           "ranking_ids": [

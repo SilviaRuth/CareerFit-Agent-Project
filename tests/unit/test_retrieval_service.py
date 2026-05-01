@@ -22,3 +22,9 @@ def test_retrieval_service_returns_candidate_evidence_for_grounded_query() -> No
     assert response.retrieved_items
     assert any(item.evidence_used for item in response.retrieved_items)
     assert response.retrieval_mode == "keyword"
+    assert response.workflow_trace is not None
+    assert response.workflow_trace.workflow_name == "retrieve_evidence"
+    assert [step.step_name for step in response.workflow_trace.steps] == [
+        "resolve_candidate_profile",
+        "collect_evidence",
+    ]

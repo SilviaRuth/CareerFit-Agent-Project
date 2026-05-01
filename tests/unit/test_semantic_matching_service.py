@@ -22,3 +22,9 @@ def test_semantic_matching_service_returns_additive_alias_hints() -> None:
     assert response.signals
     assert any(signal.matched_label in {"postgresql", "rest_api"} for signal in response.signals)
     assert "additive" in response.note.lower()
+    assert response.workflow_trace is not None
+    assert response.workflow_trace.workflow_name == "semantic_match"
+    assert [step.step_name for step in response.workflow_trace.steps] == [
+        "resolve_candidate_profile",
+        "semantic_match",
+    ]

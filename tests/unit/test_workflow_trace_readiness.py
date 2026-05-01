@@ -32,6 +32,17 @@ def test_match_trace_is_additive_and_score_shape_stays_stable() -> None:
     ]
 
 
+def test_match_trace_can_be_omitted_for_deterministic_offline_reports() -> None:
+    result = match_resume_to_jd(
+        load_sample("strong_fit_resume.txt"),
+        load_sample("strong_fit_jd.txt"),
+        include_trace=False,
+    )
+
+    assert result.overall_score == 89
+    assert result.workflow_trace is None
+
+
 def test_blockers_and_unsupported_evidence_remain_visible_with_trace() -> None:
     result = match_resume_to_jd(
         load_sample("poor_fit_resume.txt"),

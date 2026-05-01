@@ -96,6 +96,7 @@ def run_benchmark(
         match_result = match_resume_to_jd(
             _resolve_text_path(case.resume_sample, samples_dir).read_text(encoding="utf-8"),
             _resolve_text_path(case.jd_sample, samples_dir).read_text(encoding="utf-8"),
+            include_trace=False,
         )
         case_report = _build_case_report(case, expected, match_result)
         case_reports.append(case_report)

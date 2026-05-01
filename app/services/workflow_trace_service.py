@@ -148,7 +148,7 @@ def attach_multi_resume_comparison_trace(
                 },
             ),
             _step(
-                "rank_jobs",
+                "rank_resumes",
                 service_name="comparison_service",
                 metadata={"ranking_ids": [entry.resume_id for entry in response.ranking]},
             ),

@@ -35,6 +35,8 @@ def test_compare_resumes_to_jd_ranks_stronger_resume_first() -> None:
     assert response.ranking[2].resume_id == "poor"
     assert response.ranking[0].score_delta_from_best == 0
     assert response.ranking[2].blocker_flags.missing_required_skills is True
+    assert response.workflow_trace is not None
+    assert response.workflow_trace.workflow_name == "compare_resumes"
 
 
 def test_compare_resumes_to_jd_ranks_same_candidate_variants_deterministically() -> None:
@@ -154,3 +156,31 @@ def test_compare_resumes_to_jd_uses_parser_confidence_as_a_tie_breaker() -> None
     ]
     assert response.ranking[0].overall_score == response.ranking[1].overall_score
     assert response.ranking[0].parser_confidence.score > response.ranking[1].parser_confidence.score
+
+
+def test_compare_resumes_to_jd_trace_ends_with_rank_resumes() -> None:
+    response = compare_resumes_to_jd(
+        MultiResumeComparisonRequest(
+            resumes=[
+                ResumeComparisonInput(
+                    resume_id="strong",
+                    resume_text=load_sample("strong_fit_resume.txt"),
+                ),
+                ResumeComparisonInput(
+                    resume_id="poor",
+                    resume_text=load_sample("poor_fit_resume.txt"),
+                ),
+            ],
+            job_description_text=load_sample("strong_fit_jd.txt"),
+        )
+    )
+
+    assert response.workflow_trace is not None
+    assert response.workflow_trace.steps[-1].step_name == "rank_resumes"
+    assert [step.step_name for step in response.workflow_trace.steps] == [
+        "parse_job_description",
+        "parse_resume",
+        "score_match",
+        "compute_blockers",
+        "rank_resumes",
+    ]
