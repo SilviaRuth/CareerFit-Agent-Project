@@ -1,0 +1,84 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1247 >>
+stream
+BT
+/F1 12 Tf
+72 720 Td
+(Alex Chen) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Summary) Tj
+0 -16 Td
+(Backend engineer with 6 years of experience building Python APIs for healthcare and workflow products.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Skills) Tj
+0 -16 Td
+(Python, FastAPI, REST APIs, PostgreSQL, Docker, AWS, pytest, SQLAlchemy) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Experience) Tj
+0 -16 Td
+(Senior Backend Engineer, CareSync Labs, 2022-2026) Tj
+0 -16 Td
+(- Built FastAPI services for patient scheduling and claims workflows.) Tj
+0 -16 Td
+(- Designed REST APIs used by web and mobile clients.) Tj
+0 -16 Td
+(- Wrote pytest coverage for service and integration layers.) Tj
+0 -16 Td
+(- Deployed Python services to AWS with Docker-based builds.) Tj
+0 -16 Td
+(- Modeled transactional data in PostgreSQL.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Backend Engineer, FlowOps, 2020-2022) Tj
+0 -16 Td
+(- Maintained Python microservices for internal operations tooling.) Tj
+0 -16 Td
+(- Improved API latency and error handling across core endpoints.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Projects) Tj
+0 -16 Td
+(- Created a side project API for clinic intake automation using FastAPI and PostgreSQL.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Education) Tj
+0 -16 Td
+(B.S. in Computer Science, University of Washington) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001540 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1610
+%%EOF

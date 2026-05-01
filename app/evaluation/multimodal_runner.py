@@ -12,6 +12,7 @@ from app.evaluation.utils import safe_ratio
 from app.services.parse_service import parse_jd_file, parse_resume_file
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_SAMPLES_DIR = REPO_ROOT / "data" / "samples"
 DEFAULT_EVAL_DIR = REPO_ROOT / "data" / "eval"
 DEFAULT_MANIFEST_PATH = DEFAULT_EVAL_DIR / "multimodal_manifest.json"
 
@@ -56,6 +57,7 @@ class MultimodalCaseReport(BaseModel):
     parser_level: str
     extraction_complete: bool
     needs_ocr_detected: bool
+    needs_ocr_correct: bool
     missing_warning_codes: list[str] = Field(default_factory=list)
     missing_unsupported_reasons: list[str] = Field(default_factory=list)
     confidence_guardrail_correct: bool
@@ -74,12 +76,14 @@ class MultimodalReport(BaseModel):
 def run_multimodal_benchmark(
     manifest_path: Path | None = None,
     *,
+    samples_dir: Path | None = None,
     eval_dir: Path | None = None,
     report_label: str | None = None,
     generated_at: str | None = None,
 ) -> MultimodalReport:
     """Run fixture-backed checks that separate ingestion/OCR quality from matching."""
     manifest_path = manifest_path or DEFAULT_MANIFEST_PATH
+    samples_dir = samples_dir or DEFAULT_SAMPLES_DIR
     eval_dir = eval_dir or DEFAULT_EVAL_DIR
 
     manifest = _load_json(manifest_path)
@@ -92,7 +96,7 @@ def run_multimodal_benchmark(
 
     for case in cases:
         expected = MultimodalExpected.model_validate(_load_json(eval_dir / case.expected_eval))
-        response = _parse_case(case)
+        response = _parse_case(case, samples_dir)
         report = _build_case_report(case, expected, response)
         reports.append(report)
 
@@ -106,7 +110,7 @@ def run_multimodal_benchmark(
     metrics = MultimodalMetrics(
         case_count=len(reports),
         needs_ocr_detection_accuracy=safe_ratio(
-            sum(report.needs_ocr_detected for report in reports),
+            sum(report.needs_ocr_correct for report in reports),
             len(reports),
         ),
         diagnostic_coverage=safe_ratio(warning_correct, warning_total),
@@ -117,7 +121,7 @@ def run_multimodal_benchmark(
         ),
     )
     return MultimodalReport(
-        manifest_path=str(manifest_path.relative_to(REPO_ROOT)),
+        manifest_path=_display_path(manifest_path),
         report_label=report_label,
         generated_at=generated_at,
         metrics=metrics,
@@ -125,8 +129,8 @@ def run_multimodal_benchmark(
     )
 
 
-def _parse_case(case: MultimodalCase):
-    sample_path = REPO_ROOT / case.sample_name
+def _parse_case(case: MultimodalCase, samples_dir: Path):
+    sample_path = _resolve_sample_path(case.sample_name, samples_dir)
     content = sample_path.read_bytes()
     filename = sample_path.name
     if case.document_type == "resume":
@@ -159,11 +163,26 @@ def _build_case_report(case: MultimodalCase, expected: MultimodalExpected, respo
         parser_score=response.parser_confidence.score,
         parser_level=response.parser_confidence.level,
         extraction_complete=response.parser_confidence.extraction_complete,
-        needs_ocr_detected=needs_ocr_detected is expected.needs_ocr,
+        needs_ocr_detected=needs_ocr_detected,
+        needs_ocr_correct=needs_ocr_detected is expected.needs_ocr,
         missing_warning_codes=missing_warning_codes,
         missing_unsupported_reasons=missing_unsupported_reasons,
         confidence_guardrail_correct=confidence_guardrail_correct,
     )
+
+
+def _resolve_sample_path(value: str, samples_dir: Path) -> Path:
+    explicit_path = REPO_ROOT / value
+    if explicit_path.exists():
+        return explicit_path
+    return samples_dir / value
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def _load_json(path: Path) -> dict:

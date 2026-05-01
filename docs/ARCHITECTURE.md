@@ -107,7 +107,8 @@ Responsibilities:
 Responsibilities:
 
 - bounded file ingestion
-- image/scanned-PDF needs-OCR detection without hidden OCR fallback
+- image/scanned-PDF needs-OCR diagnostics without hidden OCR fallback
+- clean embedded-text PDF ingestion checks that should not trigger needs-OCR
 - normalization diagnostics
 - section detection
 - schema extraction

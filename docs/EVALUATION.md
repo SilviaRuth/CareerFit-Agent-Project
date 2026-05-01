@@ -11,7 +11,7 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 - required/preferred match recall
 - top-gap coverage
 - extraction confidence and field-presence stability
-- multimodal ingestion diagnostics and needs-OCR guardrails
+- multimodal ingestion diagnostics and needs-OCR guardrails, not OCR parsing
 - multi-resume ranking stability
 - recommendation usefulness and hallucination rate
 - snapshot-friendly regression review
@@ -20,7 +20,7 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 
 - 15 match benchmark cases
 - 13 extraction benchmark cases
-- 2 multimodal ingestion-quality cases
+- 3 multimodal ingestion-quality cases
 - 3 multi-resume comparison scenarios
 - 3 recommendation acceptance cases
 - baseline and snapshot-capable report artifacts
@@ -44,9 +44,11 @@ The checked-in evaluation layer turns fixtures into repeatable offline checks fo
 ```
 
 The multimodal benchmark is separate from the checked-in baseline artifact
-bundle. It verifies document-quality behavior before OCR is added:
+bundle. It verifies document-quality diagnostics before OCR is added; it does
+not run or grade OCR parsing:
 
-- needs-OCR detection accuracy
+- needs-OCR detection accuracy, comparing actual `needs_ocr_detected` diagnostics
+  with expected `needs_ocr` fixture labels
 - diagnostic coverage
 - unsupported-reason coverage
 - low-confidence guardrail accuracy
@@ -100,7 +102,8 @@ When adding new benchmark cases:
 For multimodal ingestion cases, use `data/eval/multimodal_manifest.json` plus
 small reviewable fixtures under `data/samples/`. Expected outputs should focus on
 warning codes, unsupported reasons, parser confidence, and extraction-complete
-status so document quality stays separate from match quality.
+status so document-quality diagnostics stay separate from match quality and do
+not imply OCR parsing support.
 
 Keep fixtures human-readable and small enough to review comfortably.
 

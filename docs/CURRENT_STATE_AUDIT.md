@@ -66,7 +66,7 @@ Routes are mostly thin. For example, `app/api/routes/match.py:match_resume_to_jo
 - `data/eval/extraction_manifest.json`: 13 extraction benchmark cases.
 - `data/eval/comparison_manifest.json`: 3 multi-resume comparison scenarios.
 - `data/eval/recommendation_manifest.json`: 3 recommendation acceptance cases.
-- `data/eval/multimodal_manifest.json`: 2 multimodal ingestion-quality cases for needs-OCR behavior.
+- `data/eval/multimodal_manifest.json`: 3 multimodal ingestion-quality cases for needs-OCR diagnostics, including one clean embedded-text PDF case.
 - `app/evaluation/benchmark_runner.py`: match metrics.
 - `app/evaluation/extraction_runner.py`: extraction metrics.
 - `app/evaluation/comparison_runner.py`: multi-resume ranking metrics.
@@ -294,8 +294,8 @@ For the next platform stage, it is not yet strong enough. It does not cover:
 Before adding OCR runtime support:
 
 - Add golden PDF/DOCX fixtures that include tables, two-column layouts, and extraction failures.
-- M7 added scanned-PDF/image fixtures with expected "unsupported/needs OCR" behavior.
-- M7 added multimodal ingestion metrics for needs-OCR detection, diagnostic coverage, unsupported-reason coverage, and low-confidence guardrails.
+- M7 added scanned-PDF/image fixtures with expected "unsupported/needs OCR" diagnostics and a clean embedded-text PDF fixture that should not need OCR.
+- M7 added multimodal ingestion metrics for needs-OCR detection correctness, diagnostic coverage, unsupported-reason coverage, and low-confidence guardrails.
 - Still add text extraction coverage, OCR confidence threshold behavior, page-level warning coverage, and normalized schema completeness once OCR exists.
 - Add failure-case tests for corrupt image files, password/encrypted PDFs, very large files, and files with no text.
 - Add report fields that separate parser quality from matcher quality. A bad OCR parse should not look like a matcher regression.

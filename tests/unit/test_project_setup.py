@@ -29,6 +29,7 @@ def test_sample_and_eval_directories_exist_with_seed_fixtures() -> None:
         SAMPLES_DIR / "alex_claimy_resume.txt",
         SAMPLES_DIR / "scanned_resume_placeholder.pdf",
         SAMPLES_DIR / "scanned_resume_image.png",
+        SAMPLES_DIR / "clean_text_resume.pdf",
         EVAL_DIR / "strong_fit_expected.json",
         EVAL_DIR / "partial_fit_expected.json",
         EVAL_DIR / "poor_fit_expected.json",
@@ -38,6 +39,7 @@ def test_sample_and_eval_directories_exist_with_seed_fixtures() -> None:
         EVAL_DIR / "multimodal_manifest.json",
         EVAL_DIR / "scanned_pdf_resume_ingestion_expected.json",
         EVAL_DIR / "image_resume_ingestion_expected.json",
+        EVAL_DIR / "clean_text_pdf_resume_ingestion_expected.json",
     ]
 
     assert SAMPLES_DIR.is_dir()
