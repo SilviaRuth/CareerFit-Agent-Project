@@ -1,6 +1,6 @@
 # CareerFit Agent
 
-Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, multimodal ingestion diagnostics, additive workflow/document contracts, frontend-ready workflow traces, and reviewable evaluation across Milestones 1 through 8 foundation work.
+Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, multimodal ingestion diagnostics, additive workflow/document contracts, frontend-ready workflow traces, optional validated LLM advisory generation, and reviewable evaluation across Milestones 1 through 9.
 
 ## Current Scope
 
@@ -14,6 +14,7 @@ Schema-first backend for explainable resume-to-JD parsing, deterministic matchin
 - Single-orchestrator backend flow for grounded generation
 - Request-scoped candidate profile memory with bounded evidence retrieval and additive semantic hints
 - Optional `workflow_trace` metadata on selected match, comparison, retrieval, semantic, and ranking responses
+- Optional LLM advisory generation under `/llm/advice`, disabled by default and stored separately as `llm_advice`
 - Milestone 4 plus Milestone 5 evaluation coverage, multi-resume comparison, cross-JD comparison, adaptation summaries, and reviewable report snapshots
 
 ## Milestone Status
@@ -26,6 +27,7 @@ Schema-first backend for explainable resume-to-JD parsing, deterministic matchin
 - Milestone 6 foundation: additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowResult`, `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` schemas without public endpoint behavior changes
 - Milestone 7 foundation: scanned-PDF/image needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and separate document-quality evaluation
 - Milestone 8: frontend-ready workflow traces, stable step metadata, and documented dashboard view-model examples
+- Milestone 9: optional schema-validated LLM advisory output with deterministic fallback and grounding validation
 
 ## Orchestration Pattern
 
@@ -78,8 +80,21 @@ The API exposes:
 - `POST /compare/jobs`
 - `POST /retrieve/evidence`
 - `POST /semantic/match`
+- `POST /llm/advice`
 
 `/match` and `/compare/resumes` include an additive `adaptation_summary` so role/company emphasis is reviewable without changing the core scoring weights.
+
+`/llm/advice` is advisory only. It first builds deterministic parse, match, evidence, and gating artifacts, then optionally asks an injected provider-neutral LLM client for JSON output. The default local configuration keeps this disabled:
+
+```bash
+ENABLE_LLM_GENERATION=false
+LLM_PROVIDER=openai
+LLM_MODEL=gpt-5.4-mini
+LLM_TEMPERATURE=0
+LLM_MAX_OUTPUT_TOKENS=800
+```
+
+Missing API keys or invalid model output produce deterministic results plus `llm_status: "fallback"` or `llm_status: "rejected"` instead of breaking the request.
 
 ## Parsing Docs
 

@@ -6,6 +6,7 @@ from app.api.routes.career import router as career_router
 from app.api.routes.comparison import router as comparison_router
 from app.api.routes.generation import router as generation_router
 from app.api.routes.health import router as health_router
+from app.api.routes.llm_generation import router as llm_generation_router
 from app.api.routes.match import router as match_router
 from app.api.routes.parse import router as parse_router
 
@@ -17,6 +18,7 @@ def create_app() -> FastAPI:
     app.include_router(match_router)
     app.include_router(parse_router)
     app.include_router(generation_router)
+    app.include_router(llm_generation_router)
     app.include_router(comparison_router)
     app.include_router(career_router)
     return app

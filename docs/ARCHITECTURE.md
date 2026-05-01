@@ -14,10 +14,11 @@ The current architecture supports:
 - cross-JD comparison against one shared candidate profile
 - request-scoped candidate profile memory with bounded evidence retrieval and additive semantic hints
 - optional workflow traces on selected public responses for frontend-ready progress and diagnostics
+- optional validated LLM advisory generation that remains separate from deterministic results
 - additive document contracts for multimodal normalization diagnostics
 - offline benchmark and report generation for Milestones 4 and 5
 
-The current backend does not implement vector stores, external profile persistence, JD URL ingestion, or multi-agent orchestration.
+The current backend does not implement vector stores, external profile persistence, JD URL ingestion, hidden external LLM calls, or multi-agent orchestration.
 
 ## Milestone State
 
@@ -29,6 +30,7 @@ The current backend does not implement vector stores, external profile persisten
 - M6: completed in the current codebase
 - M7: completed in the current codebase
 - M8: implemented in the current codebase
+- M9: implemented as an optional advisory layer, disabled by default
 
 ## High-Level Flows
 
@@ -75,6 +77,15 @@ Workflow trace metadata is additive. It must not replace evidence spans, parser
 confidence, parse warnings, unsupported segments, blocker flags, semantic hints, or
 ranking results.
 
+### LLM advisory flow
+
+1. Build the deterministic grounded context from resume parsing, JD parsing, matching, evidence, and generation gating.
+2. If `ENABLE_LLM_GENERATION=false`, return deterministic artifacts with `llm_status: "disabled"`.
+3. If enabled, send only deterministic artifacts to a provider-neutral `LLMClient`.
+4. Validate the raw output against strict advisory schemas.
+5. Run deterministic grounding checks before exposing any advice under `llm_advice`.
+6. Return fallback or rejected status when configuration, schema validation, or grounding validation fails.
+
 ## Core Modules
 
 ### API layer
@@ -96,6 +107,7 @@ Public endpoints:
 - `POST /retrieve/evidence`
 - `POST /semantic/match`
 - `POST /compare/jobs`
+- `POST /llm/advice`
 
 Routes should only validate transport concerns and delegate business logic.
 
@@ -174,6 +186,24 @@ Responsibilities:
 - translate explicit gaps and blockers into deterministic guidance
 - prevent unsupported or overconfident generation
 
+### Optional LLM advisory generation
+
+- `app/llm/base.py`
+- `app/llm/config.py`
+- `app/llm/providers.py`
+- `app/llm/prompts.py`
+- `app/llm/validators.py`
+- `app/llm/advisory.py`
+- `app/schemas/llm_generation.py`
+
+Responsibilities:
+
+- keep provider configuration and client contracts isolated from deterministic services
+- build prompts only from deterministic parse, match, evidence, and gate outputs
+- validate free-form provider output before returning it
+- reject missing evidence and unsupported claims conservatively
+- keep `llm_advice`, `llm_status`, and `validation_report` separate from deterministic outputs
+
 ### Candidate context, retrieval, and semantic helpers
 
 - `app/services/candidate_profile_service.py`
@@ -209,6 +239,7 @@ Responsibilities:
 - unsupported or malformed files fail clearly
 - parse responses expose warnings and confidence
 - generation must remain evidence-linked
+- LLM advice is disabled by default and must pass schema plus grounding validation
 - candidate profile memory is request-scoped and non-persistent
 - retrieval and semantic hints are explicit helper layers, not hidden score rewrites
 - resumes and JDs should be treated as sensitive career documents
@@ -239,6 +270,6 @@ This evaluation bundle is part of the architecture, not an optional afterthought
 
 ## Forward Architecture Direction
 
-Completed foundation layers now cover service/trace contracts in M6, multimodal ingestion diagnostics in M7, and selected public workflow traces for frontend readiness in M8. Future milestones should extend this architecture with optional LLM-assisted generation behind guardrails in M9 and deployment/portfolio release hardening in M10.
+Completed foundation layers now cover service/trace contracts in M6, multimodal ingestion diagnostics in M7, selected public workflow traces for frontend readiness in M8, and optional validated LLM advisory generation in M9. Future milestones should extend this architecture with deployment/portfolio release hardening in M10.
 
 The deterministic parser, matcher, blocker flags, evidence model, and benchmark reports remain the source of truth unless a later milestone explicitly changes that contract.
