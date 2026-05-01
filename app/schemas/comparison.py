@@ -12,6 +12,7 @@ from app.schemas.match import (
     GapItem,
 )
 from app.schemas.parse import ParserConfidence
+from app.schemas.workflow import WorkflowTrace
 
 
 class ResumeComparisonInput(BaseModel):
@@ -56,3 +57,4 @@ class MultiResumeComparisonResponse(BaseModel):
     company: str
     jd_parser_confidence: ParserConfidence
     ranking: list[ResumeComparisonResult] = Field(default_factory=list)
+    workflow_trace: WorkflowTrace | None = None

@@ -9,6 +9,7 @@ from app.schemas.career import (
 )
 from app.services.candidate_profile_service import resolve_candidate_profile
 from app.services.tokenization import tokenize_keywords
+from app.services.workflow_trace_service import attach_retrieval_trace
 
 
 def retrieve_candidate_evidence(request: EvidenceRetrievalRequest) -> EvidenceRetrievalResponse:
@@ -42,7 +43,7 @@ def retrieve_candidate_evidence(request: EvidenceRetrievalRequest) -> EvidenceRe
         )
 
     ranked_items.sort(key=lambda item: (-item.score, item.label))
-    return EvidenceRetrievalResponse(
+    response = EvidenceRetrievalResponse(
         query=request.query,
         retrieval_mode="keyword",
         retrieved_items=ranked_items[: request.top_k],
@@ -51,3 +52,4 @@ def retrieve_candidate_evidence(request: EvidenceRetrievalRequest) -> EvidenceRe
             "an external index."
         ),
     )
+    return attach_retrieval_trace(response)

@@ -5,6 +5,7 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from app.schemas.common import EvidenceSpan
+from app.schemas.workflow import WorkflowTrace
 
 
 class MatchRequest(BaseModel):
@@ -96,3 +97,4 @@ class MatchResult(BaseModel):
     evidence_spans: list[EvidenceSpan] = Field(default_factory=list)
     evidence_summary: EvidenceSummary = Field(default_factory=EvidenceSummary)
     adaptation_summary: AdaptationSummary = Field(default_factory=AdaptationSummary)
+    workflow_trace: WorkflowTrace | None = None

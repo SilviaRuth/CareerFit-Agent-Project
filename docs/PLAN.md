@@ -197,7 +197,7 @@ Boundary:
 Primary doc:
 - `docs/milestones/M7_MULTIMODAL_INGESTION.md`
 
-### M8: Workflow Trace and Frontend Readiness
+### M8: Workflow Trace and Frontend Readiness (Implemented)
 
 Goal: expose workflow status, trace, and frontend-friendly contracts without changing deterministic matching behavior.
 
@@ -207,6 +207,11 @@ Boundary:
 
 Primary doc:
 - `docs/milestones/M8_WORKFLOW_TRACE_AND_FRONTEND_READINESS.md`
+
+Implemented surface:
+- optional `workflow_trace` on selected match, comparison, retrieval, semantic, and cross-JD ranking responses
+- shared trace-builder service so routes remain thin
+- frontend view-model examples in `docs/api/frontend_view_models.md`
 
 ### M9: LLM-Assisted Generation With Guardrails
 

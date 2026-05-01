@@ -1,4 +1,4 @@
-"""Additive workflow tracing schemas for future orchestration visibility."""
+"""Additive workflow tracing schemas for orchestration and frontend visibility."""
 
 from __future__ import annotations
 
@@ -11,11 +11,13 @@ from pydantic import BaseModel, Field
 class WorkflowStatus(str, Enum):
     """Allowed lifecycle states for workflow and step traces."""
 
+    COMPLETED = "completed"
+    PARTIAL = "partial"
+    FAILED = "failed"
+    SKIPPED = "skipped"
     PENDING = "pending"
     RUNNING = "running"
     SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    SKIPPED = "skipped"
 
 
 class WorkflowStepTrace(BaseModel):
@@ -28,13 +30,16 @@ class WorkflowStepTrace(BaseModel):
     output_schema_version: str | None = None
     duration_ms: int | None = Field(default=None, ge=0)
     warnings: list[str] = Field(default_factory=list)
+    metadata: dict[str, Any] = Field(default_factory=dict)
     error: str | None = None
 
 
 class WorkflowTrace(BaseModel):
     """Top-level workflow trace container.
 
-    This schema is intentionally additive and is not wired into endpoint responses yet.
+    This schema is intentionally additive. It explains workflow execution but does
+    not replace evidence spans, parser confidence, warnings, blockers, or other
+    response fields.
     """
 
     trace_id: str

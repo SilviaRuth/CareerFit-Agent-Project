@@ -14,12 +14,12 @@ def test_workflow_trace_accepts_ordered_step_models() -> None:
     trace = WorkflowTrace(
         trace_id="trace-1",
         workflow_name="match",
-        status=WorkflowStatus.SUCCEEDED,
+        status=WorkflowStatus.COMPLETED,
         steps=[
             WorkflowStepTrace(
                 step_name="parse_resume",
                 service_name="parse_service",
-                status=WorkflowStatus.SUCCEEDED,
+                status=WorkflowStatus.COMPLETED,
                 input_schema_version="v1",
                 output_schema_version="v1",
                 duration_ms=12,
@@ -27,7 +27,7 @@ def test_workflow_trace_accepts_ordered_step_models() -> None:
         ],
     )
 
-    assert trace.steps[0].status == WorkflowStatus.SUCCEEDED
+    assert trace.steps[0].status == WorkflowStatus.COMPLETED
     assert trace.steps[0].duration_ms == 12
 
 
@@ -42,19 +42,19 @@ def test_workflow_result_wraps_internal_output_and_trace() -> None:
     trace = WorkflowTrace(
         trace_id="trace-2",
         workflow_name="learning_plan",
-        status=WorkflowStatus.SUCCEEDED,
+        status=WorkflowStatus.COMPLETED,
         steps=[
             WorkflowStepTrace(
                 step_name="render_plan",
                 service_name="learning_plan_service",
-                status=WorkflowStatus.SUCCEEDED,
+                status=WorkflowStatus.COMPLETED,
             )
         ],
     )
 
     result = WorkflowResult(
         workflow_name="learning_plan",
-        status=WorkflowStatus.SUCCEEDED,
+        status=WorkflowStatus.COMPLETED,
         output_schema_version="v1",
         output={"summary": "Focus on backend evidence gaps."},
         trace=trace,
@@ -84,19 +84,19 @@ def test_workflow_and_document_schemas_serialize_to_json_ready_dicts() -> None:
     trace = WorkflowTrace(
         trace_id="trace-serialize",
         workflow_name="match",
-        status=WorkflowStatus.SUCCEEDED,
+        status=WorkflowStatus.COMPLETED,
         steps=[
             WorkflowStepTrace(
                 step_name="score",
                 service_name="matching_service",
-                status=WorkflowStatus.SUCCEEDED,
+                status=WorkflowStatus.COMPLETED,
                 duration_ms=8,
             )
         ],
     )
     result = WorkflowResult(
         workflow_name="match",
-        status=WorkflowStatus.SUCCEEDED,
+        status=WorkflowStatus.COMPLETED,
         output_schema_version="v1",
         output={"fit_label": "strong"},
         trace=trace,
@@ -122,8 +122,8 @@ def test_workflow_and_document_schemas_serialize_to_json_ready_dicts() -> None:
     result_payload = result.model_dump(mode="json")
     document_payload = document.model_dump(mode="json")
 
-    assert result_payload["status"] == "succeeded"
-    assert result_payload["trace"]["steps"][0]["status"] == "succeeded"
+    assert result_payload["status"] == "completed"
+    assert result_payload["trace"]["steps"][0]["status"] == "completed"
     assert result_payload["output"]["fit_label"] == "strong"
     assert document_payload["source_type"] == "text"
     assert document_payload["segments"][0]["segment_id"] == "segment-serialize"

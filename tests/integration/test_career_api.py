@@ -31,7 +31,9 @@ def test_profile_memory_and_grounding_endpoints_work_together() -> None:
         },
     )
     assert retrieval_response.status_code == 200
-    assert retrieval_response.json()["retrieved_items"]
+    retrieval_payload = retrieval_response.json()
+    assert retrieval_payload["retrieved_items"]
+    assert retrieval_payload["workflow_trace"]["workflow_name"] == "retrieve_evidence"
 
     semantic_response = client.post(
         "/semantic/match",
@@ -42,7 +44,9 @@ def test_profile_memory_and_grounding_endpoints_work_together() -> None:
         },
     )
     assert semantic_response.status_code == 200
-    assert semantic_response.json()["signals"]
+    semantic_payload = semantic_response.json()
+    assert semantic_payload["signals"]
+    assert semantic_payload["workflow_trace"]["workflow_name"] == "semantic_match"
 
 
 def test_compare_jobs_endpoint_returns_ranked_cross_jd_output() -> None:
@@ -72,3 +76,13 @@ def test_compare_jobs_endpoint_returns_ranked_cross_jd_output() -> None:
     assert payload["ranking"][0]["jd_id"] == "strong"
     assert payload["ranking"][0]["recommended_next_steps"]
     assert payload["ranking"][0]["retrieved_evidence"]
+    assert payload["workflow_trace"]["workflow_name"] == "compare_jobs"
+    assert [step["step_name"] for step in payload["workflow_trace"]["steps"]] == [
+        "parse_resume",
+        "parse_job_description",
+        "score_match",
+        "collect_evidence",
+        "compute_blockers",
+        "build_recommendations",
+        "rank_jobs",
+    ]

@@ -13,7 +13,8 @@ The current architecture supports:
 - multi-resume comparison against one shared JD
 - cross-JD comparison against one shared candidate profile
 - request-scoped candidate profile memory with bounded evidence retrieval and additive semantic hints
-- additive workflow trace and document contracts for future agent-style workflows without endpoint behavior changes
+- optional workflow traces on selected public responses for frontend-ready progress and diagnostics
+- additive document contracts for multimodal normalization diagnostics
 - offline benchmark and report generation for Milestones 4 and 5
 
 The current backend does not implement vector stores, external profile persistence, JD URL ingestion, or multi-agent orchestration.
@@ -25,7 +26,9 @@ The current backend does not implement vector stores, external profile persisten
 - M3: completed in the current codebase
 - M4: completed in the current codebase
 - M5: completed in the current codebase
-- M6: foundation in progress, Agent Standardization Foundation
+- M6: completed in the current codebase
+- M7: completed in the current codebase
+- M8: implemented in the current codebase
 
 ## High-Level Flows
 
@@ -61,6 +64,17 @@ The current backend does not implement vector stores, external profile persisten
 4. Add bounded retrieval evidence and optional semantic hints without changing the core score.
 5. Rank opportunities and attach role-specific next steps.
 
+### Workflow trace flow
+
+Selected responses expose an optional `workflow_trace` field with a per-request
+`trace_id`, ordered step names, step status, service names, warnings, and metadata.
+Trace builders live in `app/services/workflow_trace_service.py` and are attached
+after deterministic outputs are computed.
+
+Workflow trace metadata is additive. It must not replace evidence spans, parser
+confidence, parse warnings, unsupported segments, blocker flags, semantic hints, or
+ranking results.
+
 ## Core Modules
 
 ### API layer
@@ -92,9 +106,9 @@ Routes should only validate transport concerns and delegate business logic.
 
 Responsibilities:
 
-- define additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowStatus`, and `WorkflowResult` contracts for future trace/result metadata
+- define additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowStatus`, and `WorkflowResult` contracts for trace/result metadata
 - define additive `DocumentInput`, `DocumentPage`, `DocumentSegment`, and `NormalizedDocument` contracts for multimodal normalization diagnostics
-- keep these contracts internal until a later milestone explicitly documents public API exposure
+- expose optional `workflow_trace` on selected frontend-facing responses without removing existing fields
 - avoid changing parse, match, generation, comparison, retrieval, semantic helper, or benchmark behavior
 
 ### Parsing and ingestion
@@ -132,6 +146,7 @@ Responsibilities:
 - `app/services/adaptation_service.py`
 - `app/services/comparison_service.py`
 - `app/services/opportunity_comparison_service.py`
+- `app/services/workflow_trace_service.py`
 
 Responsibilities:
 
@@ -139,6 +154,7 @@ Responsibilities:
 - multi-resume ranking against a shared JD
 - cross-JD opportunity ranking against a shared candidate profile
 - ranking tie-breaks informed by parser confidence and additive helper signals
+- additive workflow trace construction for comparison and ranking responses
 
 ### Grounded generation
 

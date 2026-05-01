@@ -2,9 +2,9 @@
 
 Audit date: 2026-04-28
 
-Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. Baseline artifacts were not regenerated.
+Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. The 2026-05-01 M8 pass exposed optional public `workflow_trace` metadata on selected responses and added frontend view-model documentation. Baseline artifacts were not regenerated.
 
-Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-04-29 with `.\.venv\Scripts\python.exe -m pytest -q`: 83 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
+Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-05-01 with `.\.venv\Scripts\python.exe -m pytest -q`: 94 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
 
 ## 1. Repository Overview
 
@@ -14,7 +14,7 @@ Scope: repository inspection, documentation cleanup, and internal schema foundat
   - `app/main.py`: application factory and router registration.
   - `app/api/routes/`: HTTP route layer for health, parsing, matching, generation, comparison, and career workflows.
   - `app/schemas/`: explicit Pydantic contracts for resume, JD, parsing, matching, generation, comparison, career helper outputs, additive workflow trace metadata, and document normalization.
-  - `app/services/`: deterministic business logic for ingestion, normalization, extraction, matching, generation rendering, comparison, retrieval, semantic hints, and candidate profile memory.
+  - `app/services/`: deterministic business logic for ingestion, normalization, extraction, matching, generation rendering, comparison, retrieval, semantic hints, candidate profile memory, and additive workflow trace construction.
   - `app/services/ingestion/`: bounded file ingestion for `.txt`, `.pdf`, and `.docx`.
   - `app/services/generation/`: deterministic grounded generation renderers and guardrails.
   - `app/evaluation/`: offline benchmark runners and artifact writer.
@@ -119,7 +119,8 @@ Current limitation: image inputs and scanned PDFs now produce explicit needs-OCR
 - `app/services/matching_service.py:match_schemas()` is the core deterministic matcher.
 - Requirement matching is split into `_evaluate_years_requirement()`, `_evaluate_education_requirement()`, and `_evaluate_capability_requirement()`.
 - Evidence spans use `app/schemas/common.py:EvidenceSpan`.
-- `MatchResult.evidence_spans` and `MatchResult.evidence_summary` expose traceability counts and source coverage.
+- `MatchResult.evidence_spans` and `MatchResult.evidence_summary` expose evidence traceability counts and source coverage.
+- Selected responses now also expose optional `workflow_trace` metadata for execution traceability.
 
 ### Scoring
 
@@ -208,7 +209,7 @@ Yes. `app/services/orchestration_service.py` is the current workflow layer for g
 5. collect evidence
 6. render a bounded output
 
-`app/services/opportunity_comparison_service.py` is a second workflow layer for cross-JD comparison. It resolves candidate profile memory, parses each JD, matches, retrieves evidence, adds semantic hints, generates next steps, and ranks opportunities.
+`app/services/opportunity_comparison_service.py` is a second workflow layer for cross-JD comparison. It resolves candidate profile memory, parses each JD, matches, retrieves evidence, adds semantic hints, generates next steps, ranks opportunities, and attaches additive workflow trace metadata.
 
 ### Whether input/output schemas are explicit
 
@@ -326,12 +327,12 @@ The adaptation tokenization path is intentionally deferred because it preserves 
 
 - Fit labels are derived outside the core match schema instead of being a single shared utility or schema field.
 - Capability definitions live in `app/core/config.py:CAPABILITY_PATTERNS`, while related semantic aliasing lives elsewhere.
-- The parse response includes rich diagnostics, but the downstream generation/comparison layers do not expose a full workflow trace.
+- Selected downstream match, comparison, retrieval, semantic, and cross-JD ranking responses expose optional workflow trace metadata.
 - Retrieval and semantic helper behavior is additive by intent, but the boundary is conventional rather than enforced by a formal contract.
 
 ### Missing tests
 
-Current test suite is healthy for existing features: 83 passed on 2026-04-29 after the M6 foundation update.
+Current test suite is healthy for existing features: 94 passed on 2026-05-01 after the M8 workflow-trace update.
 
 Gaps before the next milestone:
 
@@ -553,9 +554,7 @@ Mostly yes. Responses are explicit Pydantic JSON with structured fields, evidenc
 
 Frontend pain points:
 
-- No common response envelope across endpoints.
-- No request id or trace id.
-- No workflow-step trace.
+- No common response envelope across endpoints beyond additive `workflow_trace`.
 - No async status endpoint.
 - No progress model for future long-running parsing/OCR/agent work.
 - Some response structures are deeply nested and will require view-model shaping.
@@ -573,7 +572,7 @@ Suggested frontend view models:
 
 ### Whether async task status, progress tracking, or workflow trace is needed
 
-For the current deterministic backend, not required.
+For the current deterministic backend, a persistent async task-status model is not required. M8 adds per-response `workflow_trace` metadata for frontend timelines without adding storage.
 
 For multimodal and multi-agent support, yes. OCR, LLM calls, and multi-agent review loops should not be handled as simple synchronous calls only. Add:
 
@@ -636,7 +635,7 @@ Documentation cleanup: `docs/EVALUATION.md` and `docs/CAREER_API.md` now use the
 
 ### CI/test readiness
 
-The local test suite is healthy: 83 passed on 2026-04-29.
+The local test suite is healthy: 94 passed on 2026-05-01.
 
 CI is partially ready:
 
@@ -658,14 +657,14 @@ CI is partially ready:
 
 ## 10. Recommended Next Milestone
 
-Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `docs/CAREER_API.md`, and implemented endpoints already mark Milestone 5 as completed. The active foundation milestone is M6: Agent Standardization Foundation.
+Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `docs/CAREER_API.md`, and implemented endpoints already mark Milestone 5 as completed. M6, M7, and M8 foundation/frontend-readiness slices have now been implemented in sequence.
 
-### Must-preserve during M6 foundation work
+### Must-preserve after M8 workflow trace work
 
 1. Keep planning docs aligned so "M5 completed" does not conflict with M6 agent-standardization work.
 2. Keep `docs/CURRENT_STATE_AUDIT.md` in the repo as the starting point for milestone cleanup.
 3. Keep fit-label logic centralized in `app/services/fit_label.py`.
-4. Keep the shared workflow trace schemas internal until public workflow status is explicitly scoped.
+4. Keep workflow trace metadata additive and do not let it replace evidence spans, parser confidence, warnings, blockers, or unsupported-evidence diagnostics.
 5. Keep the shared multimodal document schemas internal until image/OCR support is explicitly scoped.
 6. Keep CI running pytest and ruff.
 7. Keep the minimal Dockerfile free of OCR dependencies until OCR support is intentionally added.
@@ -677,10 +676,10 @@ Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `do
 2. Split `app/services/matching_service.py` into requirement evaluation, scoring, blockers, and evidence summary modules.
 3. Move duplicated tokenization/canonicalization helpers into shared deterministic utilities where semantics are identical.
 4. Add a common API error envelope.
-5. Add request id / trace id to workflow responses.
+5. Add a persistent async workflow status model only when a future long-running workflow requires it.
 6. Expand recommendation benchmark coverage beyond 3 cases.
 7. Add snapshot artifact generation to the standard review checklist.
-8. Add dashboard-oriented response examples to API docs.
+8. Expand dashboard-oriented response examples as frontend requirements become concrete.
 
 ### Can defer to M7+
 

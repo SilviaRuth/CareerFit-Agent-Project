@@ -10,6 +10,7 @@ from app.schemas.comparison import (
 from app.services.fit_label import derive_fit_label
 from app.services.matching_service import match_schemas
 from app.services.parse_service import parse_jd_text, parse_resume_text
+from app.services.workflow_trace_service import attach_multi_resume_comparison_trace
 
 
 def compare_resumes_to_jd(
@@ -22,10 +23,18 @@ def compare_resumes_to_jd(
     )
 
     provisional_results: list[ResumeComparisonResult] = []
+    resume_diagnostics = []
     for resume_input in request.resumes:
         resume_parse = parse_resume_text(
             resume_input.resume_text,
             source_name=resume_input.source_name,
+        )
+        resume_diagnostics.append(
+            (
+                resume_input.resume_id,
+                resume_parse.warnings,
+                resume_parse.parser_confidence,
+            )
         )
         match_result = match_schemas(
             resume_parse.parsed_schema,
@@ -77,11 +86,17 @@ def compare_resumes_to_jd(
         f"Compared {len(finalized_ranking)} resumes against {job_title} at {company}. "
         f"Top-ranked resume scored {best_score}."
     )
-    return MultiResumeComparisonResponse(
+    response = MultiResumeComparisonResponse(
         summary=summary,
         compared_count=len(finalized_ranking),
         job_title=job_title,
         company=company,
         jd_parser_confidence=jd_parse.parser_confidence,
         ranking=finalized_ranking,
+    )
+    return attach_multi_resume_comparison_trace(
+        response,
+        jd_warnings=jd_parse.warnings,
+        jd_confidence=jd_parse.parser_confidence,
+        resume_diagnostics=resume_diagnostics,
     )

@@ -10,6 +10,7 @@ from app.schemas.common import EvidenceSpan
 from app.schemas.match import AdaptationSummary, BlockerFlags, EvidenceSummary, GapItem
 from app.schemas.parse import ParserConfidence
 from app.schemas.resume import ResumeSchema
+from app.schemas.workflow import WorkflowTrace
 
 
 class CandidateMemoryItem(BaseModel):
@@ -95,6 +96,7 @@ class EvidenceRetrievalResponse(BaseModel):
     retrieval_mode: Literal["keyword"]
     retrieved_items: list[RetrievedEvidenceItem] = Field(default_factory=list)
     audit_note: str
+    workflow_trace: WorkflowTrace | None = None
 
 
 class SemanticMatchSignal(BaseModel):
@@ -121,6 +123,7 @@ class SemanticMatchResponse(BaseModel):
     mode: Literal["off", "heuristic"]
     signals: list[SemanticMatchSignal] = Field(default_factory=list)
     note: str
+    workflow_trace: WorkflowTrace | None = None
 
 
 class JobDescriptionInput(BaseModel):
@@ -167,3 +170,4 @@ class JobComparisonResponse(BaseModel):
     compared_count: int
     candidate_profile: CandidateProfileMemory
     ranking: list[JobComparisonResult] = Field(default_factory=list)
+    workflow_trace: WorkflowTrace | None = None

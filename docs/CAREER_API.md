@@ -44,6 +44,7 @@ Response highlights:
 - `retrieved_items`
 - `retrieval_mode`
 - `audit_note`
+- optional `workflow_trace`
 
 ## `POST /semantic/match`
 
@@ -55,6 +56,12 @@ This module is explicit and optional:
 - `mode: "heuristic"` returns canonical-alias and token-overlap hints
 
 The response is additive only. It does not alter deterministic scores or blocker flags.
+
+Response highlights:
+
+- `signals`
+- `note`
+- optional `workflow_trace`
 
 ## `POST /compare/jobs`
 
@@ -73,6 +80,14 @@ Response highlights:
 - retrieval-backed evidence snippets
 - additive semantic hints
 - recommended next steps per role
+- optional `workflow_trace`
+
+## Frontend Readiness
+
+Selected matching, comparison, retrieval, semantic, and cross-JD ranking responses now
+include optional `workflow_trace` metadata. Frontend examples for fit summary,
+evidence, diagnostics, recommendations, and rankings live in
+`docs/api/frontend_view_models.md`.
 
 ## Evaluation
 

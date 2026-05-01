@@ -28,6 +28,7 @@ from app.services.adaptation_service import (
     sort_gaps_for_adaptation,
 )
 from app.services.extraction_service import extract_jd_schema, extract_resume_schema
+from app.services.workflow_trace_service import attach_match_trace
 
 
 @dataclass
@@ -44,7 +45,7 @@ def match_resume_to_jd(resume_text: str, job_description_text: str) -> MatchResu
     """Run the deterministic parse -> extract -> match Milestone 1 pipeline."""
     resume_schema = extract_resume_schema(resume_text)
     jd_schema = extract_jd_schema(job_description_text)
-    return match_schemas(resume_schema, jd_schema)
+    return attach_match_trace(match_schemas(resume_schema, jd_schema))
 
 
 def match_schemas(resume_schema: ResumeSchema, jd_schema: JDSchema) -> MatchResult:

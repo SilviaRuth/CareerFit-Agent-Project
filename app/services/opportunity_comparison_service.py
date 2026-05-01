@@ -20,17 +20,26 @@ from app.services.matching_service import match_schemas
 from app.services.parse_service import parse_jd_text
 from app.services.retrieval_service import retrieve_candidate_evidence
 from app.services.semantic_matching_service import semantic_match_labels
+from app.services.workflow_trace_service import attach_job_comparison_trace
 
 
 def compare_candidate_to_jobs(request: JobComparisonRequest) -> JobComparisonResponse:
     """Rank multiple JDs against one candidate profile without changing core score meaning."""
     candidate_profile = resolve_candidate_profile(request)
     provisional_results: list[tuple[JobComparisonResult, int, float]] = []
+    jd_diagnostics = []
 
     for job_input in request.job_descriptions:
         jd_parse = parse_jd_text(
             job_input.job_description_text,
             source_name=job_input.source_name,
+        )
+        jd_diagnostics.append(
+            (
+                job_input.jd_id,
+                jd_parse.warnings,
+                jd_parse.parser_confidence,
+            )
         )
         match_result = match_schemas(candidate_profile.parsed_resume, jd_parse.parsed_schema)
         learning_plan = _build_learning_plan(candidate_profile, jd_parse, match_result)
@@ -100,12 +109,13 @@ def compare_candidate_to_jobs(request: JobComparisonRequest) -> JobComparisonRes
         f"Compared {len(finalized)} job descriptions for {candidate_profile.candidate_name}. "
         f"The top-ranked opportunity is {top_role}."
     )
-    return JobComparisonResponse(
+    response = JobComparisonResponse(
         summary=summary,
         compared_count=len(finalized),
         candidate_profile=candidate_profile,
         ranking=finalized,
     )
+    return attach_job_comparison_trace(response, jd_diagnostics=jd_diagnostics)
 
 
 def _build_learning_plan(candidate_profile, jd_parse, match_result: MatchResult):

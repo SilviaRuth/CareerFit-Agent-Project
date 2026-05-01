@@ -31,3 +31,11 @@ Expose workflow state and traceability so a future frontend can show progress, d
 - The backend can explain workflow progress and step outcomes through stable contracts.
 - Frontend implementation can start from documented response shapes.
 - Deterministic benchmark behavior remains preserved.
+
+## Implemented Surface
+
+- `workflow_trace` is optional on selected public response schemas.
+- Trace construction lives in `app/services/workflow_trace_service.py`.
+- Trace IDs are generated per request with UUIDs.
+- Step metadata covers parse, requirement extraction, scoring, evidence collection, blocker computation, recommendations, and ranking where those steps apply.
+- Frontend view-model examples are documented in `docs/api/frontend_view_models.md`.

@@ -6,15 +6,18 @@ from app.core.config import CAPABILITY_PATTERNS
 from app.schemas.career import SemanticMatchRequest, SemanticMatchResponse, SemanticMatchSignal
 from app.services.candidate_profile_service import resolve_candidate_profile
 from app.services.tokenization import tokenize_keywords
+from app.services.workflow_trace_service import attach_semantic_trace
 
 
 def semantic_match_labels(request: SemanticMatchRequest) -> SemanticMatchResponse:
     """Return additive semantic hints without rewriting the core score contract."""
     if request.mode == "off":
-        return SemanticMatchResponse(
-            mode="off",
-            signals=[],
-            note="Semantic hints are disabled for this request.",
+        return attach_semantic_trace(
+            SemanticMatchResponse(
+                mode="off",
+                signals=[],
+                note="Semantic hints are disabled for this request.",
+            )
         )
 
     candidate_profile = resolve_candidate_profile(request)
@@ -72,12 +75,14 @@ def semantic_match_labels(request: SemanticMatchRequest) -> SemanticMatchRespons
         signals,
         key=lambda item: (_confidence_rank(item.confidence), item.query_label),
     )
-    return SemanticMatchResponse(
-        mode="heuristic",
-        signals=signals[: request.top_k],
-        note=(
-            "Semantic hints are heuristic and additive only; they do not alter deterministic "
-            "match scores or blocker flags."
+    return attach_semantic_trace(
+        SemanticMatchResponse(
+            mode="heuristic",
+            signals=signals[: request.top_k],
+            note=(
+                "Semantic hints are heuristic and additive only; they do not alter deterministic "
+                "match scores or blocker flags."
+            ),
         ),
     )
 
