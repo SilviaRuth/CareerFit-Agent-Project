@@ -2,9 +2,9 @@
 
 Audit date: 2026-04-28
 
-Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. The 2026-05-01 M8 pass exposed optional public `workflow_trace` metadata on selected responses and added frontend view-model documentation. Baseline artifacts were not regenerated.
+Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. The 2026-05-01 M8 pass exposed optional public `workflow_trace` metadata on selected responses and added frontend view-model documentation. The 2026-05-02 neat pass reconciled README and audit status with the current M8 trace contract. Baseline artifacts were not regenerated.
 
-Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-05-01 with `.\.venv\Scripts\python.exe -m pytest -q`: 94 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
+Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-05-02 with `.\.venv\Scripts\python.exe -m pytest -q`: 96 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
 
 ## 1. Repository Overview
 
@@ -19,7 +19,7 @@ Scope: repository inspection, documentation cleanup, and internal schema foundat
   - `app/services/generation/`: deterministic grounded generation renderers and guardrails.
   - `app/evaluation/`: offline benchmark runners and artifact writer.
   - `app/core/config.py`: static config for section headers, ingestion limits, match weights, and capability keywords.
-- `tests/`: 24 unit test files and 5 integration test files.
+- `tests/`: 25 unit test files and 5 integration test files.
 - `data/samples/`: small canonical sample resumes and job descriptions.
 - `data/eval/`: expected outputs, benchmark manifests, comparison manifests, recommendation manifests, and baseline reports.
 - `data/eval/reports/baseline/`: checked-in `benchmark_report.json`, `extraction_report.json`, `comparison_report.json`, `recommendation_report.json`, `artifact_manifest.json`, and `summary.md`.
@@ -332,7 +332,7 @@ The adaptation tokenization path is intentionally deferred because it preserves 
 
 ### Missing tests
 
-Current test suite is healthy for existing features: 94 passed on 2026-05-01 after the M8 workflow-trace update.
+Current test suite is healthy for existing features: 96 passed on 2026-05-02 after the M8 workflow-trace cleanup.
 
 Gaps before the next milestone:
 
@@ -381,7 +381,7 @@ Largest/highest-risk files by current size:
 - `app/evaluation/benchmark_runner.py`
 - `app/schemas/generation.py`
 
-These do not need immediate refactors before small feature work, but they should be split before adding OCR, LLM agents, or frontend workflow tracing.
+These do not need immediate refactors before small feature work, but they should be split before adding OCR, LLM agents, or a larger frontend workflow/status surface.
 
 ## 6. Readiness for Agent Standardization
 
@@ -635,7 +635,7 @@ Documentation cleanup: `docs/EVALUATION.md` and `docs/CAREER_API.md` now use the
 
 ### CI/test readiness
 
-The local test suite is healthy: 94 passed on 2026-05-01.
+The local test suite is healthy: 96 passed on 2026-05-02.
 
 CI is partially ready:
 
@@ -670,7 +670,7 @@ Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `do
 7. Keep the minimal Dockerfile free of OCR dependencies until OCR support is intentionally added.
 8. Add multimodal evaluation plan and fixtures before implementing OCR.
 
-### Should-fix during M6
+### Future cleanup candidates
 
 1. Split `app/services/extraction_service.py` into section splitting, resume extraction, JD extraction, and diagnostics modules.
 2. Split `app/services/matching_service.py` into requirement evaluation, scoring, blockers, and evidence summary modules.

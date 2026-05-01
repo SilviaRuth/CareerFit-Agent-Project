@@ -1,6 +1,6 @@
 # CareerFit Agent
 
-Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, multimodal ingestion diagnostics, additive workflow/document contracts, and reviewable evaluation across Milestones 1 through 7 foundation work.
+Schema-first backend for explainable resume-to-JD parsing, deterministic matching, grounded career guidance, multimodal ingestion diagnostics, additive workflow/document contracts, frontend-ready workflow traces, and reviewable evaluation across Milestones 1 through 8 foundation work.
 
 ## Current Scope
 
@@ -13,6 +13,7 @@ Schema-first backend for explainable resume-to-JD parsing, deterministic matchin
 - Grounded learning-plan guidance tied to explicit gaps, blockers, and supported strengths
 - Single-orchestrator backend flow for grounded generation
 - Request-scoped candidate profile memory with bounded evidence retrieval and additive semantic hints
+- Optional `workflow_trace` metadata on selected match, comparison, retrieval, semantic, and ranking responses
 - Milestone 4 plus Milestone 5 evaluation coverage, multi-resume comparison, cross-JD comparison, adaptation summaries, and reviewable report snapshots
 
 ## Milestone Status
@@ -24,6 +25,7 @@ Schema-first backend for explainable resume-to-JD parsing, deterministic matchin
 - Milestone 5: grounded `/learning-plan`, `/interview-sim`, request-scoped `/profile-memory`, `/compare/jobs`, bounded `/retrieve/evidence`, additive `/semantic/match`, and recommendation evaluation
 - Milestone 6 foundation: additive `WorkflowTrace`, `WorkflowStepTrace`, `WorkflowResult`, `DocumentInput`, `DocumentSegment`, and `NormalizedDocument` schemas without public endpoint behavior changes
 - Milestone 7 foundation: scanned-PDF/image needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and separate document-quality evaluation
+- Milestone 8: frontend-ready workflow traces, stable step metadata, and documented dashboard view-model examples
 
 ## Orchestration Pattern
 
@@ -86,6 +88,7 @@ The API exposes:
 - Evaluation guide: [docs/EVALUATION.md](docs/EVALUATION.md)
 - Comparison guide: [docs/COMPARISON_API.md](docs/COMPARISON_API.md)
 - Career workflow guide: [docs/CAREER_API.md](docs/CAREER_API.md)
+- Frontend view-model guide: [docs/api/frontend_view_models.md](docs/api/frontend_view_models.md)
 
 The parsing guide covers:
 

@@ -239,6 +239,6 @@ This evaluation bundle is part of the architecture, not an optional afterthought
 
 ## Forward Architecture Direction
 
-Future milestones should extend this architecture in layers: M6 standardizes service and trace contracts, M7 strengthens document ingestion for multimodal inputs, M8 exposes workflow status for frontend readiness, M9 adds optional LLM-assisted generation behind guardrails, and M10 hardens deployment and portfolio release materials.
+Completed foundation layers now cover service/trace contracts in M6, multimodal ingestion diagnostics in M7, and selected public workflow traces for frontend readiness in M8. Future milestones should extend this architecture with optional LLM-assisted generation behind guardrails in M9 and deployment/portfolio release hardening in M10.
 
 The deterministic parser, matcher, blocker flags, evidence model, and benchmark reports remain the source of truth unless a later milestone explicitly changes that contract.
