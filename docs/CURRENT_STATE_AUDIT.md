@@ -4,7 +4,7 @@ Audit date: 2026-04-28
 
 Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. The 2026-05-01 M8 pass exposed optional public `workflow_trace` metadata on selected responses and added frontend view-model documentation. The 2026-05-02 neat pass reconciled README and audit status with the current M8 trace contract. The 2026-05-03 M10 release pass added deployment, demo, API walkthrough, release-note, environment-example, dependency-split, Docker Compose, and CI Docker-build packaging. Baseline artifacts were not regenerated.
 
-Scope: repository inspection, documentation cleanup, internal schema foundation updates, optional advisory LLM boundaries, and release-readiness packaging. Verification updated on 2026-05-03 after M10 with `.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt`, `.\.venv\Scripts\python.exe -m ruff check app tests`, `.\.venv\Scripts\python.exe -m pytest -q` passing with 106 tests, local `uvicorn` startup, `/health`, `/match` using `docs/examples/match_request.json`, and all five offline evaluation runners passing. Docker was not executable in the local sandbox because the `docker` command is not installed, so Dockerfile, Compose, and CI Docker-build changes were statically verified.
+Scope: repository inspection, documentation cleanup, internal schema foundation updates, optional advisory LLM boundaries, and release-readiness packaging. Verification updated on 2026-05-04 after M10.1 with `python -m ruff check app tests`, `python -m pytest -q`, Docker build, and Docker `/health` smoke-test targets as the release acceptance commands. The local Windows venv equivalents remain valid for this checkout when noted separately.
 
 ## 1. Repository Overview
 
@@ -91,7 +91,7 @@ Runtime assumptions:
 - Optional LLM advisory settings are environment-backed and documented in `.env.example`; deterministic local use requires no secrets.
 - A backend `Dockerfile` is present for the current FastAPI app and runs runtime dependencies only.
 - `docker-compose.yml` runs the API service with a health check.
-- `.github/workflows/ci.yml` runs Ruff, pytest, and Docker image build verification on Python 3.11.
+- `.github/workflows/ci.yml` is configured to run Ruff, pytest, Docker image build verification, and a container `/health` smoke test on Python 3.11.
 - Upload limit is static in `app/core/config.py:MAX_INGESTION_FILE_BYTES` at 5 MB.
 
 ## 2. Current Feature Inventory
@@ -644,12 +644,13 @@ M10 adds reviewer-facing `docs/DEPLOYMENT.md`, `docs/DEMO_GUIDE.md`, `docs/API_W
 
 The local test suite is healthy after the M10 release pass: 106 tests passed on 2026-05-03.
 
-CI is ready for reviewer-gate use:
+CI is configured for reviewer-gate use:
 
 - `.github/workflows/ci.yml` installs `.[dev]`
-- CI runs `python -m ruff check app tests`
-- CI runs `python -m pytest -q`
-- CI runs `docker build -t careerfit-agent:ci .`
+- CI is configured to run `python -m ruff check app tests`
+- CI is configured to run `python -m pytest -q`
+- CI is configured to run `docker build -t careerfit-agent:ci .`
+- CI is configured to smoke-test `GET /health` inside the built container
 - no artifact comparison check
 
 ### Remaining deployment limitations
@@ -670,7 +671,7 @@ Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `do
 3. Keep fit-label logic centralized in `app/services/fit_label.py`.
 4. Keep workflow trace metadata additive and do not let it replace evidence spans, parser confidence, warnings, blockers, or unsupported-evidence diagnostics.
 5. Keep the shared multimodal document schemas internal until image/OCR support is explicitly scoped.
-6. Keep CI running pytest, Ruff, and Docker build checks.
+6. Keep CI configured for pytest, Ruff, Docker build, and container health checks.
 7. Keep the Dockerfile free of OCR dependencies until OCR support is intentionally added.
 8. Keep `.env.example` conservative and secret-free.
 9. Keep public demo examples synthetic and non-sensitive.
@@ -712,6 +713,6 @@ Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `do
 - README includes project overview, architecture, install, run, Docker, tests, API walkthrough, benchmarks, and portfolio narrative.
 - `docs/DEPLOYMENT.md`, `docs/DEMO_GUIDE.md`, `docs/API_WALKTHROUGH.md`, `RELEASE_NOTES.md`, `.env.example`, and `docker-compose.yml` exist.
 - Public walkthrough examples use synthetic data.
-- CI runs Ruff, pytest, and Docker build verification.
-- Existing tests still pass: `.\.venv\Scripts\python.exe -m pytest -q`.
+- CI is configured for Ruff, pytest, Docker build, and container health verification.
+- Existing tests still pass: `python -m pytest -q`.
 - Existing benchmark behavior is preserved; no baseline artifacts are refreshed as part of the release-packaging pass.

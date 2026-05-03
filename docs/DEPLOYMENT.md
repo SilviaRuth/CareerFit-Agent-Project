@@ -32,17 +32,28 @@ ENABLE_LLM_GENERATION=false
 ```
 
 Only set `OPENAI_API_KEY` or `LLM_API_KEY` in a private local environment when
-testing the optional `/llm/advice` path. Do not commit real resume, JD, or API
-key material.
+testing the optional `/llm/advice` path, and replace the `LLM_MODEL`
+placeholder with a valid provider model before enabling LLM generation. Do not
+commit real resume, JD, or API key material.
 
 ## Local Backend
 
 ```bash
 python -m venv .venv
-source .venv/Scripts/activate
-pip install -r requirements-dev.txt
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+If you use a virtual environment, activate it with your shell's normal
+activation command before installing dependencies.
+
+Optional Windows venv note:
+
+```bash
+./.venv/Scripts/python.exe -m pip install -r requirements-dev.txt
 ./.venv/Scripts/python.exe -m pytest -q
-uvicorn app.main:app --host 127.0.0.1 --port 8000
+./.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 Verify the service:
@@ -77,17 +88,20 @@ frontend, database, vector-store, or provider SDK dependencies.
 
 ## CI
 
-`.github/workflows/ci.yml` runs on pushes to `main` and pull requests. It
-performs:
+`.github/workflows/ci.yml` is configured to run on pushes to `main` and pull
+requests. It performs:
 
 ```bash
 python -m ruff check app tests
 python -m pytest -q
 docker build -t careerfit-agent:ci .
+docker run -d --rm --name careerfit-agent-ci -p 8000:8000 careerfit-agent:ci
+curl-equivalent GET /health assertion for {"status": "ok"}
 ```
 
-This statically verifies linting, tests, and Docker image build readiness. CI
-does not publish an image or deploy the service.
+This verifies linting, tests, Docker image build readiness, and container
+startup when a GitHub Actions run completes successfully. CI does not publish an
+image or deploy the service.
 
 ## Deployment Notes
 

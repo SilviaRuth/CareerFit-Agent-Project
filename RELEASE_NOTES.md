@@ -4,6 +4,18 @@
 
 Release date: 2026-05-03
 
+### M10.1 Release-Readiness Cleanup
+
+- Main setup, check, API, and evaluation commands now use OS-neutral
+  `python -m ...` examples.
+- Windows `.venv/Scripts/python.exe` commands are kept only as optional notes.
+- CI is configured to smoke-test the built Docker container with `GET /health`
+  after image build.
+- CI docs now say the workflow is configured to run checks unless a passing
+  GitHub Actions run has been verified.
+- `.env.example` uses a placeholder `LLM_MODEL` and requires replacement with a
+  valid provider model before enabling LLM generation.
+
 ### Summary
 
 M10 packages CareerFit Agent as a reviewable backend portfolio release. It does
@@ -18,7 +30,8 @@ run, test, inspect, and evaluate the existing backend.
 - Hardened Docker image that installs runtime dependencies only and runs as a
   non-root user.
 - `docker-compose.yml` with a backend service and health check.
-- CI Docker build verification alongside Ruff and pytest.
+- CI workflow configured for Docker build and container smoke verification
+  alongside Ruff and pytest.
 - Deployment guide, API walkthrough, and demo guide.
 - Synthetic `/match` request example under `docs/examples/`.
 
@@ -45,13 +58,20 @@ The release is considered reviewable when these commands pass or are statically
 verified:
 
 ```bash
-pip install -r requirements-dev.txt
-./.venv/Scripts/python.exe -m ruff check app tests
-./.venv/Scripts/python.exe -m pytest -q
+python -m pip install -r requirements-dev.txt
+python -m ruff check app tests
+python -m pytest -q
 docker build -t careerfit-agent .
 docker run --rm --env-file .env.example -p 8000:8000 careerfit-agent
 curl http://127.0.0.1:8000/health
 curl -s http://127.0.0.1:8000/match -H "Content-Type: application/json" --data @docs/examples/match_request.json
+```
+
+Optional Windows venv note:
+
+```bash
+./.venv/Scripts/python.exe -m ruff check app tests
+./.venv/Scripts/python.exe -m pytest -q
 ```
 
 ### Known Limitations

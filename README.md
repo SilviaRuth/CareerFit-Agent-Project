@@ -49,12 +49,20 @@ Use Python 3.11.
 
 ```bash
 python -m venv .venv
-source .venv/Scripts/activate
-pip install -r requirements-dev.txt
+python -m pip install -r requirements-dev.txt
 ```
+
+If you use a virtual environment, activate it with your shell's normal
+activation command before installing dependencies.
 
 Runtime-only dependencies are in `requirements.txt`. Development and test
 dependencies are in `requirements-dev.txt` and the `.[dev]` package extra.
+
+Optional Windows venv note:
+
+```bash
+./.venv/Scripts/python.exe -m pip install -r requirements-dev.txt
+```
 
 ## Configuration
 
@@ -71,12 +79,13 @@ ENABLE_LLM_GENERATION=false
 ```
 
 Only set `OPENAI_API_KEY` or `LLM_API_KEY` in a private environment when
-intentionally testing `/llm/advice`.
+intentionally testing `/llm/advice`, and replace the `LLM_MODEL` placeholder in
+`.env.example` with a valid provider model before enabling LLM generation.
 
 ## Run Locally
 
 ```bash
-uvicorn app.main:app --host 127.0.0.1 --port 8000
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 Verify the backend:
@@ -109,12 +118,20 @@ database, vector-store, or provider SDK dependencies.
 ## Run Checks
 
 ```bash
+python -m ruff check app tests
+python -m pytest -q
+```
+
+CI is configured to run Ruff, pytest, Docker image build, and container smoke
+checks through
+[.github/workflows/ci.yml](.github/workflows/ci.yml).
+
+Optional Windows venv note:
+
+```bash
 ./.venv/Scripts/python.exe -m ruff check app tests
 ./.venv/Scripts/python.exe -m pytest -q
 ```
-
-CI runs Ruff, pytest, and a Docker image build through
-[.github/workflows/ci.yml](.github/workflows/ci.yml).
 
 ## API Walkthrough
 
@@ -162,17 +179,17 @@ Full walkthrough: [docs/API_WALKTHROUGH.md](docs/API_WALKTHROUGH.md).
 Run individual evaluation checks:
 
 ```bash
-./.venv/Scripts/python.exe -m app.evaluation.benchmark_runner
-./.venv/Scripts/python.exe -m app.evaluation.extraction_runner
-./.venv/Scripts/python.exe -m app.evaluation.multimodal_runner
-./.venv/Scripts/python.exe -m app.evaluation.comparison_runner
-./.venv/Scripts/python.exe -m app.evaluation.recommendation_runner
+python -m app.evaluation.benchmark_runner
+python -m app.evaluation.extraction_runner
+python -m app.evaluation.multimodal_runner
+python -m app.evaluation.comparison_runner
+python -m app.evaluation.recommendation_runner
 ```
 
 Refresh the checked-in baseline bundle only when behavior changes intentionally:
 
 ```bash
-./.venv/Scripts/python.exe -m app.evaluation.artifact_writer
+python -m app.evaluation.artifact_writer
 ```
 
 Baseline artifacts:

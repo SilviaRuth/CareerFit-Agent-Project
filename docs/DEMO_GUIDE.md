@@ -19,7 +19,7 @@ is not a black-box prediction; it is a reviewable pipeline:
 1. Start the backend:
 
 ```bash
-uvicorn app.main:app --host 127.0.0.1 --port 8000
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 2. Verify health:
