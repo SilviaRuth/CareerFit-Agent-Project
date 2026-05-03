@@ -145,6 +145,8 @@ This directly matches your invariant that missing model access must not break lo
 - The public advisory endpoint is `POST /llm/advice`.
 - Default behavior keeps `ENABLE_LLM_GENERATION=false`, so local deterministic workflows and tests do not require model access.
 - Unit tests use `FakeLLMClient` and do not call external APIs.
+- Grounding validation checks both cited evidence text and cited source provenance.
+- Unsupported claims in summary or recommendation text are rejected even when `unsupported_claim_risk=true`; unsupported or missing claims may only appear as limitations.
 
 The endpoint returns deterministic source-of-truth artifacts separately from optional model advice:
 
@@ -180,7 +182,7 @@ The endpoint returns deterministic source-of-truth artifacts separately from opt
 Known limitations:
 
 - The default app does not make hidden external calls. Production deployments should inject a concrete `LLMClient` adapter for the selected provider.
-- Grounding validation is deterministic and conservative; unsupported claims or missing evidence cause fallback/rejection instead of partial trust.
+- Grounding validation is deterministic and conservative; unsupported recommendation claims, missing evidence, or wrong-source citations cause fallback/rejection instead of partial trust.
 - LLM output never replaces parser, matcher, scoring, blocker, evidence, or benchmark results.
 
 ## output contract:

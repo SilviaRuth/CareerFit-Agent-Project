@@ -4,7 +4,11 @@ from __future__ import annotations
 
 import re
 
-from app.schemas.llm_generation import LLMRecommendationOutput, LLMValidationReport
+from app.schemas.llm_generation import (
+    LLMEvidenceRef,
+    LLMRecommendationOutput,
+    LLMValidationReport,
+)
 from app.services.generation.context import GroundedFlowContext
 
 _PROTECTED_TERMS = {
@@ -37,26 +41,27 @@ def validate_grounding(
     context: GroundedFlowContext,
 ) -> LLMValidationReport:
     """Validate evidence coverage and unsupported-claim risk deterministically."""
-    allowed_texts = _allowed_evidence_texts(context)
+    allowed_texts_by_source = _allowed_evidence_texts_by_source(context)
+    allowed_texts = [
+        text for source_texts in allowed_texts_by_source.values() for text in source_texts
+    ]
     allowed_corpus = " ".join(allowed_texts).casefold()
     errors: list[str] = []
     unsupported_claims: list[str] = []
     covered_recommendations = 0
 
     for index, item in enumerate(output.recommendations, start=1):
-        valid_refs = [
-            ref for ref in item.evidence_refs if _text_is_allowed(ref.text, allowed_texts)
-        ]
-        if not valid_refs:
+        ref_errors = _evidence_ref_errors(index, item.evidence_refs, allowed_texts_by_source)
+        errors.extend(ref_errors)
+        if ref_errors:
             errors.append(f"recommendation_{index}_missing_supported_evidence")
         else:
             covered_recommendations += 1
 
         item_claims = _unsupported_claims_for_text(item.recommendation, allowed_corpus)
-        if item_claims and not (item.unsupported_claim_risk and output.limitations):
-            unsupported_claims.extend(
-                f"recommendation_{index}:{claim}" for claim in item_claims
-            )
+        unsupported_claims.extend(
+            f"recommendation_{index}:{claim}" for claim in item_claims
+        )
 
     summary_claims = _unsupported_claims_for_text(output.summary, allowed_corpus)
     unsupported_claims.extend(f"summary:{claim}" for claim in summary_claims)
@@ -75,14 +80,49 @@ def validate_grounding(
     )
 
 
-def _allowed_evidence_texts(context: GroundedFlowContext) -> list[str]:
-    texts = [span.text.strip() for span in context.evidence_registry if span.text.strip()]
-    texts.extend(context.match_result.strengths)
-    texts.extend(context.match_result.explanations)
-    texts.extend(gap.explanation for gap in context.match_result.gaps)
+def _allowed_evidence_texts_by_source(context: GroundedFlowContext) -> dict[str, list[str]]:
+    texts_by_source: dict[str, list[str]] = {
+        "resume": [],
+        "job_description": [],
+        "match_result": [],
+        "generation_gate": [],
+    }
+    for span in context.evidence_registry:
+        text = span.text.strip()
+        if not text or span.source_document not in {"resume", "job_description"}:
+            continue
+        texts_by_source[span.source_document].append(text)
+
+    texts_by_source["match_result"].extend(context.match_result.strengths)
+    texts_by_source["match_result"].extend(context.match_result.explanations)
+    texts_by_source["match_result"].extend(gap.explanation for gap in context.match_result.gaps)
     if context.gating is not None:
-        texts.extend(context.gating.reasons)
-    return texts
+        texts_by_source["generation_gate"].extend(context.gating.reasons)
+    return texts_by_source
+
+
+def _evidence_ref_errors(
+    recommendation_index: int,
+    refs: list[LLMEvidenceRef],
+    allowed_texts_by_source: dict[str, list[str]],
+) -> list[str]:
+    errors: list[str] = []
+    all_allowed_texts = [
+        text for source_texts in allowed_texts_by_source.values() for text in source_texts
+    ]
+    for ref_index, ref in enumerate(refs, start=1):
+        source_texts = allowed_texts_by_source.get(ref.source, [])
+        if _text_is_allowed(ref.text, source_texts):
+            continue
+        if _text_is_allowed(ref.text, all_allowed_texts):
+            errors.append(
+                f"recommendation_{recommendation_index}_evidence_ref_{ref_index}_source_mismatch"
+            )
+        else:
+            errors.append(
+                f"recommendation_{recommendation_index}_evidence_ref_{ref_index}_unsupported_text"
+            )
+    return errors
 
 
 def _text_is_allowed(text: str, allowed_texts: list[str]) -> bool:
