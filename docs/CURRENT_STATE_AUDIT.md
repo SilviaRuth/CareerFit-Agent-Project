@@ -2,9 +2,9 @@
 
 Audit date: 2026-04-28
 
-Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. The 2026-05-01 M8 pass exposed optional public `workflow_trace` metadata on selected responses and added frontend view-model documentation. The 2026-05-02 neat pass reconciled README and audit status with the current M8 trace contract. Baseline artifacts were not regenerated.
+Update note: 2026-04-29 cleanup reconciled the audit with the existing M6 foundation schemas, Dockerfile, and CI workflow. A later 2026-04-29 M6 foundation pass added the internal `WorkflowResult` schema. A subsequent M7 foundation pass added explicit image/scanned-PDF needs-OCR diagnostics, OCR adapter contracts, multimodal fixtures, and a separate multimodal ingestion evaluation runner. The 2026-05-01 M8 pass exposed optional public `workflow_trace` metadata on selected responses and added frontend view-model documentation. The 2026-05-02 neat pass reconciled README and audit status with the current M8 trace contract. The 2026-05-03 M10 release pass added deployment, demo, API walkthrough, release-note, environment-example, dependency-split, Docker Compose, and CI Docker-build packaging. Baseline artifacts were not regenerated.
 
-Scope: repository inspection, documentation cleanup, and internal schema foundation update. Verification updated on 2026-05-02 with `.\.venv\Scripts\python.exe -m pytest -q`: 96 tests passed, and `.\.venv\Scripts\python.exe -m ruff check app tests`: all checks passed.
+Scope: repository inspection, documentation cleanup, internal schema foundation updates, optional advisory LLM boundaries, and release-readiness packaging. Verification updated on 2026-05-03 after M10 with `.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt`, `.\.venv\Scripts\python.exe -m ruff check app tests`, `.\.venv\Scripts\python.exe -m pytest -q` passing with 106 tests, local `uvicorn` startup, `/health`, `/match` using `docs/examples/match_request.json`, and all five offline evaluation runners passing. Docker was not executable in the local sandbox because the `docker` command is not installed, so Dockerfile, Compose, and CI Docker-build changes were statically verified.
 
 ## 1. Repository Overview
 
@@ -27,6 +27,7 @@ Scope: repository inspection, documentation cleanup, and internal schema foundat
   - `dataset/cleaning_report.json` reports 48 JD samples, 24 JD categories, 2,484 resume rows, and 1,767 usable resume rows.
   - `dataset/resume_cleaned/` and `dataset/jd_cleaned/` each contain 24 category folders.
 - `docs/`: roadmap, decisions, architecture, API docs, evaluation docs, and review guidance.
+- `.env.example`, `docker-compose.yml`, `Dockerfile`, and `.github/workflows/ci.yml`: reviewer-facing runtime configuration, container, and CI packaging.
 
 ### Main application entry points
 
@@ -57,6 +58,7 @@ Current public endpoints:
 - `POST /retrieve/evidence`
 - `POST /semantic/match`
 - `POST /compare/jobs`
+- `POST /llm/advice`
 
 Routes are mostly thin. For example, `app/api/routes/match.py:match_resume_to_job()` delegates to `app/services/matching_service.py:match_resume_to_jd()`, and `app/api/routes/generation.py` delegates to `run_grounded_*_flow()` functions in `app/services/orchestration_service.py`.
 
@@ -86,9 +88,10 @@ Runtime assumptions:
 - No database.
 - No vector store.
 - No LLM provider SDK.
-- No environment-variable configuration currently detected.
-- A minimal backend `Dockerfile` is present for the current FastAPI app.
-- `.github/workflows/ci.yml` runs Ruff and pytest on Python 3.11.
+- Optional LLM advisory settings are environment-backed and documented in `.env.example`; deterministic local use requires no secrets.
+- A backend `Dockerfile` is present for the current FastAPI app and runs runtime dependencies only.
+- `docker-compose.yml` runs the API service with a health check.
+- `.github/workflows/ci.yml` runs Ruff, pytest, and Docker image build verification on Python 3.11.
 - Upload limit is static in `app/core/config.py:MAX_INGESTION_FILE_BYTES` at 5 MB.
 
 ## 2. Current Feature Inventory
@@ -332,7 +335,7 @@ The adaptation tokenization path is intentionally deferred because it preserves 
 
 ### Missing tests
 
-Current test suite is healthy for existing features: 96 passed on 2026-05-02 after the M8 workflow-trace cleanup.
+Current test suite is healthy for existing features: 106 passed on 2026-05-03 after the M10 release-packaging pass. The M10 release pass keeps test coverage focused on existing behavior and verifies release packaging with Ruff, pytest, local startup, API walkthrough, and static Docker/CI checks.
 
 Gaps before the next milestone:
 
@@ -341,7 +344,7 @@ Gaps before the next milestone:
 - No async task/progress tests.
 - Workflow trace and document schema validation tests exist in `tests/unit/test_workflow_document_schemas.py`.
 - No tests for agent registry or agent lifecycle because those abstractions do not exist.
-- Docker and CI config exist, but Docker image build coverage is not yet part of the local verification checklist.
+- Docker and CI config exist, and M10 adds Docker image build coverage to the CI workflow.
 - Limited benchmark size for recommendation cases: only 3 cases.
 
 ### Hidden assumptions
@@ -596,30 +599,34 @@ For multimodal and multi-agent support, yes. OCR, LLM calls, and multi-agent rev
 Good for local development:
 
 - `pyproject.toml` defines package metadata and dependency bounds.
-- `requirements.txt` mirrors runtime and dev dependencies.
+- `requirements.txt` contains runtime dependencies.
+- `requirements-dev.txt` includes runtime dependencies plus pytest, httpx, and Ruff for local checks.
 - Python 3.11 is explicit.
 
-Needs improvement before deployment:
+Remaining dependency-management improvement before a hosted production deployment:
 
-- Decide whether `requirements.txt`, `pyproject.toml`, or a lock file is authoritative.
-- Split runtime and dev dependencies.
 - Add reproducible lock strategy if this will be deployed or demoed by others.
 
 ### Environment variables
 
-No environment variables are currently required. This is fine for the deterministic backend.
+No environment variables are required for deterministic local use.
 
-Before LLM/multimodal work:
+Optional LLM advisory settings are documented in `.env.example`:
 
-- Add explicit settings for OCR/LLM provider configuration.
-- Keep secrets out of docs and tests.
-- Add `.env.example` only when config exists.
+- `ENABLE_LLM_GENERATION=false`
+- `LLM_PROVIDER=openai`
+- `LLM_MODEL=gpt-5.4-mini`
+- `LLM_TEMPERATURE=0`
+- `LLM_MAX_OUTPUT_TOKENS=800`
+
+Secrets such as `OPENAI_API_KEY` or `LLM_API_KEY` should only be set in a
+private local environment and should not be committed.
 
 ### Docker readiness
 
-Partially ready. A minimal backend `Dockerfile` exists and runs `uvicorn app.main:app` on port 8000.
+Ready for reviewer use. The backend `Dockerfile` installs runtime dependencies only, runs `uvicorn app.main:app` on port 8000, and drops to a non-root user.
 
-Before adding heavy multimodal dependencies, keep the Dockerfile focused on the current backend. OCR should wait until Docker/system-library handling is intentionally designed and tested.
+`docker-compose.yml` defines the API service, maps port 8000, uses `.env.example`, and includes a `/health` check. Before adding heavy multimodal dependencies, keep the Docker packaging focused on the current backend. OCR should wait until Docker/system-library handling is intentionally designed and tested.
 
 ### Local run instructions
 
@@ -627,48 +634,46 @@ README local setup is usable and currently Bash-style:
 
 - create venv
 - activate with `source .venv/Scripts/activate`
-- install `requirements.txt`
+- install `requirements-dev.txt`
 - run tests with `./.venv/Scripts/python.exe -m pytest -q`
-- run app with `uvicorn app.main:app --reload`
+- run app with `uvicorn app.main:app --host 127.0.0.1 --port 8000`
 
-Documentation cleanup: `docs/EVALUATION.md` and `docs/CAREER_API.md` now use the same Bash-style repo venv interpreter examples as `README.md`.
+M10 adds reviewer-facing `docs/DEPLOYMENT.md`, `docs/DEMO_GUIDE.md`, `docs/API_WALKTHROUGH.md`, `RELEASE_NOTES.md`, and `docs/examples/match_request.json`.
 
 ### CI/test readiness
 
-The local test suite is healthy: 96 passed on 2026-05-02.
+The local test suite is healthy after the M10 release pass: 106 tests passed on 2026-05-03.
 
-CI is partially ready:
+CI is ready for reviewer-gate use:
 
 - `.github/workflows/ci.yml` installs `.[dev]`
 - CI runs `python -m ruff check app tests`
 - CI runs `python -m pytest -q`
+- CI runs `docker build -t careerfit-agent:ci .`
 - no artifact comparison check
-- no Docker build check
 
-### Deployment blockers
+### Remaining deployment limitations
 
-- Dockerfile exists but lacks a CI build gate.
-- CI exists for Ruff and pytest but does not yet verify Docker or evaluation artifacts.
-- No runtime/dev dependency split.
-- No production server guidance.
+- No hosted production target is configured.
 - No API versioning strategy.
 - No async/background task model for future OCR/agent workflows.
 - No observability/logging/tracing beyond response fields and offline artifacts.
 
-## 10. Recommended Next Milestone
+## 10. Release Readiness And Next Steps
 
-Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `docs/CAREER_API.md`, and implemented endpoints already mark Milestone 5 as completed. M6, M7, and M8 foundation/frontend-readiness slices have now been implemented in sequence.
+Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `docs/CAREER_API.md`, and implemented endpoints now present M1-M10 as completed or packaged in sequence. `docs/PLAN.md` remains the active milestone source of truth, while `docs/ROADMAP.md` is historical.
 
-### Must-preserve after M8 workflow trace work
+### Must-preserve after M10 release packaging
 
 1. Keep planning docs aligned so "M5 completed" does not conflict with M6 agent-standardization work.
 2. Keep `docs/CURRENT_STATE_AUDIT.md` in the repo as the starting point for milestone cleanup.
 3. Keep fit-label logic centralized in `app/services/fit_label.py`.
 4. Keep workflow trace metadata additive and do not let it replace evidence spans, parser confidence, warnings, blockers, or unsupported-evidence diagnostics.
 5. Keep the shared multimodal document schemas internal until image/OCR support is explicitly scoped.
-6. Keep CI running pytest and ruff.
-7. Keep the minimal Dockerfile free of OCR dependencies until OCR support is intentionally added.
-8. Add multimodal evaluation plan and fixtures before implementing OCR.
+6. Keep CI running pytest, Ruff, and Docker build checks.
+7. Keep the Dockerfile free of OCR dependencies until OCR support is intentionally added.
+8. Keep `.env.example` conservative and secret-free.
+9. Keep public demo examples synthetic and non-sensitive.
 
 ### Future cleanup candidates
 
@@ -680,8 +685,10 @@ Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `do
 6. Expand recommendation benchmark coverage beyond 3 cases.
 7. Add snapshot artifact generation to the standard review checklist.
 8. Expand dashboard-oriented response examples as frontend requirements become concrete.
+9. Add a reproducible lock strategy before a hosted production deployment.
+10. Add artifact comparison checks to CI if baseline drift becomes a release risk.
 
-### Can defer to M7+
+### Can defer beyond this release
 
 1. Real LLM-backed agents.
 2. `BaseAgent` and `AgentRegistry`.
@@ -694,23 +701,17 @@ Important milestone-label note: current `README.md`, `docs/ARCHITECTURE.md`, `do
 
 ### Suggested branch name
 
-`audit/current-state-before-agent-standardization`
-
-If the next implementation milestone is renamed:
-
-`feature/m6-agent-standardization-foundation`
+`release/m10-deployment-portfolio`
 
 ### Suggested PR title
 
-`Document current state before agent and multimodal expansion`
+`Package CareerFit Agent for deployment and portfolio review`
 
 ### Suggested acceptance criteria
 
-- `docs/CURRENT_STATE_AUDIT.md` exists and cites current files, functions, folders, and benchmark artifacts.
-- The audit states that production code was not changed.
-- The audit records the current endpoint list and service boundaries.
-- The audit records current benchmark case counts and baseline metrics.
-- The audit identifies M5 naming drift and recommends a label decision before implementation.
-- The audit recommends concrete agent, multimodal, frontend, and deployment readiness steps.
+- README includes project overview, architecture, install, run, Docker, tests, API walkthrough, benchmarks, and portfolio narrative.
+- `docs/DEPLOYMENT.md`, `docs/DEMO_GUIDE.md`, `docs/API_WALKTHROUGH.md`, `RELEASE_NOTES.md`, `.env.example`, and `docker-compose.yml` exist.
+- Public walkthrough examples use synthetic data.
+- CI runs Ruff, pytest, and Docker build verification.
 - Existing tests still pass: `.\.venv\Scripts\python.exe -m pytest -q`.
-- Existing benchmark behavior is preserved; no baseline artifacts are refreshed as part of the audit.
+- Existing benchmark behavior is preserved; no baseline artifacts are refreshed as part of the release-packaging pass.

@@ -224,7 +224,7 @@ Boundary:
 Primary doc:
 - `docs/milestones/M9_LLM_ASSISTED_GENERATION.md`
 
-### M10: Deployment and Portfolio Release
+### M10: Deployment and Portfolio Release (Implemented)
 
 Goal: package the system as a shippable backend portfolio project with stable docs, CI, Docker, evaluation story, and release guidance.
 
@@ -234,6 +234,11 @@ Boundary:
 
 Primary doc:
 - `docs/milestones/M10_DEPLOYMENT_AND_PORTFOLIO_RELEASE.md`
+
+Implemented surface:
+- reviewer-facing `README.md`, `docs/DEPLOYMENT.md`, `docs/DEMO_GUIDE.md`, `docs/API_WALKTHROUGH.md`, and `RELEASE_NOTES.md`
+- `.env.example`, runtime/dev dependency split, Docker Compose, and CI Docker build check
+- synthetic `/match` walkthrough request in `docs/examples/match_request.json`
 
 ## Test Plan
 

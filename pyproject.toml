@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "careerfit-agent"
 version = "0.1.0"
-description = "Deterministic backend MVP for explainable resume to JD matching."
+description = "Schema-first backend for explainable resume to JD matching."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

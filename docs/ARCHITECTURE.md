@@ -31,6 +31,7 @@ The current backend does not implement vector stores, external profile persisten
 - M7: completed in the current codebase
 - M8: implemented in the current codebase
 - M9: implemented as an optional advisory layer, disabled by default
+- M10: implemented as deployment and portfolio release packaging
 
 ## High-Level Flows
 
@@ -258,6 +259,15 @@ The checked-in evaluation layer includes:
 
 This evaluation bundle is part of the architecture, not an optional afterthought.
 
+## Deployment Shape
+
+The M10 release packages the backend for reviewer use with runtime-only
+dependencies, `.env.example`, Docker, Docker Compose, CI Ruff/pytest/Docker
+build checks, release notes, and reviewer-facing deployment/demo/API guides.
+
+This deployment layer does not add a database, vector store, OCR runtime,
+frontend, background worker, or production hosting target.
+
 ## Non-Goals At The Current Stage
 
 - vector stores or external retrieval infrastructure
@@ -270,6 +280,6 @@ This evaluation bundle is part of the architecture, not an optional afterthought
 
 ## Forward Architecture Direction
 
-Completed foundation layers now cover service/trace contracts in M6, multimodal ingestion diagnostics in M7, selected public workflow traces for frontend readiness in M8, and optional validated LLM advisory generation in M9. Future milestones should extend this architecture with deployment/portfolio release hardening in M10.
+Completed foundation layers now cover service/trace contracts in M6, multimodal ingestion diagnostics in M7, selected public workflow traces for frontend readiness in M8, optional validated LLM advisory generation in M9, and deployment/portfolio release packaging in M10.
 
 The deterministic parser, matcher, blocker flags, evidence model, and benchmark reports remain the source of truth unless a later milestone explicitly changes that contract.
