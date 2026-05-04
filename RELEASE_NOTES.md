@@ -1,5 +1,18 @@
 # Release Notes
 
+## Frontend Mock UI
+
+Release date: 2026-05-04
+
+- Added a standalone Vite, React, TypeScript, Tailwind CSS frontend under
+  `frontend/`.
+- Added typed mock analysis data for resume-to-JD matching so the UI can run
+  without backend API dependency.
+- Added modular input, dashboard, evidence comparison, gap analysis, and report
+  export panels.
+- Frontend export markdown and PDF actions are placeholders for later API or
+  client-side export integration.
+
 ## M10 Deployment And Portfolio Release
 
 Release date: 2026-05-03

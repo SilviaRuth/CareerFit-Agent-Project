@@ -21,6 +21,7 @@ without private context.
 - request-scoped profile memory, evidence retrieval, semantic hints, and cross-JD ranking
 - optional `/llm/advice` output that is disabled by default and kept separate as `llm_advice`
 - workflow traces on selected responses for frontend-ready diagnostics
+- mock-first React frontend for the resume-to-JD analysis workflow
 - offline benchmark reports for regression review
 
 ## Architecture
@@ -98,6 +99,24 @@ Interactive OpenAPI docs are available at:
 
 - `http://127.0.0.1:8000/docs`
 - `http://127.0.0.1:8000/openapi.json`
+
+## Run Frontend
+
+The first frontend version is mock-only and does not require the backend API.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the Vite URL shown in the terminal, usually:
+
+- `http://127.0.0.1:5173`
+
+The app includes resume/JD input panels, a target-role input, loading and
+validation states, a mock analysis dashboard, evidence comparison, gap analysis,
+and report export placeholders.
 
 ## Run With Docker
 
@@ -219,7 +238,7 @@ request data.
 
 ## Current Limitations
 
-- backend only; no frontend UI
+- frontend uses mock analysis data and is not yet wired to backend APIs
 - no production hosting target
 - no OCR runtime for scanned PDFs or images
 - no persistent database, vector store, or background job queue
