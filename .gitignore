@@ -11,3 +11,6 @@ frontend/vite-dev.err
 frontend/*.tsbuildinfo
 frontend/vite.config.js
 frontend/vite.config.d.ts
+frontend/.env.local
+backend-dev.log
+backend-dev.err

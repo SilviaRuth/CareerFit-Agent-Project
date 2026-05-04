@@ -1,5 +1,17 @@
 # Release Notes
 
+## Frontend Backend Integration
+
+Release date: 2026-05-04
+
+- Wired the frontend `Run Analysis` workflow to the real backend `POST /match`
+  endpoint at `http://127.0.0.1:8000/match`.
+- Added typed frontend adapters that convert backend snake_case response fields
+  into the existing dashboard data shape.
+- Added local development CORS support for Vite origins.
+- Kept mock analysis mode available through `VITE_USE_MOCK_ANALYSIS=true`.
+- Added clear backend-unavailable error messaging.
+
 ## Frontend Mock UI
 
 Release date: 2026-05-04

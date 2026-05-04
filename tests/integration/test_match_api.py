@@ -38,3 +38,19 @@ def test_match_endpoint_returns_structured_json() -> None:
         "collect_evidence",
         "compute_blockers",
     ]
+
+
+def test_match_endpoint_allows_local_frontend_origin() -> None:
+    client = TestClient(app)
+
+    response = client.options(
+        "/match",
+        headers={
+            "Origin": "http://127.0.0.1:5173",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://127.0.0.1:5173"

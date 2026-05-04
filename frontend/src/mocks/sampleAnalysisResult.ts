@@ -7,6 +7,7 @@ export const buildSampleAnalysisResult = (
 
   return {
     id: "mock-analysis-001",
+    source: "mock",
     targetRole: role,
     generatedAt: new Date().toISOString(),
     overallScore: 84,

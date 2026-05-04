@@ -45,6 +45,7 @@ export interface GapAnalysisItem {
 
 export interface AnalysisResult {
   id: string;
+  source: "backend" | "mock";
   targetRole: string;
   generatedAt: string;
   overallScore: number;

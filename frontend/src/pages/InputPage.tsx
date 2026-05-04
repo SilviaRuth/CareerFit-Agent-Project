@@ -1,5 +1,5 @@
 import { FormEvent, useMemo, useState } from "react";
-import { runMockAnalysis } from "../api/analysisClient";
+import { runMatchAnalysis } from "../api/analysisClient";
 import { DocumentInputPanel } from "../components/input/DocumentInputPanel";
 import type { AnalysisRequest, AnalysisResult } from "../types/analysis";
 
@@ -71,7 +71,7 @@ export function InputPage({ onAnalysisComplete }: InputPageProps) {
 
     setIsLoading(true);
     try {
-      const result = await runMockAnalysis(request);
+      const result = await runMatchAnalysis(request);
       onAnalysisComplete(result);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Analysis failed.");
@@ -148,9 +148,9 @@ export function InputPage({ onAnalysisComplete }: InputPageProps) {
           <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-sm text-slate-600">
               {isLoading
-                ? "Running mock analysis..."
+                ? "Running backend analysis..."
                 : canSubmit
-                  ? "Ready to analyze with mock data."
+                  ? "Ready to analyze with the backend API."
                   : "Complete the required fields to continue."}
             </div>
             <button

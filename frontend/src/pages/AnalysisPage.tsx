@@ -21,7 +21,7 @@ export function AnalysisPage({ result, onStartOver }: AnalysisPageProps) {
         <header className="flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-teal-700">
-              Mock analysis report
+              {result.source === "mock" ? "Mock analysis report" : "Backend analysis report"}
             </p>
             <h1 className="mt-2 text-2xl font-semibold text-slate-950 sm:text-3xl">
               {result.targetRole}

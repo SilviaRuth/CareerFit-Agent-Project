@@ -102,7 +102,14 @@ Interactive OpenAPI docs are available at:
 
 ## Run Frontend
 
-The first frontend version is mock-only and does not require the backend API.
+The frontend calls the local backend `/match` endpoint by default. Start the
+backend first:
+
+```bash
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+Then run the frontend:
 
 ```bash
 cd frontend
@@ -115,8 +122,14 @@ Open the Vite URL shown in the terminal, usually:
 - `http://127.0.0.1:5173`
 
 The app includes resume/JD input panels, a target-role input, loading and
-validation states, a mock analysis dashboard, evidence comparison, gap analysis,
-and report export placeholders.
+validation states, a backend-backed analysis dashboard, evidence comparison, gap
+analysis, and report export placeholders.
+
+For local demo mode without the backend, create `frontend/.env.local`:
+
+```bash
+VITE_USE_MOCK_ANALYSIS=true
+```
 
 ## Run With Docker
 
@@ -238,7 +251,7 @@ request data.
 
 ## Current Limitations
 
-- frontend uses mock analysis data and is not yet wired to backend APIs
+- frontend export markdown and PDF actions are placeholders
 - no production hosting target
 - no OCR runtime for scanned PDFs or images
 - no persistent database, vector store, or background job queue
