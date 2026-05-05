@@ -35,6 +35,7 @@ UNICODE_REPLACEMENTS = str.maketrans(
 )
 
 BULLET_LINE_PATTERN = re.compile(r"^\s*[-*+]\s*")
+ESCAPED_LINE_BREAK_PATTERN = re.compile(r"\\r\\n|\\n|\\r")
 
 
 def normalize_text(text: str, document_type: str | None = None) -> str:
@@ -49,7 +50,19 @@ def normalize_text_with_diagnostics(
 ) -> tuple[str, list[ParserDiagnostic]]:
     """Normalize noisy text and return structured normalization diagnostics."""
     warnings: list[ParserDiagnostic] = []
-    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    normalized, escaped_breaks_normalized = _normalize_escaped_line_breaks(text)
+    if escaped_breaks_normalized:
+        warnings.append(
+            ParserDiagnostic(
+                warning_code="escaped_line_breaks_normalized",
+                message="Literal escaped line breaks were normalized to real newlines.",
+                section=None,
+                severity="info",
+                source="normalization",
+            )
+        )
+
+    normalized = normalized.replace("\r\n", "\n").replace("\r", "\n")
 
     translated = normalized.translate(UNICODE_REPLACEMENTS)
     if translated != normalized:
@@ -120,6 +133,20 @@ def normalize_text_with_diagnostics(
         )
 
     return "\n".join(cleaned_lines).strip(), warnings
+
+
+def _normalize_escaped_line_breaks(text: str) -> tuple[str, bool]:
+    """Convert pasted JSON-style line breaks when they dominate the document shape."""
+    escaped_break_count = len(ESCAPED_LINE_BREAK_PATTERN.findall(text))
+    if escaped_break_count < 2:
+        return text, False
+
+    real_break_count = text.count("\n") + text.count("\r")
+    if real_break_count > escaped_break_count:
+        return text, False
+
+    normalized = ESCAPED_LINE_BREAK_PATTERN.sub("\n", text)
+    return normalized, normalized != text
 
 
 def _normalize_bullet_prefix(line: str) -> tuple[str, bool]:

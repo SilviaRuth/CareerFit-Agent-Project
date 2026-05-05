@@ -11,7 +11,7 @@ reviewable portfolio deployment, not a production SaaS platform.
 - no vector store
 - no persistent profile memory
 - no required secrets for deterministic local use
-- optional LLM advisory configuration, disabled by default
+- optional LLM advisory and extraction configuration, disabled by default
 
 Runtime dependencies live in `requirements.txt`. Development and test
 dependencies live in `requirements-dev.txt` and in the `dev` optional dependency
@@ -29,12 +29,16 @@ For the default deterministic demo, keep:
 
 ```bash
 ENABLE_LLM_GENERATION=false
+ENABLE_LLM_EXTRACTION=false
+LLM_EXTRACTION_DEBUG=false
 ```
 
 Only set `OPENAI_API_KEY` or `LLM_API_KEY` in a private local environment when
-testing the optional `/llm/advice` path, and replace the `LLM_MODEL`
-placeholder with a valid provider model before enabling LLM generation. Do not
-commit real resume, JD, or API key material.
+testing the optional `/llm/advice` path or LLM-assisted extraction inside
+`/match`, and replace the `LLM_MODEL` placeholder with a valid provider model
+before enabling an LLM path. Do not commit real resume, JD, or API key material.
+Set `LLM_EXTRACTION_DEBUG=true` only in private debugging environments because
+it returns evidence-level LLM extraction snippets in `/match` responses.
 
 ## Local Backend
 
@@ -84,7 +88,9 @@ curl http://127.0.0.1:8000/health
 ```
 
 The Docker image installs runtime dependencies only. It does not add OCR,
-frontend, database, vector-store, or provider SDK dependencies.
+frontend, database, vector-store, or persistent storage dependencies. The OpenAI
+SDK is included for the optional `/llm/advice` and LLM-assisted `/match`
+extraction paths, which remain disabled by default.
 
 ## CI
 

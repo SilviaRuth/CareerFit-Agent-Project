@@ -89,6 +89,21 @@ def test_m1_fixture_regression_stays_stable_for_strong_fit_score_shape() -> None
     assert result.dimension_scores.education == 100
 
 
+def test_match_accepts_text_with_literal_escaped_line_breaks() -> None:
+    resume_text = load_sample("strong_fit_resume.txt").replace("\n", "\\n")
+    jd_text = load_sample("strong_fit_jd.txt").replace("\n", "\\n")
+
+    result = match_resume_to_jd(resume_text, jd_text)
+    matched_required = {
+        match.requirement_label for match in result.required_matches if match.status == "matched"
+    }
+
+    assert result.overall_score == 89
+    assert result.blocker_flags.missing_required_skills is False
+    assert {"python", "fastapi", "rest api design"}.issubset(matched_required)
+    assert result.evidence_summary.jd_section_counts["required"] >= 1
+
+
 def test_m4_role_adaptation_prioritizes_backend_platform_requirements() -> None:
     result = match_resume_to_jd(
         load_sample("strong_fit_resume.txt"),

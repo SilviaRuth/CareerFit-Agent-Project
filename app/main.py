@@ -10,10 +10,12 @@ from app.api.routes.health import router as health_router
 from app.api.routes.llm_generation import router as llm_generation_router
 from app.api.routes.match import router as match_router
 from app.api.routes.parse import router as parse_router
+from app.llm.config import load_local_dotenv
 
 
 def create_app() -> FastAPI:
     """Build the FastAPI application."""
+    load_local_dotenv()
     app = FastAPI(title="CareerFit Agent", version="0.1.0")
     app.add_middleware(
         CORSMiddleware,

@@ -73,15 +73,20 @@ The deterministic backend does not require secrets.
 cp .env.example .env
 ```
 
-Default local behavior keeps optional LLM advisory generation disabled:
+Default local behavior keeps optional LLM features disabled:
 
 ```bash
 ENABLE_LLM_GENERATION=false
+ENABLE_LLM_EXTRACTION=false
+LLM_EXTRACTION_DEBUG=false
 ```
 
 Only set `OPENAI_API_KEY` or `LLM_API_KEY` in a private environment when
-intentionally testing `/llm/advice`, and replace the `LLM_MODEL` placeholder in
-`.env.example` with a valid provider model before enabling LLM generation.
+intentionally testing `/llm/advice` or LLM-assisted natural-language extraction
+inside `/match`, and replace the `LLM_MODEL` placeholder in `.env.example` with
+a valid provider model before enabling either LLM path.
+Set `LLM_EXTRACTION_DEBUG=true` only when you need evidence-level diagnostics
+in `/match` responses; those diagnostics can include resume/JD snippets.
 
 ## Run Locally
 
@@ -145,7 +150,9 @@ docker compose up --build
 ```
 
 The image runs the current backend only. It does not install OCR, frontend,
-database, vector-store, or provider SDK dependencies.
+database, vector-store, or persistent storage dependencies. The OpenAI SDK is a
+runtime dependency for the optional `/llm/advice` path, which remains disabled
+by default.
 
 ## Run Checks
 

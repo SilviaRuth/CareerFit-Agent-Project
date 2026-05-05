@@ -87,7 +87,7 @@ Runtime assumptions:
 
 - No database.
 - No vector store.
-- No LLM provider SDK.
+- OpenAI SDK is present for the optional advisory adapter.
 - Optional LLM advisory settings are environment-backed and documented in `.env.example`; deterministic local use requires no secrets.
 - A backend `Dockerfile` is present for the current FastAPI app and runs runtime dependencies only.
 - `docker-compose.yml` runs the API service with a health check.
@@ -227,9 +227,9 @@ Yes. The project is schema-first:
 
 ### Whether deterministic logic is separated from generative/LLM logic
 
-Yes, mostly. Deterministic critical-path logic lives in extraction, matching, scoring, adaptation, retrieval, and semantic helper services. Generation modules are also deterministic template renderers today, not LLM calls.
+Yes, mostly. Deterministic critical-path logic lives in extraction, matching, scoring, adaptation, retrieval, and semantic helper services. Generation modules are deterministic template renderers, while optional LLM advice is isolated under `app/llm/` and returned separately as `llm_advice`.
 
-No actual LLM boundary exists yet. Before adding LLM agents, the project needs a clear separation between:
+The advisory LLM boundary now separates:
 
 - deterministic facts and scores
 - prompt/LLM inputs
@@ -614,13 +614,28 @@ No environment variables are required for deterministic local use.
 Optional LLM advisory settings are documented in `.env.example`:
 
 - `ENABLE_LLM_GENERATION=false`
+- `ENABLE_LLM_EXTRACTION=false`
+- `LLM_EXTRACTION_DEBUG=false`
 - `LLM_PROVIDER=openai`
 - `LLM_MODEL=gpt-5.4-mini`
 - `LLM_TEMPERATURE=0`
-- `LLM_MAX_OUTPUT_TOKENS=800`
+- `LLM_MAX_OUTPUT_TOKENS=12000`
 
 Secrets such as `OPENAI_API_KEY` or `LLM_API_KEY` should only be set in a
 private local environment and should not be committed.
+
+With `ENABLE_LLM_GENERATION=true`, `LLM_PROVIDER=openai`, a valid model, and a
+private API key, `/llm/advice` can use the OpenAI adapter. Returned model output
+still must pass schema and grounding validation before advice is exposed.
+
+With `ENABLE_LLM_EXTRACTION=true`, `/match` may use the same provider settings
+to extract schemas from natural-language resume/JD text when deterministic
+extraction is incomplete. Extracted facts must cite original source text, and
+the deterministic matcher still owns scoring and blockers.
+With `LLM_EXTRACTION_DEBUG=true`, `/match` includes evidence-level extraction
+diagnostics showing exact, normalized, compact, unsupported, or source-mismatch
+grounding outcomes. Keep this disabled outside private debugging because
+diagnostics can include resume/JD snippets.
 
 ### Docker readiness
 

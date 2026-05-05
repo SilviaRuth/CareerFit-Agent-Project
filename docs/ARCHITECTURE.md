@@ -40,8 +40,10 @@ The current backend does not implement vector stores, external profile persisten
 1. Ingest raw text or a bounded uploaded file.
 2. Normalize document text.
 3. Extract a validated `ResumeSchema` or `JDSchema`.
-4. Match parsed schemas with deterministic rules.
-5. Return score, strengths, gaps, blockers, explanations, and evidence.
+4. If deterministic extraction is incomplete and `ENABLE_LLM_EXTRACTION=true`, call the provider-neutral LLM adapter for schema-only natural-language extraction.
+5. Validate LLM-extracted facts against source evidence before accepting them.
+6. Match parsed schemas with deterministic rules.
+7. Return score, strengths, gaps, blockers, explanations, evidence, and optional `llm_extraction` diagnostics.
 
 ### Grounded generation flow
 
@@ -82,10 +84,18 @@ ranking results.
 
 1. Build the deterministic grounded context from resume parsing, JD parsing, matching, evidence, and generation gating.
 2. If `ENABLE_LLM_GENERATION=false`, return deterministic artifacts with `llm_status: "disabled"`.
-3. If enabled, send only deterministic artifacts to a provider-neutral `LLMClient`.
+3. If enabled, send only deterministic artifacts to a provider-neutral `LLMClient`; the built-in `openai` provider uses the OpenAI Responses API.
 4. Validate the raw output against strict advisory schemas.
 5. Run deterministic grounding checks before exposing any advice under `llm_advice`.
 6. Return fallback or rejected status when configuration, schema validation, or grounding validation fails.
+
+### LLM extraction flow
+
+1. `/match` runs deterministic extraction first.
+2. If resume or JD extraction is incomplete and `ENABLE_LLM_EXTRACTION=true`, build a schema-only extraction prompt from the original source text.
+3. The LLM may only return structured resume/JD facts with exact source evidence references.
+4. The extraction validator rejects unsupported evidence or wrong-source citations.
+5. Validated schemas are passed into the existing deterministic matcher; model output never supplies scores or blocker flags.
 
 ## Core Modules
 
@@ -200,6 +210,7 @@ Responsibilities:
 Responsibilities:
 
 - keep provider configuration and client contracts isolated from deterministic services
+- call OpenAI only through the explicit opt-in adapter path
 - build prompts only from deterministic parse, match, evidence, and gate outputs
 - validate free-form provider output before returning it
 - reject missing evidence and unsupported claims conservatively

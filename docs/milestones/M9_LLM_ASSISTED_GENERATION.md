@@ -96,6 +96,8 @@ The generation path should be explicitly enabled:
 
 ```env
 ENABLE_LLM_GENERATION=false
+ENABLE_LLM_EXTRACTION=false
+LLM_EXTRACTION_DEBUG=false
 LLM_PROVIDER=openai
 LLM_MODEL=...
 ```
@@ -142,8 +144,9 @@ This directly matches your invariant that missing model access must not break lo
 
 - LLM adapter contracts live under `app/llm/`.
 - Strict advisory schemas live in `app/schemas/llm_generation.py`.
+- Strict extraction schemas live in `app/schemas/llm_extraction.py`.
 - The public advisory endpoint is `POST /llm/advice`.
-- Default behavior keeps `ENABLE_LLM_GENERATION=false`, so local deterministic workflows and tests do not require model access.
+- Default behavior keeps `ENABLE_LLM_GENERATION=false` and `ENABLE_LLM_EXTRACTION=false`, so local deterministic workflows and tests do not require model access.
 - Unit tests use `FakeLLMClient` and do not call external APIs.
 - Grounding validation checks both cited evidence text and cited source provenance.
 - Unsupported claims in summary or recommendation text are rejected even when `unsupported_claim_risk=true`; unsupported or missing claims may only appear as limitations.
@@ -181,9 +184,9 @@ The endpoint returns deterministic source-of-truth artifacts separately from opt
 
 Known limitations:
 
-- The default app does not make hidden external calls. Production deployments should inject a concrete `LLMClient` adapter for the selected provider.
+- The default app does not make hidden external calls. The built-in `openai` adapter is only used when an explicit LLM feature flag is enabled and credentials are configured.
 - Grounding validation is deterministic and conservative; unsupported recommendation claims, missing evidence, or wrong-source citations cause fallback/rejection instead of partial trust.
-- LLM output never replaces parser, matcher, scoring, blocker, evidence, or benchmark results.
+- LLM extraction may provide validated schemas for natural-language inputs, but the deterministic matcher still owns scoring, blocker flags, evidence summaries, and benchmark behavior.
 
 ## output contract:
 
@@ -212,6 +215,8 @@ M9 does not hard-code a specific LLM model.
 The system must support provider/model selection through environment configuration:
 
 - `ENABLE_LLM_GENERATION`
+- `ENABLE_LLM_EXTRACTION`
+- `LLM_EXTRACTION_DEBUG`
 - `LLM_PROVIDER`
 - `LLM_MODEL`
 - `LLM_TEMPERATURE`

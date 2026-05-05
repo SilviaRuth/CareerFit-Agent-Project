@@ -22,7 +22,10 @@ def test_match_trace_is_additive_and_score_shape_stays_stable() -> None:
     assert result.dimension_scores.education == 100
     assert result.workflow_trace is not None
     assert result.workflow_trace.trace_id
-    assert [step.step_name for step in result.workflow_trace.steps] == [
+    step_names = [step.step_name for step in result.workflow_trace.steps]
+    if "llm_extract_natural_language" in step_names:
+        step_names.remove("llm_extract_natural_language")
+    assert step_names == [
         "parse_resume",
         "parse_job_description",
         "extract_requirements",

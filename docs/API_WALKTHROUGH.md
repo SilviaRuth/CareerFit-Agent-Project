@@ -103,6 +103,20 @@ artifacts with an LLM status that makes the fallback explicit. When enabled, LLM
 output must pass strict schema and grounding validation before it appears under
 `llm_advice`.
 
+## Optional LLM Extraction Inside `/match`
+
+`POST /match` remains deterministic by default. If `ENABLE_LLM_EXTRACTION=true`
+and deterministic resume/JD extraction is incomplete, the backend can call the
+configured LLM provider to extract structured schemas from natural-language
+text. The resulting response includes an `llm_extraction` status block, and the
+final score still comes from the deterministic matcher.
+
+When `LLM_EXTRACTION_DEBUG=true`, the `llm_extraction` block also includes
+`evidence_diagnostics` entries showing whether each LLM evidence quote matched
+as `exact`, `normalized`, `compact`, `unsupported`, or `source_mismatch`.
+Keep this disabled outside private debugging because diagnostics may include
+resume/JD snippets.
+
 ## OpenAPI Docs
 
 With the backend running, inspect:

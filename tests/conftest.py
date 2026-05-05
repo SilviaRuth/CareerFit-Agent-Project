@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+import os
 from io import BytesIO
 from pathlib import Path
 
 from docx import Document
+
+os.environ["CAREERFIT_LOAD_DOTENV"] = "false"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SAMPLES_DIR = REPO_ROOT / "data" / "samples"

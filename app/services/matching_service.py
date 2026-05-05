@@ -11,6 +11,9 @@ from app.core.config import (
     NEGATION_TERMS,
     WEAK_PROJECT_TERMS,
 )
+from app.llm.base import LLMClient
+from app.llm.config import LLMSettings
+from app.llm.extraction import maybe_run_llm_extraction
 from app.schemas.common import EducationItem, EvidenceSpan, RequirementItem
 from app.schemas.jd import JDSchema
 from app.schemas.match import (
@@ -46,11 +49,22 @@ def match_resume_to_jd(
     job_description_text: str,
     *,
     include_trace: bool = True,
+    llm_settings: LLMSettings | None = None,
+    llm_client: LLMClient | None = None,
 ) -> MatchResult:
     """Run the deterministic parse -> extract -> match Milestone 1 pipeline."""
     resume_schema = extract_resume_schema(resume_text)
     jd_schema = extract_jd_schema(job_description_text)
-    result = match_schemas(resume_schema, jd_schema)
+    extraction = maybe_run_llm_extraction(
+        resume_text=resume_text,
+        job_description_text=job_description_text,
+        deterministic_resume=resume_schema,
+        deterministic_jd=jd_schema,
+        settings=llm_settings,
+        client=llm_client,
+    )
+    result = match_schemas(extraction.resume_schema, extraction.jd_schema)
+    result = result.model_copy(update={"llm_extraction": extraction.report})
     if not include_trace:
         return result
     return attach_match_trace(result)

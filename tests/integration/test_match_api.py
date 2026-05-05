@@ -30,7 +30,10 @@ def test_match_endpoint_returns_structured_json() -> None:
     assert "workflow_trace" in payload
     assert payload["blocker_flags"]["missing_required_skills"] is False
     assert payload["workflow_trace"]["workflow_name"] == "match"
-    assert [step["step_name"] for step in payload["workflow_trace"]["steps"]] == [
+    step_names = [step["step_name"] for step in payload["workflow_trace"]["steps"]]
+    if "llm_extract_natural_language" in step_names:
+        step_names.remove("llm_extract_natural_language")
+    assert step_names == [
         "parse_resume",
         "parse_job_description",
         "extract_requirements",

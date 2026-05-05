@@ -23,6 +23,25 @@ def new_trace_id() -> str:
 
 def attach_match_trace(result: MatchResult, trace_id: str | None = None) -> MatchResult:
     """Attach a deterministic match trace without changing score output."""
+    llm_extraction_step = []
+    if result.llm_extraction is not None:
+        status = (
+            WorkflowStatus.COMPLETED
+            if result.llm_extraction.status == "validated"
+            else WorkflowStatus.SKIPPED
+            if result.llm_extraction.status in {"disabled", "not_needed"}
+            else WorkflowStatus.PARTIAL
+        )
+        llm_extraction_step.append(
+            _step(
+                "llm_extract_natural_language",
+                status=status,
+                service_name="llm_extraction_service",
+                warnings=result.llm_extraction.warnings,
+                metadata=result.llm_extraction.model_dump(mode="json"),
+            )
+        )
+
     trace = WorkflowTrace(
         trace_id=trace_id or new_trace_id(),
         workflow_name="match",
@@ -38,6 +57,7 @@ def attach_match_trace(result: MatchResult, trace_id: str | None = None) -> Matc
                 service_name="extraction_service",
                 metadata={"input": "job_description_text"},
             ),
+            *llm_extraction_step,
             _step(
                 "extract_requirements",
                 service_name="extraction_service",

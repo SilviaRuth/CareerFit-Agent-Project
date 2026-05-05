@@ -48,6 +48,32 @@ def test_parse_jd_text_handles_realistic_headers_and_confidence_metadata() -> No
     assert result.parser_confidence.extraction_complete is True
 
 
+def test_parse_text_normalizes_literal_escaped_line_breaks() -> None:
+    text = (
+        "Alex Chen\\n"
+        "Summary\\n"
+        "Backend engineer with 6 years of experience building Python APIs.\\n"
+        "Skills\\n"
+        "Python, FastAPI, PostgreSQL\\n"
+        "Experience\\n"
+        "Backend Engineer, CareBridge, 2020 - 2024\\n"
+        "- Built FastAPI services for scheduling workflows."
+    )
+
+    result = parse_resume_text(text)
+    warning_codes = {warning.warning_code for warning in result.warnings}
+
+    assert "escaped_line_breaks_normalized" in warning_codes
+    assert result.parsed_schema.candidate_name == "Alex Chen"
+    assert result.parsed_schema.summary.startswith("Backend engineer")
+    assert {skill.normalized_name for skill in result.parsed_schema.skills} >= {
+        "python",
+        "fastapi",
+        "postgresql",
+    }
+    assert result.parser_confidence.extraction_complete is True
+
+
 def test_parse_scanned_pdf_keeps_needs_ocr_separate_from_extraction_quality() -> None:
     content = (SAMPLES_DIR / "scanned_resume_placeholder.pdf").read_bytes()
 
